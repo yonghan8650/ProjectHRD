@@ -3,7 +3,7 @@ package com.bswill.domain;
 import lombok.Data;
 
 @Data
-public class jobVO {
+public class JobVO {
 	private int JOB_ID;
 	private String JOB;
 	private Double ratio_bonus;

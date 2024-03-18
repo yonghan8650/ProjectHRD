@@ -16,4 +16,10 @@ public class EmpController {
 	public void registEmpGET() throws Exception {
 		logger.debug("registEmpGET() 호출");
 	}
+
+	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
+	public void registEmpPOST() throws Exception {
+		logger.debug("registEmpPOST() 호출");
+
+	}
 }

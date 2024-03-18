@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bswill.domain.empVO;
+import com.bswill.domain.EmployeeVO;
 import com.bswill.persistence.empDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,7 +25,7 @@ public class RegistEmpTest {
 	public void registEmpTest() throws Exception {
 		logger.debug("registEmpTest() 호출");
 		
-		empVO evo = new empVO();
+		EmployeeVO evo = new EmployeeVO();
 		
 		evo.setEmployee_id(1000000123);
 		evo.setPASSWD("1234");
