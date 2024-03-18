@@ -56,7 +56,7 @@
 	
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/adsf</url-pattern>
 	</filter-mapping>
 	
 	<!--  스프링 시큐리티 필터   -->
