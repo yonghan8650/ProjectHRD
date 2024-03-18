@@ -6,6 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.bswill.domain.AppointmentVO;
+import com.bswill.domain.EmployeeVO;
+import com.bswill.domain.LicenseVO;
+
 @Controller
 @RequestMapping(value = "/emp/*")
 public class EmpController {
@@ -18,8 +22,14 @@ public class EmpController {
 	}
 
 	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
-	public void registEmpPOST() throws Exception {
+	public String registEmpPOST() throws Exception {
 		logger.debug("registEmpPOST() 호출");
 
+		return "viewEmp";
+	}
+	
+	@RequestMapping(value = "viewEmp", method = RequestMethod.GET)
+	public void viewEmpGET() throws Exception {
+		logger.debug("viewEmpGET()");
 	}
 }
