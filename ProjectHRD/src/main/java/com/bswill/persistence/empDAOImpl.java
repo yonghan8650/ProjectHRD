@@ -1,5 +1,8 @@
 package com.bswill.persistence;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,6 +29,13 @@ public class empDAOImpl implements empDAO {
 		sqlSession.insert(NAMESPACE + ".insertEmp", evo);
 
 		logger.debug("success insertEmp");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectEmpList() throws Exception {
+		logger.debug("selectEmpList() 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectEmpList");
 	}
 
 }

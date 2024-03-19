@@ -8,4 +8,11 @@
 		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID)
 		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID})
 	</insert>
+	
+	<select id="selectEmpList" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, job.JOB, dept.DEPTNM, emp.start_date, emp.STATUS
+		FROM tbl_employee emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+	</select>
 </mapper>

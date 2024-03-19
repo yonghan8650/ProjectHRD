@@ -1,5 +1,8 @@
 package com.bswill.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -24,6 +27,13 @@ public class empServiceImpl implements empService {
 		edao.insertEmp(evo);
 		
 		logger.debug("신입사원 등록 완료");
+	}
+
+	@Override
+	public List<Map<String, Object>> listEmp() throws Exception {
+		logger.debug("listEmp() 호출");
+		
+		return edao.selectEmpList();
 	}
 
 }
