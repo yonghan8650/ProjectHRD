@@ -14,6 +14,12 @@
 	<logger name="com.bswill.controller">
 		<level value="debug" />
 	</logger>
+	<logger name="com.bswill.service">
+		<level value="debug" />
+	</logger>
+	<logger name="com.bswill.persistence">
+		<level value="debug" />
+	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
