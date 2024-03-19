@@ -1,4 +1,4 @@
-package com.bswill.controller;
+package com.bswill.domain;
 
 import com.bswill.domain.BoardCri;
 

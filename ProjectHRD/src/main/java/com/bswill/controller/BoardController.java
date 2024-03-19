@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bswill.controller.BoardController;
 import com.bswill.domain.BoardCri;
 import com.bswill.domain.BoardVO;
+import com.bswill.domain.PageMakerDTO;
 import com.bswill.service.BoardService;
 
 @Controller
@@ -128,7 +129,7 @@ public class BoardController {
 		model.addAttribute("boardList", boardList);
 		int total = bService.getTotal();
 		PageMakerDTO pageMaker = new PageMakerDTO(cri,total);
-//		model.addAttribute("cri", cri);
+		//model.addAttribute("cri", cri);
 		model.addAttribute("pageMaker",pageMaker);
 
 		session.setAttribute("readUpdateStatus", 1);
