@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.SalaryListVO;
 import com.bswill.domain.SalaryVO;
 import com.bswill.service.SalaryService;
@@ -26,23 +25,6 @@ public class SalaryController {
 	private SalaryService sService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(SalaryController.class);
-	
-	// http://localhost:8088/empList
-	// 사원 리스트 GET : /empList
-	@RequestMapping(value = "/empList", method = RequestMethod.GET)
-	public void empListGET(Model model, HttpSession session) throws Exception {
-		logger.debug("/empList -> empListGET() 호출");
-		logger.debug("/empList.jsp 뷰 연결");
-		
-		// 서비스 -> DAO 글 목록 가져오기
-		List<EmployeeVO> empList = sService.getEmpList();
-		logger.debug(" list.size : "+empList.size());
-		
-		// 연결된 뷰페이지로 전달(Model)
-		model.addAttribute("empList", empList);
-		
-		//return "/empList";
-	}
 	
 	// http://localhost:8088/salaryList
 	// 급여 리스트 GET : /salaryList
