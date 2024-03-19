@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bswill.service.empService;
 
@@ -42,7 +43,11 @@ public class EmpController {
 	}
 
 	@RequestMapping(value = "viewEmp", method = RequestMethod.GET)
-	public void viewEmpGET() throws Exception {
+	public void viewEmpGET(@RequestParam("employee_id") int employee_id, Model model) throws Exception {
 		logger.debug("viewEmpGET()");
+		
+		logger.debug("vo" + eService.viewEmp(employee_id));
+		
+		model.addAttribute("viewEmpVO", eService.viewEmp(employee_id));
 	}
 }

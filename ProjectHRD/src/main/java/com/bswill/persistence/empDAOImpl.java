@@ -34,8 +34,15 @@ public class empDAOImpl implements empDAO {
 	@Override
 	public List<Map<String, Object>> selectEmpList() throws Exception {
 		logger.debug("selectEmpList() 호출");
-		
+
 		return sqlSession.selectList(NAMESPACE + ".selectEmpList");
+	}
+
+	@Override
+	public Map<String, Object> selectEmp(Integer employee_id) throws Exception {
+		logger.debug("selectEmp(Integer employee_id) 호출");
+
+		return sqlSession.selectOne(NAMESPACE + ".selectEmp", employee_id);
 	}
 
 }

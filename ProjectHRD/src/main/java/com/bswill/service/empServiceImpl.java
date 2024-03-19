@@ -36,4 +36,11 @@ public class empServiceImpl implements empService {
 		return edao.selectEmpList();
 	}
 
+	@Override
+	public Map<String, Object> viewEmp(Integer employee_id) throws Exception {
+		logger.debug("viewEmp(Integer employee_id) 호출");
+		
+		return edao.selectEmp(employee_id);
+	}
+
 }
