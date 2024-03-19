@@ -46,7 +46,7 @@
 			
 			
 			$(".btn-success").click(function(){
-				location.href="/board/list";
+				location.href="/board/list?page=${param.page}&pageSize=${param.pageSize}";
 			}); 
 			
 			$(".btn-warning").click(function(){

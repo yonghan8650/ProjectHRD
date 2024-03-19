@@ -9,51 +9,68 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.bswill.domain.BoardCri;
 import com.bswill.domain.BoardVO;
 
 @Repository
-public class BoardDAOImpl implements BoardDAO{
-	
+public class BoardDAOImpl implements BoardDAO {
+
 	// SQL실행객체 주입
 	@Inject
 	private SqlSession sqlSession;
-	
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BoardDAOImpl.class);
-	
+
 	private static final String NAMESPACE = "com.bswill.mappers.BoardMapper";
 
 	@Override
-	public List<BoardVO> boardListSelect() throws Exception{
+	public List<BoardVO> boardListSelect() throws Exception {
 		logger.debug(" boardListSelect() 호출 ");
-		return sqlSession.selectList(NAMESPACE+".selectBoardList");
+		return sqlSession.selectList(NAMESPACE + ".selectBoardList");
 	}
 
 	@Override
-	public BoardVO boardSelect(int board_no) throws Exception{
+	public BoardVO boardSelect(int board_no) throws Exception {
 		logger.debug(" boardSelect() 호출 ");
-		return sqlSession.selectOne(NAMESPACE+".selectBoard", board_no);
+		return sqlSession.selectOne(NAMESPACE + ".selectBoard", board_no);
 	}
 
 	@Override
 	public void boardCreate(BoardVO vo) throws Exception {
 		logger.debug(" boardCreate() 호출 ");
-		sqlSession.insert(NAMESPACE+".createBoard", vo);
+		sqlSession.insert(NAMESPACE + ".createBoard", vo);
 	}
 
 	@Override
 	public void boardUpdate(BoardVO vo) throws Exception {
 		logger.debug(" boardUpdate() 호출 ");
-		sqlSession.update(NAMESPACE+".updateBoard", vo);
-		
+		sqlSession.update(NAMESPACE + ".updateBoard", vo);
+
 	}
 
 	@Override
 	public void boardDelete(int board_no) throws Exception {
 		logger.debug(" boardDelete() 호출 ");
-		sqlSession.delete(NAMESPACE+".deleteBoard", board_no);
-		
+		sqlSession.delete(NAMESPACE + ".deleteBoard", board_no);
+
 	}
-	
-	
+
+	@Override
+	public List<BoardVO> boardListCriSelect(BoardCri cri) throws Exception {
+		logger.debug(" boardListCriSelect(BoardCri cri) 호출 ");
+		return sqlSession.selectList(NAMESPACE + ".selectBoardListPageCri", cri);
+	}
+
+	@Override
+	public int getTotal() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotal");
+	}
+
+	@Override
+	public void boardReadcntUpdate(int board_no) throws Exception {
+		logger.debug(" boardReadcntUpdate(int board_no) 호출 ");
+
+		sqlSession.update(NAMESPACE + ".updateReadcnt", board_no);
+	}
+
 }

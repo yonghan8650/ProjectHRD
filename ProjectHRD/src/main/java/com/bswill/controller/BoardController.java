@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bswill.controller.BoardController;
+import com.bswill.domain.BoardCri;
 import com.bswill.domain.BoardVO;
 import com.bswill.service.BoardService;
 
@@ -27,19 +28,28 @@ public class BoardController {
 	private BoardService bService;
 
 	// http://localhost:8088/board/list
-	@GetMapping(value = "/list")
-	public void ListGET(Model model, HttpSession session) throws Exception {
-		logger.debug(" listGET() 호출 ");
-		logger.debug(" /board/list.jsp 뷰페이지 연결 ");
-		List<BoardVO> boardList = bService.getList();
-		model.addAttribute("boardList", boardList);
-	}
+//	@GetMapping(value = "/list")
+//	public void ListGET(Model model, HttpSession session) throws Exception {
+//		logger.debug(" listGET() 호출 ");
+//		logger.debug(" /board/list.jsp 뷰페이지 연결 ");
+//		List<BoardVO> boardList = bService.getList();
+//		model.addAttribute("boardList", boardList);
+//	}
 
 	// 글 읽기
 	@GetMapping(value = "/read")
 	public void readGET(@RequestParam("board_no") int board_no, Model model, HttpSession session) throws Exception {
 		logger.debug(" readGET() 호출 ");
-
+		
+		int status = (Integer)session.getAttribute("readUpdateStatus");
+		
+		if(status == 1) {
+			// 서비스 -> DAO 게시판 글 조회수 1증가
+			bService.updateReadcnt(board_no);
+			// 조회수 상태 0 : 조회수 증가X   , 1 : 조회수 증가 O
+			session.setAttribute("readUpdateStatus", 0);
+		}
+		
 		BoardVO vo = bService.read(board_no);
 		logger.debug("board_no : " + board_no);
 		logger.debug("vo : " + vo);
@@ -105,6 +115,23 @@ public class BoardController {
 
 		// 삭제후 list 페이지로 이동
 		return "redirect:/board/list";
+	}
+
+	@GetMapping(value = "/list")
+	public void ListCriGET(Model model, HttpSession session, BoardCri cri) throws Exception {
+		logger.debug(" /board/listCri -> ListCriGET() 호출 ");
+		logger.debug(" /board/listCri.jsp 연결");
+
+		List<BoardVO> boardList = bService.getListCri(cri); // 페이징
+		logger.debug(" list.size : " + boardList.size());
+		// 연결된 뷰페이지에 정보 전달(Model)
+		model.addAttribute("boardList", boardList);
+		int total = bService.getTotal();
+		PageMakerDTO pageMaker = new PageMakerDTO(cri,total);
+//		model.addAttribute("cri", cri);
+		model.addAttribute("pageMaker",pageMaker);
+
+		session.setAttribute("readUpdateStatus", 1);
 	}
 
 }

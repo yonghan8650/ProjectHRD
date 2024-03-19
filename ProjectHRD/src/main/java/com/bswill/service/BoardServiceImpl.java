@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.bswill.domain.BoardCri;
 import com.bswill.domain.BoardVO;
 import com.bswill.persistence.BoardDAO;
 
@@ -54,6 +55,28 @@ public class BoardServiceImpl implements BoardService{
 		logger.debug(" S : remove() 실행 ");
 		bdao.boardDelete(board_no);
 		
+	}
+
+
+	@Override
+	public List<BoardVO> getListCri(BoardCri cri) throws Exception {
+		logger.debug(" S : getListCri(BoardCri cri) 호출 ");
+		return bdao.boardListCriSelect(cri);
+	}
+
+
+	@Override
+	public int getTotal() throws Exception {
+		
+		return bdao.getTotal();
+	}
+
+
+	@Override
+	public void updateReadcnt(int board_no) throws Exception {
+		logger.debug(" S : updateReadcnt(int board_no) 실행 ");
+		
+		bdao.boardReadcntUpdate(board_no);
 	}
 	
 	
