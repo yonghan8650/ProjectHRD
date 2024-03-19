@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.SalaryListVO;
 import com.bswill.domain.SalaryVO;
 
@@ -23,13 +22,6 @@ public class SalaryDAOImpl implements SalaryDAO {
 	private static final Logger logger = LoggerFactory.getLogger(SalaryDAOImpl.class);
 	
 	private static final String NAMESPACE = "com.bswill.mapper.SalaryMapper";
-	
-	@Override
-	public List<EmployeeVO> empListSelect() throws Exception {
-		logger.debug(" empListSelect() -> mapper 호출");
-		
-		return sqlSession.selectList(NAMESPACE + ".selectEmpList");
-	}
 
 	@Override
 	public List<SalaryVO> salaryListSelect() throws Exception {
