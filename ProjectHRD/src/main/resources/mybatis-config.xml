@@ -8,5 +8,4 @@
 	<typeAliases>
 		<package name="com.bswill.domain"/>
 	</typeAliases>
-
 </configuration>
