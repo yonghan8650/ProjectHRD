@@ -21,25 +21,32 @@ public class empServiceImpl implements empService {
 	private empDAO edao;
 
 	@Override
+	public int countEmpNo() throws Exception {
+		logger.debug("countEmpNo() 호출");
+
+		return edao.selectEmpCount();
+	}
+
+	@Override
 	public void registEmp(EmployeeVO evo) throws Exception {
 		logger.debug("registEmp(empVO evo) 호출");
 
 		edao.insertEmp(evo);
-		
+
 		logger.debug("신입사원 등록 완료");
 	}
 
 	@Override
 	public List<Map<String, Object>> listEmp() throws Exception {
 		logger.debug("listEmp() 호출");
-		
+
 		return edao.selectEmpList();
 	}
 
 	@Override
 	public Map<String, Object> viewEmp(Integer employee_id) throws Exception {
 		logger.debug("viewEmp(Integer employee_id) 호출");
-		
+
 		return edao.selectEmp(employee_id);
 	}
 

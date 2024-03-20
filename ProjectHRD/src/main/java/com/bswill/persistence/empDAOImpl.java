@@ -23,8 +23,15 @@ public class empDAOImpl implements empDAO {
 	private SqlSession sqlSession;
 
 	@Override
+	public int selectEmpCount() throws Exception {
+		logger.debug("selectEmpNo() 호출");
+
+		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount");
+	}
+
+	@Override
 	public void insertEmp(EmployeeVO evo) throws Exception {
-		logger.debug("insertEmp(empVO evo) 실행");
+		logger.debug("insertEmp(empVO evo) 호출");
 
 		sqlSession.insert(NAMESPACE + ".insertEmp", evo);
 

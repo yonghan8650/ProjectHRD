@@ -4,25 +4,46 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bswill.mapper.EmpMapper">
+	<select id="selectEmpCount" resultType="int">
+		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT((SELECT
+		EXTRACT(YEAR FROM NOW())), '%'))
+	</select>
+
 	<insert id="insertEmp">
 		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID)
 		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID})
 	</insert>
-	
+
+	<insert id="insertLicense">
+		INSERT INTO tbl_license(employee_id, license, li_org, li_date)
+		VALUES(#{employee_id}, #{license}, #{li_org}, #{li_date})
+	</insert>
+
+	<insert id="insertAppointment">
+		INSERT INTO tbl_license(employee_id, app_issue, app_content, app_date)
+		VALUES(#{employee_id}, #{app_issue}, #{app_content},
+		#{app_date})
+	</insert>
+
 	<select id="selectEmpList" resultType="map">
 		SELECT emp.employee_id, emp.emp_name, job.JOB, dept.DEPTNM, emp.start_date, emp.STATUS
-		FROM tbl_employee emp
+		FROM tbl_employee
+		emp
 		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
 		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
 	</select>
-	
+
 	<select id="selectEmp" resultType="map">
-		SELECT emp.employee_id, emp.emp_name, emp.PROFIL, emp.birth, emp.gender, emp.emp_tel, emp.emp_mail, emp.emp_addr, job.JOB, dept.DEPTNM, emp.STATUS, emp.start_date, emp.quit_date, li.license, li.li_org, li.li_date, app.app_issue, app.app_content, app.app_date
+		SELECT emp.employee_id, emp.emp_name, emp.PROFIL, emp.birth, emp.gender, emp.emp_tel, emp.emp_mail,
+		emp.emp_addr, job.JOB, dept.DEPTNM, emp.STATUS, emp.start_date, emp.quit_date, li.license, li.li_org, li.li_date, app.app_issue, app.app_content,
+		app.app_date
 		FROM tbl_employee emp
 		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
 		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
-		LEFT JOIN tbl_license li ON emp.employee_id = li.employee_id
+		LEFT JOIN
+		tbl_license li ON emp.employee_id = li.employee_id
 		LEFT JOIN tbl_appointment app ON emp.employee_id = app.employee_id
-		WHERE emp.employee_id=#{employee_id}
+		WHERE
+		emp.employee_id=#{employee_id}
 	</select>
 </mapper>

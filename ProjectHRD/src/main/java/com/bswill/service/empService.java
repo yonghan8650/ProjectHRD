@@ -6,6 +6,8 @@ import java.util.Map;
 import com.bswill.domain.EmployeeVO;
 
 public interface empService {
+	
+	public int countEmpNo() throws Exception;
 
 	public void registEmp(EmployeeVO evo) throws Exception;
 
