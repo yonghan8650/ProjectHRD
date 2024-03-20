@@ -1,6 +1,7 @@
 package com.bswill.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -52,7 +53,7 @@ public class SalaryController {
 		logger.debug("/salarySeach.jsp 뷰 연결");
 		
 		// 서비스 -> DAO 급여년월 급여 조회 가져오기
-		List<SalaryListVO> salarySeach = sService.getSalarySeach(cri);
+		List<Map<String, Object>> salarySeach = sService.getSalarySeach(cri);
 		logger.debug(" list.size : "+salarySeach.size());
 		
 		// 연결된 뷰페이지로 전달(Model)

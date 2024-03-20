@@ -5,34 +5,25 @@
   
 <mapper namespace="com.bswill.mapper.SalaryMapper">
 
-	<!-- 테이블의 정보 설정 -->
-<!-- 	<resultMap type="com.itwillbs.domain.BoardVO" id="board">
-		<result property="bno" column="bno" />		
-		<result property="title" column="title" />		
-		<result property="writer" column="writer" />		
-		<result property="content" column="content" />		
-		<result property="viewcnt" column="viewcnt" />		
-		<result property="regdate" column="regdate" />		
-	</resultMap> -->
-
-    
-<!--     사원 목록 조회
-    <select id="selectEmpList" resultType="com.bswill.domain.EmployeeVO">
-       select * from tbl_employee
-       order by emp_id asc
-    </select> -->
-    
     <!-- 급여 목록 조회 -->
     <select id="selectSalaryList" resultType="com.bswill.domain.SalaryVO">
        select * from tbl_salary
        order by employee_id asc
     </select>
     
-    <!-- 급여년월에 따른 급여 조회 -->
-    <select id="selectSalarySeach" resultType="com.bswill.domain.SalaryListVO">
+    <!-- 급여년월에 따른 급여 조회(전체) -->
+<!--     <select id="selectSalarySeach" resultType="com.bswill.domain.SalaryListVO">
        select * from tbl_salarylist
        where pay_yearmonth = #{keyword}
        order by employee_id asc
+    </select> -->
+    
+    <!-- 급여년월에 따른 급여 조회 -->
+    <select id="selectSalarySeach" resultType="map">
+		select pay_yearmonth, tbl_employee.employee_id, emp_name, JOB_ID, salary, premium, sum
+		from tbl_employee, tbl_salarylist
+		where tbl_employee.employee_id = tbl_salarylist.employee_id 
+		and DATE_FORMAT(pay_yearmonth, '%Y-%m') = #{keyword};
     </select>
     
 </mapper>

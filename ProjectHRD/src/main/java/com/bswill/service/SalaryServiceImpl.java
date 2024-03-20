@@ -1,6 +1,7 @@
 package com.bswill.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,7 @@ public class SalaryServiceImpl implements SalaryService{
 	}
 
 	@Override
-	public List<SalaryListVO> getSalarySeach(SalaryCriteria cri) throws Exception {
+	public List<Map<String, Object>> getSalarySeach(SalaryCriteria cri) throws Exception {
 		logger.debug(" getSalarySeach() 실행! ");
 		
 		return sdao.salarySeachSelect(cri);

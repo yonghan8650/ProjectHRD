@@ -1,6 +1,7 @@
 package com.bswill.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bswill.domain.SalaryCriteria;
 import com.bswill.domain.SalaryListVO;
@@ -12,5 +13,5 @@ public interface SalaryService {
 	public List<SalaryVO> getSalaryList() throws Exception;
 	
 	// 급여년월 급여 조회
-	public List<SalaryListVO> getSalarySeach(SalaryCriteria cri) throws Exception;
+	public List<Map<String, Object>> getSalarySeach(SalaryCriteria cri) throws Exception;
 }

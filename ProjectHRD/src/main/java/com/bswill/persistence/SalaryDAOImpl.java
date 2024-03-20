@@ -1,6 +1,7 @@
 package com.bswill.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,7 @@ public class SalaryDAOImpl implements SalaryDAO {
 	}
 
 	@Override
-	public List<SalaryListVO> salarySeachSelect(SalaryCriteria cri) throws Exception {
+	public List<Map<String, Object>> salarySeachSelect(SalaryCriteria cri) throws Exception {
 		logger.debug(" salarySeachSelect() -> mapper 호출");
 		
 		return sqlSession.selectList(NAMESPACE + ".selectSalarySeach", cri);
