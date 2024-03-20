@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  	<mapper namespace="com.bswill.mapper.NotificationMapper">
+	
+	
+	<!-- 알림 조회 -->
+	<select id="selectNoti" parameterType="int" resultType="com.bswill.domain.NotificationVO">
+	select * from notification 
+	where employee_id = #{employee_id}
+	</select>
+	
+	<!-- 알림 목록조회 -->
+	<select id="notiListSelect" resultType="com.bswill.domain.NotificationVO">
+	  select * from notification
+	</select>
+	
+	<!-- 알림 읽음 -->
+	<update id="readNoti" parameterType="int">
+        UPDATE notification SET noti_check = true, read_time = CURRENT_TIMESTAMP WHERE employee_id = #{employee_id}
+    </update>
+    
+    <!-- 알림 삭제 -->
+    <delete id="deleteNoti" parameterType="int">
+        DELETE FROM notification WHERE employee_id = #{employee_id}
+    </delete>
+    
+    <!-- 알림 보냄 -->
+    <insert id="sendNoti" parameterType="com.bswill.domain.NotificationVO">
+        INSERT INTO notification (employee_id, noti_title, noti_time, noti_check, read_time, noti_link, noti_print)
+        VALUES (#{employee_id}, #{noti_title}, #{noti_time}, #{noti_check}, #{read_time}, #{noti_link}, #{noti_print})
+    </insert>
+    
+ 
+    
+    <!-- 알림 전체 삭제 -->
+    <delete id="deleteAllNoti">
+        DELETE FROM notification
+    </delete>
+    
+    
+    
+    
+    
+</mapper>
