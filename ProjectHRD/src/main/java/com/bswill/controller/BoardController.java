@@ -58,12 +58,13 @@ public class BoardController {
 	}
 
 	// 글 작성 페이지 이동 (GET)
-	@GetMapping(value = "/register")
+	@GetMapping(value = "/register")	
 	public void registerGET() throws Exception {
 		logger.debug(" registerGET() 호출 ");
 		logger.debug(" /board/register 뷰페이지 연결 ");
 	}
-
+	
+	
 	// 글 작성(POST)
 	@PostMapping(value = "/register")
 	public String registerPOST(BoardVO vo) throws Exception {
@@ -102,7 +103,7 @@ public class BoardController {
 
 		return "redirect:/board/list";
 	}
-
+	
 	// 본문 삭제(POST) : /board/remove +(post)bno=000
 	@PostMapping(value = "/remove")
 	public String deletePOST(@RequestParam("board_no") int board_no) throws Exception {
@@ -117,17 +118,19 @@ public class BoardController {
 		// 삭제후 list 페이지로 이동
 		return "redirect:/board/list";
 	}
-
+	// http://localhost:8088/board/list
 	@GetMapping(value = "/list")
 	public void ListCriGET(Model model, HttpSession session, BoardCri cri) throws Exception {
 		logger.debug(" /board/listCri -> ListCriGET() 호출 ");
 		logger.debug(" /board/listCri.jsp 연결");
-
+		
 		List<BoardVO> boardList = bService.getListCri(cri); // 페이징
+		
+		logger.debug(" cri : "+cri);
 		logger.debug(" list.size : " + boardList.size());
 		// 연결된 뷰페이지에 정보 전달(Model)
 		model.addAttribute("boardList", boardList);
-		int total = bService.getTotal();
+		int total = bService.getTotal(cri);
 		PageMakerDTO pageMaker = new PageMakerDTO(cri,total);
 		//model.addAttribute("cri", cri);
 		model.addAttribute("pageMaker",pageMaker);

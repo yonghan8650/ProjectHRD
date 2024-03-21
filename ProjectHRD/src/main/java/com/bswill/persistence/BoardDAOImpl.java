@@ -62,8 +62,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int getTotal() throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getTotal");
+	public int getTotal(BoardCri cri) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotal", cri);
 	}
 
 	@Override

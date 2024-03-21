@@ -14,6 +14,7 @@
 	</div>
 	<form role="form" method="post">
 		<input type="hidden" name="board_no" value="${boardVO.board_no }" />
+		<input type="hidden" name="keyword" value="${cri.keyword }">
 		<div class="box-body">
 			<div class="form-group">
 				<label for="exampleInputEmail1">제 목</label> <input type="text" class="form-control" id="exampleInputEmail1" name="title" value="${boardVO.title }">

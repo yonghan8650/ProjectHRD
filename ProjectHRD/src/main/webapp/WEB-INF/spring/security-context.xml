@@ -17,8 +17,7 @@
 	
 	
 	<security:http>
-		<security:intercept-url pattern="/board/*" access="permitAll" />
-		<security:intercept-url pattern="/common/*" access="permitAll" />
+		
 		
 		<!-- 로그인 -->
 		<security:form-login login-page="/customLogin"
@@ -40,8 +39,8 @@
 		<security:authentication-provider>
 			<!-- 사용자 인증정보 관리(+JDBC) -->
 			<security:jdbc-user-service data-source-ref="dataSource" 
-										users-by-username-query="select employee_id,passwd,enabled from hrd_employee where employee_id=?" 
-										authorities-by-username-query="select employee_id,auth from hrd_employee_auth where employee_id=?"/>
+										users-by-username-query="select employee_id,passwd,enabled from tbl_employee where employee_id=?" 
+										authorities-by-username-query="select employee_id,auth from tbl_auth where employee_id=?"/>
 			
 			<security:password-encoder ref="bcryptPasswordEncoder"/>
 			

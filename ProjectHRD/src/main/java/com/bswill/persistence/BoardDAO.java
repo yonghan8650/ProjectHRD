@@ -25,7 +25,7 @@ public interface BoardDAO {
 	public List<BoardVO> boardListCriSelect(BoardCri cri) throws Exception;
 	
 	// 전체 글 갯수
-	public int getTotal() throws Exception;
+	public int getTotal(BoardCri cri) throws Exception;
 	
 	// 글 조회수 증가
 	public void boardReadcntUpdate(int board_no) throws Exception;

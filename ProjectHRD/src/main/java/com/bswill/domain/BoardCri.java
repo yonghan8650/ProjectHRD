@@ -3,6 +3,7 @@ package com.bswill.domain;
 public class BoardCri {
 	private int page; //페이지 번호
 	private int pageSize; //페이지 크기
+	private String keyword;	// 검색어
 	public BoardCri() {
 		this.page = 1;
 		this.pageSize = 10;
@@ -39,11 +40,21 @@ public class BoardCri {
 	public int getPageSize() {
 		return pageSize;
 	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", pageSize=" + pageSize + "]";
+		return "BoardCri [page=" + page + ", pageSize=" + pageSize + ", keyword=" + keyword + "]";
 	}
+
+	
 	
 	
 	
