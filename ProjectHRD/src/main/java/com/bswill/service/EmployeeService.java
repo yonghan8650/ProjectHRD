@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.bswill.domain.EmployeeVO;
 
-public interface empService {
+public interface EmployeeService {
 	
 	public int countEmpNo() throws Exception;
 

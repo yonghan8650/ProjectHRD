@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 import com.bswill.domain.EmployeeVO;
 
 @Repository
-public class empDAOImpl implements empDAO {
+public class EmployeeDAOImpl implements EmployeeDAO {
 
-	private static final Logger logger = LoggerFactory.getLogger(empDAO.class);
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeDAO.class);
 
 	private static final String NAMESPACE = "com.bswill.mapper.EmpMapper";
 

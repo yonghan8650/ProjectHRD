@@ -12,7 +12,7 @@
 
 	<div class="profile">
 		<h3>프로필 사진</h3>
-		<input type="file" id="profile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" />
+		<input type="file" id="inputProfile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" />
 
 		<img id="preview" src="#" alt="미리보기" style="display: none; max-width: 200px; max-height: 200px;" />
 
@@ -20,10 +20,10 @@
 
 		<p id="errorMessage" style="display: none; color: red;">이미지 파일을 선택하세요.</p>
 	</div>
-	
+
 	<div id="empno" data-empno="${empno}"></div>
 
-	<div class="employee" >
+	<div class="employee">
 		<h3>사원정보</h3>
 		<table>
 			<tr>
@@ -111,13 +111,11 @@
 				<td>발령구분</td>
 				<td>발령내용</td>
 				<td>발령일자</td>
-				<td>
-					<input type="button" value="행 추가" onclick="addRow('appointmentTable');">
-				</td>
+				<td><input type="button" value="행 추가" onclick="addRow('appointmentTable');"></td>
 			</tr>
 		</table>
 	</div>
-	
-	<button onclick="uploadData()">사원 등록</button>
+
+	<button onclick="submitEmployeeInfo()">사원 등록</button>
 </body>
 </html>

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.bswill.domain.EmployeeVO;
 
-public interface empDAO {
+public interface EmployeeDAO {
 
 	public void insertEmp(EmployeeVO evo) throws Exception;
 

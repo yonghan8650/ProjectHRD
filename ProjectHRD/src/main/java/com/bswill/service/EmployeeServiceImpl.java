@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.bswill.domain.EmployeeVO;
-import com.bswill.persistence.empDAO;
+import com.bswill.persistence.EmployeeDAO;
 
 @Service
-public class empServiceImpl implements empService {
+public class EmployeeServiceImpl implements EmployeeService {
 
-	private static final Logger logger = LoggerFactory.getLogger(empServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
 	@Inject
-	private empDAO edao;
+	private EmployeeDAO edao;
 
 	@Override
 	public int countEmpNo() throws Exception {

@@ -14,16 +14,9 @@
 		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID})
 	</insert>
 
-	<insert id="insertLicense">
-		INSERT INTO tbl_license(employee_id, license, li_org, li_date)
-		VALUES(#{employee_id}, #{license}, #{li_org}, #{li_date})
-	</insert>
 
-	<insert id="insertAppointment">
-		INSERT INTO tbl_license(employee_id, app_issue, app_content, app_date)
-		VALUES(#{employee_id}, #{app_issue}, #{app_content},
-		#{app_date})
-	</insert>
+
+
 
 	<select id="selectEmpList" resultType="map">
 		SELECT emp.employee_id, emp.emp_name, job.JOB, dept.DEPTNM, emp.start_date, emp.STATUS

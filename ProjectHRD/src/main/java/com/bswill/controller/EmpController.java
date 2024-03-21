@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.AppointmentVO;
 import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.LicenseVO;
-import com.bswill.service.empService;
+import com.bswill.service.EmployeeService;
 
 @Controller
 @RequestMapping(value = "/emp/*")
@@ -29,7 +29,7 @@ public class EmpController {
 	private static final Logger logger = LoggerFactory.getLogger(EmpController.class);
 
 	@Inject
-	private empService eService;
+	private EmployeeService eService;
 
 	// http://localhost:8088/emp/registEmp
 	@RequestMapping(value = "/registEmp", method = RequestMethod.GET)
@@ -39,20 +39,24 @@ public class EmpController {
 		model.addAttribute("empno", eService.countEmpNo());
 	}
 
-	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
-	public String registEmpPOST(EmployeeVO evo, LicenseVO lvo, DepartmentVO dvo, MultipartFile profileImage) throws Exception {
+	@RequestMapping(value = "/regist", method = RequestMethod.POST)
+	public String registEmpPOST(EmployeeVO evo/*, LicenseVO lvo, AppointmentVO avo*/, MultipartFile profileImage) throws Exception {
 		logger.debug("registEmpPOST() 호출");
 
+		logger.debug("evo" + evo);
+		// logger.debug("lvo" + lvo);
+		// logger.debug("avo" + avo);
+		
 		// 이미지 파일을 서버에 저장
-		String uploadedFileName = saveProfileImage(profileImage);
+		// String uploadedFileName = saveProfileImage(profileImage);
 
 		// 사원 정보에 이미지 파일명 설정
-		evo.setPROFIL(uploadedFileName);
+		// evo.setPROFIL(uploadedFileName);
 
 		// 사원 정보와 이미지 파일명을 데이터베이스에 저장
 		// eService.registerEmployee(evo);
 
-		return "redirect:/emp/viewEmp/" + evo.getEmployee_id();
+		return "redirect:/emp/viewEmp?employee_id=" + evo.getEmployee_id();
 	}
 
 	private String saveProfileImage(MultipartFile profileImage) throws Exception {

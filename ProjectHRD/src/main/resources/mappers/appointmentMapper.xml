@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.AppointmentMapper">
+	<insert id="insertAppointment">
+		INSERT INTO tbl_appointment(employee_id, app_issue, app_content, app_date)
+		VALUES(#{employee_id}, #{app_issue}, #{app_content}, #{app_date})
+	</insert>
+</mapper>
