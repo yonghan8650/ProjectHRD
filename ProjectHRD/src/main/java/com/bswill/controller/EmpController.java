@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bswill.domain.AppointmentVO;
 import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.LicenseVO;
+import com.bswill.service.AppointmentService;
 import com.bswill.service.EmployeeService;
+import com.bswill.service.LicenseService;
 
 @Controller
 @RequestMapping(value = "/emp/*")
@@ -31,6 +34,12 @@ public class EmpController {
 	@Inject
 	private EmployeeService eService;
 
+	@Inject
+	private LicenseService lService;
+
+	@Inject
+	private AppointmentService aService;
+
 	// http://localhost:8088/emp/registEmp
 	@RequestMapping(value = "/registEmp", method = RequestMethod.GET)
 	public void registEmpGET(Model model) throws Exception {
@@ -39,25 +48,44 @@ public class EmpController {
 		model.addAttribute("empno", eService.countEmpNo());
 	}
 
-	@RequestMapping(value = "/regist", method = RequestMethod.POST)
-	public String registEmpPOST(EmployeeVO evo/*, LicenseVO lvo, AppointmentVO avo*/, MultipartFile profileImage) throws Exception {
+	@RequestMapping(value = "/emp/registEmp", method = RequestMethod.POST)
+	public String registEmpPOST(@ModelAttribute EmployeeVO evo, @ModelAttribute LicenseVO lvo,
+			@ModelAttribute AppointmentVO avo, @RequestParam("inputProfile") MultipartFile profileImage, Model model) {
+
 		logger.debug("registEmpPOST() 호출");
-
+		// 받은 데이터를 디버그 로그로 출력합니다.
 		logger.debug("evo" + evo);
-		// logger.debug("lvo" + lvo);
-		// logger.debug("avo" + avo);
-		
-		// 이미지 파일을 서버에 저장
-		// String uploadedFileName = saveProfileImage(profileImage);
+		logger.debug("lvo", lvo);
+		logger.debug("avo", avo);
+		// 다른 필드들도 출력할 수 있습니다.
 
-		// 사원 정보에 이미지 파일명 설정
-		// evo.setPROFIL(uploadedFileName);
+		// LicenseVO와 AppointmentVO도 마찬가지로 출력할 수 있습니다.
 
-		// 사원 정보와 이미지 파일명을 데이터베이스에 저장
-		// eService.registerEmployee(evo);
-
-		return "redirect:/emp/viewEmp?employee_id=" + evo.getEmployee_id();
+		// 클라이언트에게 응답을 보냅니다.
+		model.addAttribute("employee_id", evo.getEmployee_id());
+		return "redirect:/emp/viewEmp";
 	}
+	
+	
+	//	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
+	//	public String registEmpPOST(EmployeeVO evo, LicenseVO lvo, AppointmentVO avo, MultipartFile profileImage) throws Exception {
+	//		logger.debug("registEmpPOST() 호출");
+	//
+	//		logger.debug("evo" + evo);
+	//		logger.debug("lvo" + lvo);
+	//		logger.debug("avo" + avo);
+	//
+	//		// 이미지 파일을 서버에 저장
+	//		String uploadedFileName = saveProfileImage(profileImage);
+	//
+	//		// 사원 정보에 이미지 파일명 설정
+	//		evo.setPROFIL(uploadedFileName);
+	//
+	//		// 사원 정보와 이미지 파일명을 데이터베이스에 저장
+	//		// eService.registerEmployee(evo);
+	//
+	//		return "redirect:/emp/viewEmp?employee_id=" + evo.getEmployee_id();
+	//	}
 
 	private String saveProfileImage(MultipartFile profileImage) throws Exception {
 		if (profileImage.isEmpty()) {
@@ -81,13 +109,6 @@ public class EmpController {
 			e.printStackTrace();
 			throw new Exception("이미지 업로드 실패: " + e.getMessage());
 		}
-	}
-
-	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
-	public String registEmpPOST(@RequestParam("license") String[] liarr) throws Exception {
-		logger.debug("registEmpPOST() 호출");
-
-		return "listEmp";
 	}
 
 	// http://localhost:8088/emp/listEmp

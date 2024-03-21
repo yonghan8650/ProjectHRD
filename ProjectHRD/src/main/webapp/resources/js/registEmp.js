@@ -1,7 +1,3 @@
-/**
- * registEmp.js
- */
-
 function previewImage(event) {
     const input = event.target;
     const profile = input.files[0];
@@ -50,9 +46,9 @@ function addRow(tableId) {
     if (tableId === "licenseTable") {
         cell1.innerHTML = "<input type='text' name='license'>";
         cell2.innerHTML = "<input type='text' name='li_org'>";
-        cell3.innerHTML = "<input type='date' name='li_date'>";
+        cell3.innerHTML = "<input type='date' name='li_date' max='9999-12-31'>";
     } else if (tableId === "appointmentTable") {
-        cell1.innerHTML = "<select><option value='입사'>입사</option><option value='승진'>승진</option><option value='부서 이동'>부서 이동</option><option value='퇴사'>퇴사</option><option value='휴직'>휴직</option><option value='복직'>복직</option></select>";
+        cell1.innerHTML = "<select name='app_issue'><option value='입사'>입사</option><option value='승진'>승진</option><option value='부서 이동'>부서 이동</option><option value='퇴사'>퇴사</option><option value='휴직'>휴직</option><option value='복직'>복직</option></select>";
         cell2.innerHTML = "<input type='text' name='app_content'>";
         cell3.innerHTML = "<input type='date' name='app_date' max='9999-12-31'>";
     }
@@ -67,75 +63,114 @@ function deleteRow(btn) {
     row.parentNode.removeChild(row);
 }
 
-////////////////////////////////////////
+function generateEmployeeId(startDate, jobId) {
+    const year = startDate.split('-')[0];
+    const empNo = document.getElementById('empno').getAttribute('data-empno');
+    return year + jobId + empNo;
+}
+
+function generatePassword(birth, startDate) {
+    let replaced_birth = birth.replace(/-/g, '');
+    let replaced_startDate = startDate.replace(/-/g, '');
+    return replaced_birth + replaced_startDate;
+}
 
 function submitEmployeeInfo() {
-    // 사용자가 입력한 정보를 수집합니다.
-    const empName = document.getElementById("emp_name").value;
-    const profileImage = document.getElementById("inputProfile").files[0];
-    const birth = document.getElementById("birth").value;
-    const gender = document.querySelector("input[name='gender']:checked").value;
-    const empTel = document.getElementById("emp_tel").value;
-    const empMail = document.getElementById("emp_mail").value;
-    const empAddr = document.getElementById("emp_addr").value;
-    const jobId = document.getElementById("JOB_ID").value;
-    const deptId = document.getElementById("DEPTID").value;
-    const startDate = document.getElementById("start_date").value;
+    // 사원 정보 업로드
+	sendEmployeeData()
+	uploadImage();
+}
 
-    // 사원번호 생성
-    const empno = generateEmployeeNumber(startDate, jobId);
-    
-    // 비밀번호 생성
+function sendEmployeeData() {
+    const empName = document.getElementById('emp_name').value;
+    const birth = document.getElementById('birth').value;
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    const empTel = document.getElementById('emp_tel').value;
+    const empMail = document.getElementById('emp_mail').value;
+    const empAddr = document.getElementById('emp_addr').value;
+    const jobId = document.getElementById('JOB_ID').value;
+    const deptId = document.getElementById('DEPTID').value;
+    const startDate = document.getElementById('start_date').value;
+
+    const empno = generateEmployeeId(startDate, jobId);
     const password = generatePassword(birth, startDate);
 
-    // 프로필 이미지 파일 이름 생성
-    const imageFileName = empno + "." + profileImage.name.split('.').pop();
+    const profileImage = document.getElementById('inputProfile').files[0];
+    const profileName = empno + '.' + profileImage.name.split('.').pop();
 
-    // FormData 객체 생성
+    const licenses = [];
+    const licenseTable = document.getElementById('licenseTable');
+    for (let i = 1; i < licenseTable.rows.length; i++) {
+        const license = licenseTable.rows[i].cells[0].getElementsByTagName('input')[0].value;
+        const li_org = licenseTable.rows[i].cells[1].getElementsByTagName('input')[0].value;
+        const li_date = licenseTable.rows[i].cells[2].getElementsByTagName('input')[0].value;
+        licenses.push({ employee_id: empno, license: license, li_org: li_org, li_date: li_date });
+    }
+
+    const appointments = [];
+    const appointmentTable = document.getElementById('appointmentTable');
+    for (let i = 1; i < appointmentTable.rows.length; i++) {
+        const app_issue = appointmentTable.rows[i].cells[0].getElementsByTagName('select')[0].value;
+        const app_content = appointmentTable.rows[i].cells[1].getElementsByTagName('input')[0].value;
+        const app_date = appointmentTable.rows[i].cells[2].getElementsByTagName('input')[0].value;
+        appointments.push({ employee_id: empno, app_issue: app_issue, app_content: app_content, app_date: app_date });
+    }
+
     const formData = new FormData();
-    formData.append("employee_id", empno);
-    formData.append("PASSWD", password);
-    formData.append("emp_name", empName);
-    formData.append("PROFIL", profileImage, imageFileName); // 프로필 이미지 파일 이름 추가
-    formData.append("birth", birth);
-    formData.append("gender", gender);
-    formData.append("emp_tel", empTel);
-    formData.append("emp_mail", empMail);
-    formData.append("emp_addr", empAddr);
-    formData.append("JOB_ID", jobId);
-    formData.append("DEPTID", deptId);
-    formData.append("start_date", startDate);
+    formData.append('employee_id', empno);
+    formData.append('PASSWD', password);
+    formData.append('emp_name', empName);
+    formData.append('PROFIL', profileName);
+    formData.append('birth', birth);
+    formData.append('gender', gender);
+    formData.append('emp_tel', empTel);
+    formData.append('emp_mail', empMail);
+    formData.append('emp_addr', empAddr);
+    formData.append('JOB_ID', jobId);
+    formData.append('DEPTID', deptId);
+    formData.append('start_date', startDate);
+    formData.append('licenses', JSON.stringify(licenses));
+    formData.append('appointments', JSON.stringify(appointments));
 
-    // AJAX를 이용하여 FormData를 서버로 전송
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/emp/regist", true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log("사원 등록이 완료되었습니다.");
-            // 성공적으로 등록되었을 때의 처리
+    xhr.open('POST', '/emp/registEmp');
+    xhr.send(formData);
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            console.log('사원 정보 전송 성공');
         } else {
-            console.error("사원 등록에 실패했습니다.");
-            // 등록 실패 시의 처리
+            console.error('사원 정보 전송 실패');
+            // 실패 시 실행할 코드
+            alert('사원 정보 전송 실패');
         }
     };
-    xhr.onerror = function() {
-        console.error("요청을 보내는 중에 오류가 발생했습니다.");
-        // 오류 발생 시의 처리
+    xhr.onerror = function () {
+        console.error('통신 오류');
+        // 통신 오류 시 실행할 코드
     };
+}
+
+function uploadImage() {
+    const formData = new FormData();
+    const fileInput = document.getElementById('inputProfile');
+    const file = fileInput.files[0];
+    formData.append('profile', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/emp/registEmp');
     xhr.send(formData);
-}
-
-//사원번호 생성 함수
-function generateEmployeeNumber(startDate, jobId) {
-    const year = startDate.split('-')[0];
-    const paddedJobId = jobId.padStart(3, '0');
-    const paddedEmpNo = document.getElementById("empno").dataset.empno.padStart(3, '0');
-    return year + paddedJobId + paddedEmpNo;
-}
-
-//비밀번호 생성 함수
-function generatePassword(birth, startDate) {
-    const birthYear = birth.substring(0, 4);
-    const startYear = startDate.substring(0, 4);
-    return birthYear + startYear;
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            console.log('이미지 업로드 성공');
+        } else {
+            console.error('이미지 업로드 실패');
+            // 이미지 업로드 실패 시 실행할 코드
+            alert('이미지 업로드 실패');
+        }
+    };
+    xhr.onerror = function () {
+        console.error('통신 오류');
+        // 통신 오류 시 실행할 코드
+    };
+    
 }

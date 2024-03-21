@@ -12,7 +12,7 @@
 
 	<div class="profile">
 		<h3>프로필 사진</h3>
-		<input type="file" id="inputProfile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" />
+		<input type="file" id="inputProfile" name="inputProfile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" />
 
 		<img id="preview" src="#" alt="미리보기" style="display: none; max-width: 200px; max-height: 200px;" />
 
