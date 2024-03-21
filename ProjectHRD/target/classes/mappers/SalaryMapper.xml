@@ -12,18 +12,40 @@
     </select>
     
     <!-- 급여년월에 따른 급여 조회(전체) -->
-<!--     <select id="selectSalarySeach" resultType="com.bswill.domain.SalaryListVO">
-       select * from tbl_salarylist
-       where pay_yearmonth = #{keyword}
-       order by employee_id asc
-    </select> -->
-    
-    <!-- 급여년월에 따른 급여 조회 -->
-    <select id="selectSalarySearch" resultType="map">
-		select pay_yearmonth, tbl_employee.employee_id, emp_name, JOB_ID, salary, premium, sum
-		from tbl_employee, tbl_salarylist
-		where tbl_employee.employee_id = tbl_salarylist.employee_id 
-		and DATE_FORMAT(pay_yearmonth, '%Y-%m') = #{keyword};
+	<select id="selectSalaryAllSearch" resultType="map">
+		select pay_yearmonth, emp.employee_id, emp_name, JOB_ID, salary, premium, sum
+		from tbl_employee emp
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
     </select>
+    
+    <!-- 급여년월에 따른 급여 조회(급여목록) -->
+    <select id="selectSalaryEmpSearch" resultType="map">
+		select pay_yearmonth, emp.employee_id, emp_name, JOB_ID, salary, premium, sum
+		from tbl_employee emp
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{keyword};
+    </select>
+    
+    <!-- 급여년월에 따른 급여 조회(급여명세서) -->
+    <select id="selectSalarySearch" resultType="map">
+		select salary, bonus, premium
+		from tbl_employee emp
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
+		where emp.employee_id = #{emp_id};
+    </select>
+    
+    <!-- 급여년월에 따른 월별 급여 조회 -->
+    <select id="selectSalarySearchMonthly" resultType="map">
+		select emp.employee_id, emp_name, JOB_ID, department
+		from tbl_employee emp
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{keyword};
+    </select>
+    
+    <!-- 급상여기본정보입력 -->
+    
+    
+    <!-- 급여 입력 -->
+    
     
 </mapper>
