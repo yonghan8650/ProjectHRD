@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeVO {
+
 	private int employee_id;
 	private String PASSWD;
 	private String emp_name;
@@ -21,4 +22,6 @@ public class EmployeeVO {
 	private Timestamp start_date;
 	private Timestamp quit_date;
 	private String FAVORS;
+	private String enabled;
+
 }
