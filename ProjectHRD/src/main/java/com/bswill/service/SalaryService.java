@@ -13,5 +13,5 @@ public interface SalaryService {
 	public List<SalaryVO> getSalaryList() throws Exception;
 	
 	// 급여년월 급여 조회
-	public List<Map<String, Object>> getSalarySeach(SalaryCriteria cri) throws Exception;
+	public List<Map<String, Object>> getSalarySearch(SalaryCriteria cri) throws Exception;
 }

@@ -32,10 +32,10 @@ public class SalaryDAOImpl implements SalaryDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> salarySeachSelect(SalaryCriteria cri) throws Exception {
-		logger.debug(" salarySeachSelect() -> mapper 호출");
+	public List<Map<String, Object>> salarySearchSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salarySearchSelect() -> mapper 호출");
 		
-		return sqlSession.selectList(NAMESPACE + ".selectSalarySeach", cri);
+		return sqlSession.selectList(NAMESPACE + ".selectSalarySearch", cri);
 	}
 	
 	

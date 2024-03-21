@@ -9,10 +9,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>salarySeach.jsp</h1>
+	<h1>salarySearch.jsp</h1>
 	
-	salarySerch : ${salarySeach }<br>
-	<form action="/salarySeach">
+	salarySearch : ${salarySearch }<br>
+	<form action="/salarySearch">
 		<fieldset>
 			<legend>급여 검색</legend>
 				급여년월 : <input type="text" name="keyword">
@@ -34,7 +34,7 @@
 				</tr>
 				
 				<!-- 검색 값이 여기에 출력 -->
-				<c:forEach var="ss" items="${salarySeach }">
+				<c:forEach var="ss" items="${salarySearch }">
 					<tr>
 						<td><fmt:formatDate value="${ss.pay_yearmonth }" pattern="yyyy.MM.dd"/></td>
 						<td>${ss.employee_id }</td>
@@ -59,7 +59,7 @@
 				</thead>
 				<tbody>
 					<!-- 검색 값이 여기에 출력 -->
-					<c:forEach var="ss" items="${salarySeach }">
+					<c:forEach var="ss" items="${salarySearch }">
 						<tr>
 							<td>기본금</td>
 							<td>${ss.salary }</td>

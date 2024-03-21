@@ -31,10 +31,10 @@ public class SalaryServiceImpl implements SalaryService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getSalarySeach(SalaryCriteria cri) throws Exception {
-		logger.debug(" getSalarySeach() 실행! ");
+	public List<Map<String, Object>> getSalarySearch(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalarySearch() 실행! ");
 		
-		return sdao.salarySeachSelect(cri);
+		return sdao.salarySearchSelect(cri);
 	}
 	
 	

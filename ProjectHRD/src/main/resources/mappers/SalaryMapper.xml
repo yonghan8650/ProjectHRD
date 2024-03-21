@@ -19,7 +19,7 @@
     </select> -->
     
     <!-- 급여년월에 따른 급여 조회 -->
-    <select id="selectSalarySeach" resultType="map">
+    <select id="selectSalarySearch" resultType="map">
 		select pay_yearmonth, tbl_employee.employee_id, emp_name, JOB_ID, salary, premium, sum
 		from tbl_employee, tbl_salarylist
 		where tbl_employee.employee_id = tbl_salarylist.employee_id 

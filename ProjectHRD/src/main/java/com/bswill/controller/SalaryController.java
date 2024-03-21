@@ -44,21 +44,21 @@ public class SalaryController {
 		//return "/salaryList";
 	}
 	
-	// http://localhost:8088/salarySeach
-	// http://localhost:8088/salarySeach?pay_yearmonth=0000-00-00
-	// 급여년월 급여 조회 GET : /salarySeach
-	@RequestMapping(value = "/salarySeach", method = RequestMethod.GET)
+	// http://localhost:8088/salarySearch
+	// http://localhost:8088/salarySearch?pay_yearmonth=0000-00-00
+	// 급여년월 급여 조회 GET : /salarySearch
+	@RequestMapping(value = "/salarySearch", method = RequestMethod.GET)
 	public void salarySeachGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
-		logger.debug("/salarySeach -> salarySeachGET() 호출");
-		logger.debug("/salarySeach.jsp 뷰 연결");
+		logger.debug("/salarySearch -> salarySearchGET() 호출");
+		logger.debug("/salarySearch.jsp 뷰 연결");
 		
 		// 서비스 -> DAO 급여년월 급여 조회 가져오기
-		List<Map<String, Object>> salarySeach = sService.getSalarySeach(cri);
-		logger.debug(" list.size : "+salarySeach.size());
+		List<Map<String, Object>> salarySearch = sService.getSalarySearch(cri);
+		logger.debug(" list.size : "+salarySearch.size());
 		
 		// 연결된 뷰페이지로 전달(Model)
-		model.addAttribute("salarySeach", salarySeach);
+		model.addAttribute("salarySearch", salarySearch);
 		
-		//return "/salarySerch";
+		//return "/salarySearch";
 	}
 }
