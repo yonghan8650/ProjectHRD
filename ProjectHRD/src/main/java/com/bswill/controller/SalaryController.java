@@ -53,14 +53,21 @@ public class SalaryController {
 		logger.debug("/salarySearch -> salarySearchGET() 호출");
 		logger.debug("/salarySearch.jsp 뷰 연결");
 		
+		List<Map<String, Object>> salarySearch;
+		
 		// 서비스 -> DAO 급여년월 급여 조회 가져오기
-		List<Map<String, Object>> salarySearch = sService.getSalarySearch(cri);
-		logger.debug(" list.size : "+salarySearch.size());
 		
-		// 연결된 뷰페이지로 전달(Model)
-		model.addAttribute("salarySearch", salarySearch);
-		
-		model.addAttribute("cri", cri);
+		// cri이 null이면 
+		if(cri != null)
+		{
+			salarySearch = sService.getSalarySearch(cri);
+			logger.debug(" list.size : "+salarySearch.size());
+			
+			// 연결된 뷰페이지로 전달(Model)
+			model.addAttribute("salarySearch", salarySearch);
+			
+			model.addAttribute("cri", cri);
+		}
 		
 		//return "/salarySearch";
 	}
@@ -86,17 +93,58 @@ public class SalaryController {
 		//return "/salarySearchMonthly";
 	}
 	
-	// http://localhost:8088/salary/salaryinfo
-	// 급상여기본정보관리 GET : /salary/salaryinfo
-	@RequestMapping(value = "/salaryinfo", method = RequestMethod.GET)
-	public void salaryinfoGET(Model model, HttpSession session) throws Exception {
-		logger.debug("/salaryinfo -> salaryinfoGET() 호출");
-		logger.debug("/salaryinfo.jsp 뷰 연결");
+	// http://localhost:8088/salary/salaryInfo
+	// 급상여기본정보관리 GET : /salary/salaryInfo
+	@RequestMapping(value = "/salaryInfo", method = RequestMethod.GET)
+	public void salaryInfoGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
+		logger.debug("/salaryInfo -> salaryInfoGET() 호출");
+		logger.debug("/salaryInfo.jsp 뷰 연결");
 		
-		// 연결된 뷰페이지로 전달(Model)
-		//model.addAttribute("salaryinfo", salaryinfo);
+		List<Map<String, Object>> salaryInfoEmp;
+		List<Map<String, Object>> salaryInfoMore;
 		
-		//return "/salaryinfo";
+		// 서비스 -> DAO 급여년월 급여 조회 가져오기
+		
+		if(cri.getKeyword() != null)
+		{
+			salaryInfoEmp = sService.getSalaryInfoEmp(cri);
+			logger.debug(" emplist.size : "+salaryInfoEmp.size());
+			
+			// 연결된 뷰페이지로 전달(Model)
+			model.addAttribute("salaryInfoEmp", salaryInfoEmp);
+			
+			model.addAttribute("cri", cri);
+		}
+		
+		if(cri.getEmployee_id() != null) {
+			
+			salaryInfoMore = sService.getSalaryInfoMore(cri);
+			logger.debug(" morelist.size : "+salaryInfoMore.size());
+			
+			// 연결된 뷰페이지로 전달(Model)
+			model.addAttribute("salaryInfoMore", salaryInfoMore);
+			
+			model.addAttribute("cri", cri);
+		}
+
+		//return "/salaryInfo";
+	}
+	
+	// 급상여기본정보관리 POST : /salary/salaryInfo
+	@RequestMapping(value = "/salaryInfo", method = RequestMethod.POST)
+	public String salaryInfoPOST(SalaryCriteria cri, SalaryVO svo) throws Exception {
+		logger.debug("/salaryInfo -> salaryInfoPOST() 호출");
+		
+		// 한글처리 인코딩
+		// 전달정보 저장(bank, account, account_holder)
+		logger.debug(" SalaryVO : "+svo);
+		
+		// 서비스 -> DAO 급상여 상세정보 수정 동작
+		sService.updateSalaryInfoMore(svo);
+
+		// 수정 완료 후 salaryInfo 페이지로 이동 (redirect)
+		//return "/salaryInfo";
+		return "redirect:/salary/salaryInfo?keyword="+cri.getKeyword()+"&employee_id="+svo.getEmployee_id();
 	}
 	
 	// http://localhost:8088/salary/salaryEnter
@@ -105,6 +153,20 @@ public class SalaryController {
 	public void salaryEnterGET(Model model, HttpSession session) throws Exception {
 		logger.debug("/salaryEnter -> salaryEnterGET() 호출");
 		logger.debug("/salaryEnter.jsp 뷰 연결");
+		
+		// 연결된 뷰페이지로 전달(Model)
+		//model.addAttribute("salaryEnter", salaryEnter);
+		
+		//return "/salaryEnter";
+	}
+	
+	// 급여 입력 POST : /salary/salaryEnter
+	@RequestMapping(value = "/salaryEnter", method = RequestMethod.POST)
+	public void salaryEnterPOST(Model model, HttpSession session) throws Exception {
+		logger.debug("/salaryEnter -> salaryEnterPOST() 호출");
+		
+		// 한글처리 인코딩
+		// 전달정보 저장()
 		
 		// 연결된 뷰페이지로 전달(Model)
 		//model.addAttribute("salaryEnter", salaryEnter);

@@ -12,23 +12,25 @@
 	<h1>salaryInfo.jsp</h1>
 	<h2>급상여기본정보관리 페이지(관리자용)</h2>
 	
-	salarySearchMonthly : ${salarySearchMonthly }
+	salaryInfoEmp : ${salaryInfoEmp }<br>
+	salaryInfoMore : ${salaryInfoMore }<br>
+	cri : ${cri }<br>
+	${cri.keyword }<br>
+	${cri.employee_id }<br>
 	
-	<hr>
-	<form action="/salarySearchMonthly">
+	<form action="/salary/salaryInfo">
 		<fieldset>
-			<legend>월별 급여 검색</legend>
-				급여년월 : <input type="text" name="keyword"> ~ <input type="text" name="keyword2">
+			<legend>급여 검색</legend>
+				입사년도 : <input type="text" name="keyword">
 				<input type="submit" value="검색">
-				예시 : 2023-09 ~ 2023-12
+				예시 : 2023
 		</fieldset>
 	</form>
 	
 	<fieldset>
-		<legend>사원목록</legend>
+		<legend>기본정보</legend>
 		    <table border="1">
 				<tr>
-				   <td>순번</td>
 				   <td>사원번호</td>
 				   <td>성명</td>
 				   <td>직급</td>
@@ -36,17 +38,14 @@
 				</tr>
 				
 				<!-- 검색 값이 여기에 출력 -->
-				<c:forEach var="ssm" items="${salarySearchMonthly }">
+				<c:forEach var="sie" items="${salaryInfoEmp }">
 					<tr>
-						<!-- 순번은 임시로 지정함 -->
-						<td>1</td>
 						<td>
-							<a href="/salarySearch?keyword=<fmt:formatDate value="${ssm.pay_yearmonth }" pattern="yyyy-MM"/>
-							&emp_id=${ssm.employee_id }">${ssm.employee_id }</a>
+							<a href="/salary/salaryInfo?keyword=${cri.keyword }&employee_id=${sie.employee_id }">${sie.employee_id }</a>
 						</td>
-						<td>${ssm.emp_name }</td>
-						<td>${ssm.JOB_ID }</td>
-						<td>${ssm.department }</td>
+						<td>${sie.emp_name }</td>
+						<td>${sie.JOB_ID }</td>
+						<td>${sie.department }</td>
 					</tr>
 				</c:forEach>
 		      
@@ -54,57 +53,41 @@
 	</fieldset>
 	
 	<fieldset>
-		<legend>급상여 상세내역</legend>
-		    <table border="1">
-		    	<thead>
-					<tr>
-					   <td>순번</td>
-					   <td>항목명</td>
-					   <!-- 월별은 임시, 추후 2023-01 식으로 변경 -->
-					   <td>1월</td>
-					   <td>2월</td>
-					   <td>3월</td>
-					   <td>4월</td>
-					   <td>5월</td>
-					   <td>6월</td>
-					   <td>7월</td>
-					   <td>8월</td>
-					   <td>9월</td>
-					   <td>10월</td>
-					   <td>11월</td>
-					   <td>12월</td>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- 검색 값이 여기에 출력 -->
-					<c:forEach var="ss" items="${salarySearchMonthly }">
-						<tr>
-							<td>기본금</td>
-							<td>${ss.salary }</td>
+		<legend>상세정보</legend>
+			<form role="form" method="post">
+			    <table border="1">
+			    	<!-- 검색 값이 여기에 출력 -->
+			    	<c:forEach var="sim" items="${salaryInfoMore }">
+				    	<tr>
+							<td>사원번호</td>
+							<td><input type="text" name="employee_id" value="${sim.employee_id }" readonly></td>
 						</tr>
 						<tr>
-							<td>상여</td>
-							<td>${ss.bonus }</td>
+							<td>사원이름</td>
+							<td><input type="text" name="emp_name" value="${sim.emp_name }" readonly></td>
+						</tr>
+							<td>직급</td>
+							<td><input type="text" name="JOB_ID" value="${sim.JOB_ID }" readonly></td>
+						<tr>
+							<td>부서</td>
+							<td><input type="text" name="department" value="${sim.department }" readonly></td>
 						</tr>
 						<tr>
-							<td>국민연금</td>
-							<td>0</td>
+							<td>은행명</td>
+							<td><input type="text" name="bank" value="${sim.bank }"></td>
 						</tr>
 						<tr>
-							<td>건강보험</td>
-							<td>0</td>
+							<td>계좌번호</td>
+							<td><input type="text" name="account" value="${sim.account }"></td>
 						</tr>
 						<tr>
-							<td>장기요양보험</td>
-							<td>0</td>
-						</tr>
-						<tr>
-							<td>고용보험</td>
-							<td>0</td>
+							<td>예금주</td>
+							<td><input type="text" name="account_holder" value="${sim.account_holder }"></td>
 						</tr>
 					</c:forEach>
-				</tbody> 
-		    </table>	
+			    </table>
+			    <input type="submit" value="수정하기">
+			</form>	
 	</fieldset>
 </body>
 </html>

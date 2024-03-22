@@ -17,4 +17,14 @@ public interface SalaryService {
 	
 	// 월별 급여 조회
 	public List<Map<String, Object>> getSalarySearchMonthly(SalaryCriteria cri) throws Exception;
+	
+	// 급상여기본정보 기본정보 조회 (사원정보)
+	public List<Map<String, Object>> getSalaryInfoEmp(SalaryCriteria cri) throws Exception;
+	
+	// 급상여기본정보 상세정보 조회
+	public List<Map<String, Object>> getSalaryInfoMore(SalaryCriteria cri) throws Exception;
+	
+	// 급상여기본정보 상세정보 수정
+	public void updateSalaryInfoMore(SalaryVO svo) throws Exception;
+	
 }

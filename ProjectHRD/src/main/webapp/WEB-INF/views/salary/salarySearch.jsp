@@ -13,7 +13,7 @@
 	<h2>급여조회 페이지(관리자용)</h2>
 	
 	salarySearch : ${salarySearch }<br>
-	<form action="/salarySearch">
+	<form action="/salary/salarySearch">
 		<fieldset>
 			<legend>급여 검색</legend>
 				급여년월 : <input type="text" name="keyword">
@@ -40,7 +40,7 @@
 					<tr>
 						<td><fmt:formatDate value="${ss.pay_yearmonth }" pattern="yyyy.MM.dd"/></td>
 						<td>
-							<a href="/salarySearch?keyword=<fmt:formatDate value="${ss.pay_yearmonth }" pattern="yyyy-MM"/>
+							<a href="/salary/salarySearch?keyword=<fmt:formatDate value="${ss.pay_yearmonth }" pattern="yyyy-MM"/>
 							&emp_id=${ss.employee_id }">${ss.employee_id }</a>
 						</td>
 						<td>${ss.emp_name }</td>
