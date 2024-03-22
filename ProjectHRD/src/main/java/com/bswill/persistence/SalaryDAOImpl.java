@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.SalaryListVO;
+import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 
 @Repository

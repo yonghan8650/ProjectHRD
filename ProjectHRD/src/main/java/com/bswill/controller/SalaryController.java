@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.SalaryListVO;
+import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 import com.bswill.service.SalaryService;
 

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.SalaryListVO;
+import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 import com.bswill.persistence.SalaryDAO;
 
