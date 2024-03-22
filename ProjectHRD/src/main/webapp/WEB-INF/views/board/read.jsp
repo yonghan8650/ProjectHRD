@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>read.jsp</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 </head>
-<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <body>
 	<h1>글 본문(/board/read.jsp)</h1>
 	<form role="form" action="" method="get" class="fm">

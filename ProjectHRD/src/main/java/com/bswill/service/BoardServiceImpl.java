@@ -66,9 +66,9 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public int getTotal() throws Exception {
+	public int getTotal(BoardCri cri) throws Exception {
 		
-		return bdao.getTotal();
+		return bdao.getTotal(cri);
 	}
 
 

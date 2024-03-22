@@ -24,7 +24,7 @@ public interface BoardService {
 	public List<BoardVO> getListCri(BoardCri cri) throws Exception;
 
 	// 글 총 갯수
-	public int getTotal() throws Exception;
+	public int getTotal(BoardCri cri) throws Exception;
 
 	// 글 조회수 1증가 동작
 	public void updateReadcnt(int board_no) throws Exception;

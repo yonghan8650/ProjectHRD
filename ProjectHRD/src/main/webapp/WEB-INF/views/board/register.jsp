@@ -9,6 +9,7 @@
 <body>
 	<h1>글 작성 (register.jsp)</h1>
 	<form role="form" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<div>
 		<div>
 			<label>제 목</label> 

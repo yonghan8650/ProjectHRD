@@ -13,7 +13,9 @@
 		<h3 class="box-title">게시판 글 수정하기</h3>
 	</div>
 	<form role="form" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="hidden" name="board_no" value="${boardVO.board_no }" />
+		<input type="hidden" name="keyword" value="${cri.keyword }">
 		<div class="box-body">
 			<div class="form-group">
 				<label for="exampleInputEmail1">제 목</label> <input type="text" class="form-control" id="exampleInputEmail1" name="title" value="${boardVO.title }">

@@ -11,6 +11,10 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="com.bswill.security">
+		<level value="debug" />
+	</logger>
+	
 	<logger name="com.bswill.controller">
 		<level value="debug" />
 	</logger>
