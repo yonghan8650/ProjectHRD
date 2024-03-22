@@ -1,5 +1,6 @@
 package com.bswill.domain;
 
+
 import java.sql.Time;
 
 import java.sql.Timestamp;
