@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bswill.domain.SalaryCriteria;
-import com.bswill.domain.SalaryListVO;
+import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 import com.bswill.service.SalaryService;
 
@@ -52,7 +52,7 @@ public class SalaryController {
 		logger.debug("/salarySeach.jsp 뷰 연결");
 		
 		// 서비스 -> DAO 급여년월 급여 조회 가져오기
-		List<SalaryListVO> salarySeach = sService.getSalarySeach(cri);
+		List<SalarylistVO> salarySeach = sService.getSalarySeach(cri);
 		logger.debug(" list.size : "+salarySeach.size());
 		
 		// 연결된 뷰페이지로 전달(Model)
