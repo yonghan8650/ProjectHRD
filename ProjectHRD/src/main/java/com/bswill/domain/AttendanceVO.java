@@ -1,12 +1,14 @@
 package com.bswill.domain;
 
 import java.sql.Time;
+
 import java.sql.Timestamp;
 
 import lombok.Data;
 
 @Data
 public class AttendanceVO {
+
 
 	private int att_no;				// 출퇴근번호
 	private int employee_id;		// 사원번호
@@ -20,4 +22,5 @@ public class AttendanceVO {
 	private String deptnm;			// 부서
 
 	
+
 }

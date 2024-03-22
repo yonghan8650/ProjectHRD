@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.LicenseMapper">
+	<insert id="insertLicense">
+		INSERT INTO tbl_license(employee_id, license, li_org, li_date)
+		VALUES(#{employee_id}, #{license}, #{li_org}, #{li_date})
+	</insert>
+
+	<select id="selectEmpLicense" resultType="licenseVO">
+		SELECT *
+		FROM tbl_license
+		WHERE employee_id=#{employee_id}
+	</select>
+</mapper>
