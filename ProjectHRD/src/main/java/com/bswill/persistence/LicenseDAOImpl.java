@@ -17,13 +17,13 @@ public class LicenseDAOImpl implements LicenseDAO {
 	private static final String NAMESPACE = "com.bswill.mapper.LicenseMapper";
 
 	@Inject
-	SqlSession sqlsession;
+	SqlSession sqlSession;
 
 	@Override
 	public void insertLicense(LicenseVO lvo) throws Exception {
 		logger.debug("insertLicense(Integer employee_id) 호출");
 
-		sqlsession.insert(NAMESPACE + ".insertLicense", lvo);
+		sqlSession.insert(NAMESPACE + ".insertLicense", lvo);
 	}
 
 }

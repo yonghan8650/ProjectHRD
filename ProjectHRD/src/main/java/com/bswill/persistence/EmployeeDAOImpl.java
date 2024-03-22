@@ -17,7 +17,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeDAO.class);
 
-	private static final String NAMESPACE = "com.bswill.mapper.EmpMapper";
+	private static final String NAMESPACE = "com.bswill.mapper.EmployeeMapper";
 
 	@Inject
 	private SqlSession sqlSession;

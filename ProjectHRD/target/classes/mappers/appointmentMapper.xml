@@ -6,6 +6,13 @@
 <mapper namespace="com.bswill.mapper.AppointmentMapper">
 	<insert id="insertAppointment">
 		INSERT INTO tbl_appointment(employee_id, app_issue, app_content, app_date)
-		VALUES(#{employee_id}, #{app_issue}, #{app_content}, #{app_date})
+		VALUES(#{employee_id}, #{app_issue}, #{app_content},
+		#{app_date})
 	</insert>
+
+	<select id="selectEmpLicense" resultType="AppointmentVO">
+		SELECT *
+		FROM tbl_appointment
+		WHERE employee_id=#{employee_id}
+	</select>
 </mapper>

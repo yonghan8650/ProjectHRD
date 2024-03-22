@@ -8,4 +8,10 @@
 		INSERT INTO tbl_license(employee_id, license, li_org, li_date)
 		VALUES(#{employee_id}, #{license}, #{li_org}, #{li_date})
 	</insert>
+
+	<select id="selectEmpLicense" resultType="licenseVO">
+		SELECT *
+		FROM tbl_license
+		WHERE employee_id=#{employee_id}
+	</select>
 </mapper>

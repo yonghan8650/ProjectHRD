@@ -17,12 +17,12 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 	private static final String NAMESPACE = "com.bswill.mapper.AppointmentMapper";
 
 	@Inject
-	SqlSession sqlsession;
+	SqlSession sqlSession;
 
 	@Override
 	public void insertAppointment(AppointmentVO avo) throws Exception {
 		logger.debug("insertAppointment(AppointmentVO avo)");
 
-		sqlsession.insert(NAMESPACE + ".insertAppointment", avo);
+		sqlSession.insert(NAMESPACE + ".insertAppointment", avo);
 	}
 }

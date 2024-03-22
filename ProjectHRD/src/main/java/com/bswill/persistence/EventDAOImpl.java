@@ -15,6 +15,6 @@ public class EventDAOImpl implements EventDAO {
 	private static final String NAMESPACE = "com.bswill.mapper.EventMapper";
 
 	@Inject
-	SqlSession sqlsession;
+	SqlSession sqlSession;
 
 }

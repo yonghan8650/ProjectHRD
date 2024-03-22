@@ -3,6 +3,7 @@ package com.bswill.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,66 +51,23 @@ public class EmpController {
 	}
 
 	@RequestMapping(value = "/emp/registEmp", method = RequestMethod.POST)
-	public String registEmpPOST(@ModelAttribute EmployeeVO evo, @ModelAttribute LicenseVO lvo,
-			@ModelAttribute AppointmentVO avo, @RequestParam("inputProfile") MultipartFile profileImage, Model model) {
-
+	public String registEmpPOST(EmployeeVO evo, MultipartFile profile, Model model) throws Exception {
 		logger.debug("registEmpPOST() 호출");
-		// 받은 데이터를 디버그 로그로 출력합니다.
+
 		logger.debug("evo" + evo);
-		logger.debug("lvo", lvo);
-		logger.debug("avo", avo);
-		// 다른 필드들도 출력할 수 있습니다.
 
-		// LicenseVO와 AppointmentVO도 마찬가지로 출력할 수 있습니다.
+		/*
+		 * 1. profile file, evo, lvo, avo를 전달 받는다.
+		 * 2. profile 파일명을 사원번호로 변경하여 서버에 저장한다.
+		 * 3. evo에 프로필 파일명을 사원번호.확장자로 입력한다.
+		 * 4. evo와 lvo, avo를 DB에 입력한다.
+		 * 5. 입력이 실패하면 profile 파일을 삭제한다.
+		 * 6. 입력이 성공하면 emp/viewEmp 페이지로 이동하여 입력한 정보를 출력한다.
+		 */
 
-		// 클라이언트에게 응답을 보냅니다.
 		model.addAttribute("employee_id", evo.getEmployee_id());
+
 		return "redirect:/emp/viewEmp";
-	}
-	
-	
-	//	@RequestMapping(value = "/registEmp", method = RequestMethod.POST)
-	//	public String registEmpPOST(EmployeeVO evo, LicenseVO lvo, AppointmentVO avo, MultipartFile profileImage) throws Exception {
-	//		logger.debug("registEmpPOST() 호출");
-	//
-	//		logger.debug("evo" + evo);
-	//		logger.debug("lvo" + lvo);
-	//		logger.debug("avo" + avo);
-	//
-	//		// 이미지 파일을 서버에 저장
-	//		String uploadedFileName = saveProfileImage(profileImage);
-	//
-	//		// 사원 정보에 이미지 파일명 설정
-	//		evo.setPROFIL(uploadedFileName);
-	//
-	//		// 사원 정보와 이미지 파일명을 데이터베이스에 저장
-	//		// eService.registerEmployee(evo);
-	//
-	//		return "redirect:/emp/viewEmp?employee_id=" + evo.getEmployee_id();
-	//	}
-
-	private String saveProfileImage(MultipartFile profileImage) throws Exception {
-		if (profileImage.isEmpty()) {
-			throw new Exception("이미지를 선택하세요.");
-		}
-
-		try {
-			// 이미지를 서버에 저장
-			String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
-			String uploadDir = "D:/upload/temp/";
-			Path uploadPath = Paths.get(uploadDir);
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-			Path filePath = uploadPath.resolve(fileName);
-			Files.copy(profileImage.getInputStream(), filePath);
-
-			// 이미지 파일 이름만 반환
-			return fileName;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("이미지 업로드 실패: " + e.getMessage());
-		}
 	}
 
 	// http://localhost:8088/emp/listEmp

@@ -1,5 +1,6 @@
 package com.bswill.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Inject
 	private EmployeeDAO edao;
+
+	public String convertStatusToString(int status) {
+		String statusString = "";
+		switch (status) {
+		case 1:
+			statusString = "재직";
+			break;
+		case 2:
+			statusString = "휴직";
+			break;
+		case 3:
+			statusString = "퇴직";
+			break;
+		default:
+			statusString = "기타";
+			break;
+		}
+		return statusString;
+	}
+
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
 	public int countEmpNo() throws Exception {
@@ -40,7 +62,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Map<String, Object>> listEmp() throws Exception {
 		logger.debug("listEmp() 호출");
 
-		return edao.selectEmpList();
+		List<Map<String, Object>> empList = edao.selectEmpList();
+
+		for (Map<String, Object> emp : empList) {
+			int status = (int) emp.get("STATUS");
+			String statusString = convertStatusToString(status);
+			emp.put("STATUS", statusString);
+		}
+
+		for (Map<String, Object> emp : empList) {
+            Object startDateObj = emp.get("start_date");
+            if (startDateObj instanceof java.util.Date) {
+                String startDateStr = dateFormat.format((java.util.Date) startDateObj);
+                emp.put("start_date", startDateStr);
+            }
+        }
+
+		logger.debug("empList: " + empList);
+
+		return empList;
 	}
 
 	@Override
