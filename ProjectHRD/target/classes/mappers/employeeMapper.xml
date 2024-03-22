@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.EmployeeMapper">
+	<select id="selectEmpCount" resultType="int">
+		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT((SELECT
+		EXTRACT(YEAR FROM NOW())), '%'))
+	</select>
+
+	<insert id="insertEmp">
+		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID)
+		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID})
+	</insert>
+
+	<select id="selectEmpList" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, job.JOB, dept.DEPTNM, emp.start_date, emp.STATUS
+		FROM tbl_employee
+		emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+	</select>
+
+	<select id="selectEmp" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, emp.PROFIL, emp.birth, emp.gender, emp.emp_tel, emp.emp_mail, emp.start_date, emp.quit_date, emp.emp_addr, job.JOB, dept.DEPTNM, emp.STATUS
+		FROM tbl_employee emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+		WHERE
+		emp.employee_id=#{employee_id}
+	</select>
+</mapper>

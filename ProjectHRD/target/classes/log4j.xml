@@ -14,6 +14,14 @@
 	<logger name="com.bswill.controller">
 		<level value="debug" />
 	</logger>
+
+	<logger name="com.bswill.persistence">
+		<level value="debug" />
+	</logger>
+
+	<logger name="com.bswill.service">
+		<level value="debug" />
+	</logger>
 	
 	<logger name="com.bswill.service">
 		<level value="debug" />
@@ -27,11 +35,11 @@
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
-	
+
 	<logger name="org.springframework.beans">
 		<level value="info" />
 	</logger>
-	
+
 	<logger name="org.springframework.context">
 		<level value="info" />
 	</logger>
@@ -45,5 +53,5 @@
 		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
-	
+
 </log4j:configuration>
