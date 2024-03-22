@@ -8,6 +8,8 @@
 </head>
 <body>
 		<h1>main.jsp</h1>
+		
+		<a href="/board/list">공지사항</a>
 		<a href="/common/customLogout">로그아웃</a>
 </body>
 </html>

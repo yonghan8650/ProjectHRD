@@ -25,7 +25,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		logger.info(" CustomLoginSuccessHandler_onAuthenticationSuccess() 호출 ");
 		logger.info(" 인증성공(로그인 성공, 토큰정보O) 후 처리 수행 ");
 		
-		List<String> roleNames = new ArrayList<String>(); 
+		List<String> roleNames = new ArrayList<String>();
 		
 		auth.getAuthorities().forEach(authority -> roleNames.add(authority.getAuthority()));
 		

@@ -137,5 +137,4 @@ public class BoardController {
 
 		session.setAttribute("readUpdateStatus", 1);
 	}
-
 }

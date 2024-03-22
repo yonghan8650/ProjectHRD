@@ -17,6 +17,8 @@
 	
 	
 	<security:http>
+		<security:intercept-url pattern="/*" access="permitAll" />
+		<security:intercept-url pattern="/board/*" access="permitAll" />
 		
 		
 		<!-- 로그인 -->
