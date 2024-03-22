@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class SalarylistVO {
-
 	private Timestamp pay_yearmonth;
 	private int employee_id;
 	private int JOB_ID;

@@ -1,6 +1,7 @@
 package com.bswill.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -31,11 +32,41 @@ public class SalaryDAOImpl implements SalaryDAO {
 	}
 
 	@Override
-	public List<SalarylistVO> salarySeachSelect(SalaryCriteria cri) throws Exception {
-		logger.debug(" salarySeachSelect() -> mapper 호출");
+	public List<Map<String, Object>> salarySearchSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salarySearchSelect() -> mapper 호출");
 		
-		return sqlSession.selectList(NAMESPACE + ".selectSalarySeach", cri);
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryEmpSearch", cri);
 	}
+
+	@Override
+	public List<Map<String, Object>> salarySearchMonthlySelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salarySearchMonthlySelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchMonthly", cri);
+	}
+
+	@Override
+	public List<Map<String, Object>> salaryInfoEmpSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryInfoEmpSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryInfoEmp", cri);
+	}
+	
+	@Override
+	public List<Map<String, Object>> salaryInfoMoreSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryInfoMore", cri);
+	}
+
+	@Override
+	public void salaryInfoMoreUpdate(SalaryVO svo) throws Exception {
+		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
+		
+		sqlSession.update(NAMESPACE + ".updateSalaryInfo", svo);
+		
+	}
+	
 	
 	
 }

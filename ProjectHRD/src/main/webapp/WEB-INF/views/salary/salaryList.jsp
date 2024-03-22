@@ -21,7 +21,7 @@
     
      <c:forEach var="svo" items="${salaryList }">
        <tr>
-          <td>${svo.emp_id }</td>
+          <td>${svo.employee_id }</td>
           <td>${svo.salary }</td>
           <td>${svo.bank }</td>
           <td>${svo.account }</td>

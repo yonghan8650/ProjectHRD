@@ -1,6 +1,7 @@
 package com.bswill.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,10 +31,39 @@ public class SalaryServiceImpl implements SalaryService{
 	}
 
 	@Override
-	public List<SalarylistVO> getSalarySeach(SalaryCriteria cri) throws Exception {
-		logger.debug(" getSalarySeach() 실행! ");
+	public List<Map<String, Object>> getSalarySearch(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalarySearch() 실행! ");
 		
-		return sdao.salarySeachSelect(cri);
+		return sdao.salarySearchSelect(cri);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSalarySearchMonthly(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalarySearchMonthly() 실행! ");
+		
+		return sdao.salarySearchMonthlySelect(cri);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSalaryInfoEmp(SalaryCriteria cri) throws Exception {
+		logger.debug(" getsalaryInfoEmp() 실행! ");
+		
+		return sdao.salaryInfoEmpSelect(cri);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getSalaryInfoMore(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalaryInfoMore() 실행! ");
+		
+		return sdao.salaryInfoMoreSelect(cri);
+	}
+
+	@Override
+	public void updateSalaryInfoMore(SalaryVO svo) throws Exception {
+		logger.debug(" updateSalaryInfoMore() 실행! ");
+		
+		sdao.salaryInfoMoreUpdate(svo);
+		
 	}
 	
 	
