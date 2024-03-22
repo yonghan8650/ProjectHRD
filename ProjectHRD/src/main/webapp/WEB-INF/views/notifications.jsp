@@ -27,11 +27,29 @@ padding : 20px;
 						<td>${nVO.noti_title }</td>
 						<td>${nVO.noti_time }</td>
 						<td>${nVO.noti_link }</td>
-						<td><input type="button"></td>
+						<td><input type="submit" class="btn btn-warning"></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	
+	<script>
+	$(document).ready(function(){
+		var formObj = $("form[fole='form']");
+	
+		$('.btn-warning').click(function(){
+			formObj.attr("action","/deleteNoti");
+			formObj.attr("method","post");
+			formObj.submit();
+		})
+		
+		
+	})
+	
+	
+	
+	
+	</script>
 </body>
 </html>

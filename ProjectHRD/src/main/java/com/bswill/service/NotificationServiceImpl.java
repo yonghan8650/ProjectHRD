@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
-	public List<NotificationVO> notiList()throws Exception {
+	public List<NotificationVO> notiList() throws Exception {
 		logger.debug(" notiList() 실행 ");
 	    return ndao.notiListSelect();
 	}

@@ -18,7 +18,7 @@ public interface NotificationService {
 	// 알림 삭제 동작
 	public void delete(int employee_id)throws Exception;
 	
-	// 알림 전송 동작
+	// 알림 출력 여부 확인 동작
 	public void send(NotificationVO vo)throws Exception;
 	
 

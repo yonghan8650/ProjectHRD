@@ -11,7 +11,7 @@ public interface NotificationDAO {
 	public NotificationVO selectNoti(int employee_id)throws Exception;
 	
 	// 알림 목록 조회
-	public List<NotificationVO> notiListSelect()throws Exception;
+	public List<NotificationVO> notiListSelect() throws Exception;
 	
 	// 알림 읽음
 	public void readNoti(int employee_id)throws Exception;
@@ -19,7 +19,7 @@ public interface NotificationDAO {
 	// 알림 삭제
 	public void deleteNoti(int employee_id)throws Exception;
 	
-	// 알림 전송
+	// 알림 출력 확인
 	public void sendNoti(NotificationVO vo)throws Exception;
 	
 	
