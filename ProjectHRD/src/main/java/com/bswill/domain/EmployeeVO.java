@@ -23,7 +23,7 @@ public class EmployeeVO {
 	private int DEPTID;
 	private int STATUS;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Timestamp start_date;
+	private String start_date;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Timestamp quit_date;
 	private String FAVORS;
