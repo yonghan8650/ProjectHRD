@@ -29,4 +29,12 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 		return sqlSession.selectList(NAMESPACE + ".orgList");
 	}
 
+	@Override
+	public void checkFavorites(int employee_id) throws Exception {
+		
+		sqlSession.update(NAMESPACE+".checkFavorite", employee_id);
+		
+	}
+
+	
 }

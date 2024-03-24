@@ -10,5 +10,9 @@
 	FROM tbl_employee;
    </select>
    
+   <update id="checkFavorite">
+        UPDATE tbl_employee SET favorite = NOT favorite WHERE employee_id = #{employeeId}
+    </update>
+   
    
 </mapper>

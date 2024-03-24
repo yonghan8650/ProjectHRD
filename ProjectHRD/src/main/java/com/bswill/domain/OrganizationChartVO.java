@@ -12,7 +12,7 @@ public class OrganizationChartVO {
 	private String emp_tel;  // 사원 전화
 	private String emp_mail;// 사원 이메일
 	private int STATUS;      // 재직 상태
-	
+	private String FAVORS;    // 즐겨찾기
 	
 	
 	

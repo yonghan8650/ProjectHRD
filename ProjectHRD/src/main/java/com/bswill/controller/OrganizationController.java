@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bswill.domain.OrganizationChartVO;
 import com.bswill.service.OrganizationService;
@@ -37,7 +39,20 @@ public class OrganizationController {
 		logger.debug(" list.size : "+ orgList.size());
 		// 조직도 목록을 페이지에 전달(Model)
 		model.addAttribute("orgList", orgList);
-		
+	}
+	
+	@RequestMapping(value = "/orgFavors", method = RequestMethod.POST)
+	public String checkFavors(RedirectAttributes rttr,HttpSession session,@RequestParam("employee_id")int employee_id) throws Exception{
+		try {
+            oService.checkFavors(employee_id);
+            return "redirect:/org/organization";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/org/organization";
+        }
 		
 	}
+	
+
+
 }

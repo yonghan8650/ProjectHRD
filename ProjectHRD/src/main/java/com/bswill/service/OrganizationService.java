@@ -11,6 +11,8 @@ public interface OrganizationService {
 	public List<OrganizationChartVO> organizationList() throws Exception;
 		
 		
+	// 조직도 즐겨찾기 동작
+	public void checkFavors(int employee_id) throws Exception;
 		
 		
 		

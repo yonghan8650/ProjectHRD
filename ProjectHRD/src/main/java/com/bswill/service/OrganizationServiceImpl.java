@@ -24,6 +24,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 		logger.debug(" organizationList() 실행 ");
 		return odao.organizationListSelect();
 	}
+
+	@Override
+	public void checkFavors(int employee_id) throws Exception {
+		logger.debug(" checkFavors(int employee_id) 실행 ");
+		odao.checkFavorites(employee_id);
+	}
 	
 	
 	
