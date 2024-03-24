@@ -23,17 +23,19 @@ public class NotificationDAOImpl implements NotificationDAO{
 	
 	private static final String NAMESPACE = "com.bswill.mapper.NotificationMapper";
 	
-	@Override
-	public NotificationVO selectNoti(int employee_id)throws Exception {
-		logger.debug(" selectNoti(int employee_id) 호출");
-		
-		return sqlSession.selectOne(NAMESPACE+".selectNoti",employee_id);
-	}
+	
+
 
 	@Override
-	public List<NotificationVO> notiListSelect() throws Exception{
+	public List<NotificationVO> notiListSelect(int employee_id) throws Exception{
 		logger.debug(" notiListSelect() 호출");
 		return sqlSession.selectList(NAMESPACE+".notiListSelect");
+	}
+	
+	@Override
+	public int notificationCount(int employee_id) throws Exception {
+		logger.debug(" notificationCount(int employee_id) 호출");
+		return sqlSession.selectOne(NAMESPACE+".notiCount");
 	}
 
 	@Override

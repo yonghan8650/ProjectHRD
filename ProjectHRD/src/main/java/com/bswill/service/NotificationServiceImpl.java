@@ -20,17 +20,22 @@ public class NotificationServiceImpl implements NotificationService{
     
 	private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
-	@Override
-	public NotificationVO notiInfo(int employee_id) throws Exception{
-		logger.debug(" notiInfo(int employee_id) 실행 ");
-		return ndao.selectNoti(employee_id);
-	}
 
 	@Override
-	public List<NotificationVO> notiList() throws Exception {
-		logger.debug(" notiList() 실행 ");
-	    return ndao.notiListSelect();
+	public List<NotificationVO> notiList(int employee_id) throws Exception {
+		logger.debug(" notiList(int employee_id) 실행 ");
+	    return ndao.notiListSelect(employee_id);
 	}
+
+	
+	
+	@Override
+	public int getNotificationCount(int employee_id) throws Exception {
+		logger.debug(" getNotificationCount(int employee_id) 실행 ");
+		return ndao.notificationCount(employee_id);
+	}
+
+
 
 	@Override
 	public void read(int employee_id)throws Exception {
