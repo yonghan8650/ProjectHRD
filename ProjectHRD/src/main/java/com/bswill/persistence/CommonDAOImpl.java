@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.bswill.domain.EmployeeVO;
+
 @Repository
 public class CommonDAOImpl implements CommonDAO{
 	@Inject
@@ -29,6 +31,14 @@ public class CommonDAOImpl implements CommonDAO{
 		logger.debug(" passwdUpdate(int employee_id, String newPw) 호출 ");
 		sqlSession.update(NAMESPACE+".updatePass", loginInfo);
 	}
+
+	@Override
+	public EmployeeVO EmpInfoSelect(int employee_id) throws Exception {
+		logger.debug(" EmpInfoSelect(int employee_id) 호출 ");
+		
+		return sqlSession.selectOne(NAMESPACE+".selectEmpInfo", employee_id);
+	}
+	
 	
 	
 }
