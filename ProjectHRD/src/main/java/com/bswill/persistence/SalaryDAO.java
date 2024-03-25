@@ -8,10 +8,10 @@ import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 
 public interface SalaryDAO {
-	
-	public List<SalaryVO> salaryListSelect() throws Exception;
 
-	public List<Map<String, Object>> salarySearchSelect(SalaryCriteria cri) throws Exception;
+	public List<Map<String, Object>> salarySearchEmpSelect(SalaryCriteria cri) throws Exception;
+	
+	public List<Map<String, Object>> salarySearchMoreSelect(SalaryCriteria cri) throws Exception;
 	
 	public List<Map<String, Object>> salarySearchMonthlySelect(SalaryCriteria cri) throws Exception;
 	
@@ -20,4 +20,12 @@ public interface SalaryDAO {
 	public List<Map<String, Object>> salaryInfoMoreSelect(SalaryCriteria cri) throws Exception;
 	
 	public void salaryInfoMoreUpdate(SalaryVO svo) throws Exception;
+	
+	public List<Map<String, Object>> salaryEnterEmpSelect(SalaryCriteria cri) throws Exception;
+	
+	public List<Map<String, Object>> salaryEnterMoreSelect(SalaryCriteria cri) throws Exception;
+	
+	public List<Map<String, Object>> salaryEnterSelect(SalaryCriteria cri) throws Exception;
+	
+	public void salaryEnterInsert(SalarylistVO slvo) throws Exception;
 }

@@ -22,19 +22,19 @@ public class SalaryServiceImpl implements SalaryService{
 	private SalaryDAO sdao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(SalaryServiceImpl.class);
-	
-	@Override
-	public List<SalaryVO> getSalaryList() throws Exception {
-		logger.debug(" getSalaryList() 실행! ");
-		
-		return sdao.salaryListSelect();
-	}
 
 	@Override
-	public List<Map<String, Object>> getSalarySearch(SalaryCriteria cri) throws Exception {
-		logger.debug(" getSalarySearch() 실행! ");
+	public List<Map<String, Object>> getSalarySearchEmp(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalarySearchEmp() 실행! ");
 		
-		return sdao.salarySearchSelect(cri);
+		return sdao.salarySearchEmpSelect(cri);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getSalarySearchMore(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalarySearchMore() 실행! ");
+		
+		return sdao.salarySearchMoreSelect(cri);
 	}
 
 	@Override
@@ -63,8 +63,33 @@ public class SalaryServiceImpl implements SalaryService{
 		logger.debug(" updateSalaryInfoMore() 실행! ");
 		
 		sdao.salaryInfoMoreUpdate(svo);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSalaryEnterEmp(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalaryEnterEmp() 실행! ");
 		
+		return sdao.salaryEnterEmpSelect(cri);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSalaryEnterMore(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalaryEnterMore() 실행! ");
+		
+		return sdao.salaryEnterMoreSelect(cri);
 	}
 	
+	@Override
+	public List<Map<String, Object>> getSalaryEnter(SalaryCriteria cri) throws Exception {
+		logger.debug(" getSalaryEnter() 실행! ");
+		
+		return sdao.salaryEnterSelect(cri);
+	}
 	
+	@Override
+	public void insertSalaryEnter(SalarylistVO slvo) throws Exception {
+		logger.debug(" insertSalaryEnter() 실행! ");
+		
+		sdao.salaryEnterInsert(slvo);
+	}
 }

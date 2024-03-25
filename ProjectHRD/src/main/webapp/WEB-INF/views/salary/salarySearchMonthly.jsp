@@ -16,7 +16,7 @@
 	
 	<hr>
 	
-	<form action="/salarySearchMonthly">
+	<form action="/salary/salarySearchMonthly">
 		<fieldset>
 			<legend>월별 급여 검색</legend>
 				급여년월 : <input type="text" name="keyword"> ~ <input type="text" name="keyword2">
@@ -58,23 +58,24 @@
 		<legend>급상여 상세내역</legend>
 		    <table border="1">
 		    	<thead>
-					<tr>
-					   <td>순번</td>
-					   <td>항목명</td>
-					   <!-- 월별은 임시, 추후 2023-01 식으로 변경 -->
-					   <td>1월</td>
-					   <td>2월</td>
-					   <td>3월</td>
-					   <td>4월</td>
-					   <td>5월</td>
-					   <td>6월</td>
-					   <td>7월</td>
-					   <td>8월</td>
-					   <td>9월</td>
-					   <td>10월</td>
-					   <td>11월</td>
-					   <td>12월</td>
-					</tr>
+		    		<c:forEach var="ss" items="${salarySearchMonthly }">
+						<tr>
+						   <td>항목명</td>
+						   <!-- 월별은 임시, 추후 2023-01 식으로 변경 -->
+						   <td>1월</td>
+						   <td>2월</td>
+						   <td>3월</td>
+						   <td>4월</td>
+						   <td>5월</td>
+						   <td>6월</td>
+						   <td>7월</td>
+						   <td>8월</td>
+						   <td>9월</td>
+						   <td>10월</td>
+						   <td>11월</td>
+						   <td>12월</td>
+						</tr>
+					</c:forEach>
 				</thead>
 				<tbody>
 					<!-- 검색 값이 여기에 출력 -->
