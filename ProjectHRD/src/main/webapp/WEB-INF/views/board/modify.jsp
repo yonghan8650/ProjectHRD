@@ -1,16 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<%@ include file="../include/header.jsp"%>
 <body>
-	<h1>/board/modify.jsp</h1>
-	<h2>글 수정하기</h2>
-	
 	<div class="box-header with-border">
-		<h3 class="box-title">게시판 글 수정하기</h3>
+		<h3 class="box-title">글 수정</h3>
 	</div>
 	<form role="form" method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -22,20 +14,20 @@
 			</div>
 
 			<div class="form-group">
-				<label>이 름</label> <input type="text" class="form-control" name="employee_id" value="${boardVO.employee_id }" />
+				<label>작성자</label> <input type="text" class="form-control" name="employee_id" value="${boardVO.employee_id }" readonly/>
 			</div>
 
 			<div class="form-group">
 				<label>내 용</label>
-				<textarea class="form-control" rows="3" name="content">${boardVO.content }</textarea>
+				<textarea class="form-control" rows="20" name="content">${boardVO.content }</textarea>
 			</div>
 
 			<div class="box-footer">
-				<button type="submit" class="btn btn-danger">글 수정</button>
+				<button type="submit" class="btn btn-default">글 수정하기</button>
+				<button type="button" class="btn btn-default" onclick="location.href='/board/list'">목록으로</button>				
 			</div>
 		</div>
 	</form>
 	
-	<a href="/board/list">목록으로</a>
-</body>
-</html>
+	
+<%@ include file="../include/footer.jsp"%>

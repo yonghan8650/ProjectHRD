@@ -1,45 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>list.jsp</title>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-</head>
+<%@ include file="../include/header.jsp"%>
 <body>
-	<h1>공지사항 목록(board/list.jsp)</h1>
-	<div>
-		<table border="1">
-			<tr>
-				<td>번호</td>
-				<td>제목</td>
-				<td>작성자</td>
-				<td>작성일</td>
-				<td>수정일</td>
-				<td>조회수</td>
-			</tr>
-			<c:forEach var="bVO" items="${boardList }">
-				<tr>
-					<td>${bVO.board_no }</td>
-					<td><a href="/board/read?board_no=${bVO.board_no }&page=${pageMaker.cri.page}&pageSize=${pageMaker.cri.pageSize}">${bVO.title }</a></td>
-					<td>${bVO.employee_id }</td>
-					<td>${bVO.regdate }</td>
-					<td>${bVO.updatedate }</td>
-					<td>${bVO.readcnt }</td>
-				</tr>
-			</c:forEach>
-		</table>
-
-		<div class="search_wrap">
-			<div class="search_area">
-				<input type="text" name="keyword" value="${pageMaker.cri.keyword }">
-				<button>Search</button>
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">공지사항</h3>
+			<div class="box-tools">
+				<div class="search_wrap input-group input-group-sm hidden-xs" style="width: 300px;">
+					<input class="form-control pull-right" type="text" name="keyword" value="${pageMaker.cri.keyword }" placeholder="검색">
+					<div class="input-group-btn search_area">
+						<button class="btn btn-default">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
+		<div class="box-body table-responsive no-padding">
+			<table class="table table-hover" border="1">
+				<tbody>
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>수정일</th>
+						<th>조회수</th>
+					</tr>
+					<c:forEach var="bVO" items="${boardList }">
+						<tr>
+							<td>${bVO.board_no }</td>
+							<td><a href="/board/read?board_no=${bVO.board_no }&page=${pageMaker.cri.page}&pageSize=${pageMaker.cri.pageSize}">${bVO.title }</a></td>
+							<td>${bVO.employee_id }</td>
+							<td><fmt:formatDate value="${bVO.regdate }" pattern="yyyy-MM-dd" /></td>
+							<td><fmt:formatDate value="${bVO.updatedate }" pattern="yyyy-MM-dd" /></td>
+							<td>${bVO.readcnt }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 		<div class="pageInfo_wrap">
-			<div class="pageInfo_area">
-				<ul id="pageInfo" class="pageInfo">
+			<div class="pageInfo_area text-center">
+				<ul id="pageInfo" class="pageInfo pagination pagination-sm">
 					<!-- 이전페이지 버튼 -->
 					<c:if test="${pageMaker.prev}">
 						<li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
@@ -53,13 +55,25 @@
 					</c:if>
 				</ul>
 			</div>
+			<div class="text-right">
+				<!-- 매니저, 관리자만 글쓰기 버튼 보임 -->
+				<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+					<button type="button" class="btn btn-default" onclick="location.href='/board/register'">글 쓰기</button>
+				</sec:authorize>
+
+				<button type="button" class="btn btn-default" onclick="location.href='/common/main'">메인으로</button>
+			</div>
 		</div>
 
 		<form id="moveForm" method="get">
-			<input type="hidden" name="page" value="${pageMaker.cri.page}"> <input type="hidden" name="pageSize" value="${pageMaker.cri.pageSize }"> <input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+			<input type="hidden" name="page" value="${pageMaker.cri.page}"> 
+			<input type="hidden" name="pageSize" value="${pageMaker.cri.pageSize }"> 
+			<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 		</form>
 	</div>
-	<a href="/board/register">글 쓰기</a>
+	
+	
+	<%-- ${sessionScope['SPRING_SECURITY_CONTEXT'].authentication.name} --%>
 	<script type="text/javascript">
 		$(".pageInfo a").on("click", function(e) {
 
@@ -80,5 +94,4 @@
 			moveForm.submit();
 		});
 	</script>
-</body>
-</html>
+	<%@ include file="../include/footer.jsp"%>

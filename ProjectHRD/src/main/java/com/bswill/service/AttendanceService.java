@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
+import com.bswill.domain.DepartmentVO;
 
 public interface AttendanceService {
 
@@ -12,5 +13,9 @@ public interface AttendanceService {
 
 	// 행삭제
 	public void deleteAttendance(int att_no) throws Exception;
+
+	/////////////////////////
+	// 부서 불러오기
+	public List<DepartmentVO> departmentList() throws Exception;
 
 }

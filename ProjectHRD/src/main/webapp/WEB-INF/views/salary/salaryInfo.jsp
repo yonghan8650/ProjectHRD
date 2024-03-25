@@ -21,7 +21,7 @@
 	<form action="/salary/salaryInfo">
 		<fieldset>
 			<legend>급여 검색</legend>
-				입사년도 : <input type="text" name="keyword">
+				입사년도 : <input type="text" name="startDate">
 				<input type="submit" value="검색">
 				예시 : 2023
 		</fieldset>
@@ -41,7 +41,7 @@
 				<c:forEach var="sie" items="${salaryInfoEmp }">
 					<tr>
 						<td>
-							<a href="/salary/salaryInfo?keyword=${cri.keyword }&employee_id=${sie.employee_id }">${sie.employee_id }</a>
+							<a href="/salary/salaryInfo?startDate=${cri.startDate }&employee_id=${sie.employee_id }">${sie.employee_id }</a>
 						</td>
 						<td>${sie.emp_name }</td>
 						<td>${sie.JOB_ID }</td>

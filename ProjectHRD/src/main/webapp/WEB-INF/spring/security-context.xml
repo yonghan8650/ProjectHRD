@@ -6,10 +6,13 @@
 
 	<!-- security-context.xml : 시큐리티 관련 설정  -->
 	<!-- 접근권한 처리하는 객체 -->
-	<bean id="customAccessDenied" class="com.bswill.security.CustomAceessDeniedandHandler" />
-	<!-- 로그인 처리후 이동 객체 -->
-	<bean id="customLoginSuccess" class="com.bswill.security.CustomLoginSuccessHandler" />
+
+	<bean id="customAccessDenied" class="com.bswill.security.CustomAceessDeniedandHandler"/>
+	<!-- 로그인 성공후 이동 객체 -->
+	<bean id="customLoginSuccess" class="com.bswill.security.CustomLoginSuccessHandler"/>
 	
+	<!-- 로그인 실패후 이동 객체 -->
+	<bean id="customLoginFailure" class="com.bswill.security.CustomLoginFailureHandler"/>
 	<!-- 암호화 처리 객체 -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
@@ -19,7 +22,10 @@
 		
 		
 		<!-- 로그인 -->
-		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+		<security:form-login login-page="/customLogin"
+							 authentication-success-handler-ref="customLoginSuccess"
+							 authentication-failure-handler-ref="customLoginFailure"							 
+							 />
 		
 		<!-- 로그아웃 -->
 		<security:logout logout-url="/customLogout" logout-success-url="/common/customLogin?logout" invalidate-session="true" />
