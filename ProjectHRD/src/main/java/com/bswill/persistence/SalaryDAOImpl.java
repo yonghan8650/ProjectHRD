@@ -25,13 +25,6 @@ public class SalaryDAOImpl implements SalaryDAO {
 	private static final String NAMESPACE = "com.bswill.mapper.SalaryMapper";
 
 	@Override
-	public List<SalaryVO> salaryListSelect() throws Exception {
-		logger.debug(" salaryListSelect() -> mapper 호출");
-		
-		return sqlSession.selectList(NAMESPACE + ".selectSalaryList");
-	}
-
-	@Override
 	public List<Map<String, Object>> salarySearchEmpSelect(SalaryCriteria cri) throws Exception {
 		logger.debug(" salarySearchEmpSelect() -> mapper 호출");
 		
@@ -71,7 +64,6 @@ public class SalaryDAOImpl implements SalaryDAO {
 		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
 		
 		sqlSession.update(NAMESPACE + ".updateSalaryInfo", svo);
-		
 	}
 
 	@Override
@@ -89,11 +81,16 @@ public class SalaryDAOImpl implements SalaryDAO {
 	}
 	
 	@Override
+	public List<Map<String, Object>> salaryEnterSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryEnterSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryEnter", cri);
+	}
+	
+	@Override
 	public void salaryEnterInsert(SalarylistVO slvo) throws Exception {
 		logger.debug(" salaryEnterInsert() -> mapper 호출");
 		
-		sqlSession.insert(NAMESPACE + ".updateSalaryEnterMore", slvo);
-		
+		sqlSession.insert(NAMESPACE + ".insertSalaryEnter", slvo);
 	}
-	
 }
