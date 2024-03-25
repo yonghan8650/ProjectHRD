@@ -21,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Inject
 	private EmployeeDAO edao;
 
-	public String convertStatusToString(int status) {
+	private String convertStatusToString(int status) {
 		String statusString = "";
 		switch (status) {
 		case 1:

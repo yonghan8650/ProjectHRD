@@ -5,6 +5,45 @@
 
 <mapper namespace="com.bswill.mapper.EventMapper">
 	<insert id="insertEvent">
+		INSERT INTO tbl_event (employee_id, eve_class, eve_subject, eve_date, eve_amount)
+		VALUES (#{employee_id}, #{eve_class}, #{eve_subject}, #{eve_date}, #{eve_amount})
+	</insert>
 
+	<select id="selectEmpEvent" resultType="EventVO">
+		SELECT eve_class, eve_subject, eve_date, req_date, eve_auth
+		FROM tbl_event
+		WHERE employee_id=#{employee_id} AND ${searchType} LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY req_date DESC
+	</select>
+	
+	<select id="selectEventList" resultType="EventVO">
+		SELECT employee_id, eve_class, eve_subject, eve_date, req_date, eve_amount, eve_auth
+		FROM tbl_event
+		WHERE ${searchType} LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY req_date DESC
+	</select>
+	
+	<select id="selectEmpSalary" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, emp.gender, emp.emp_tel, emp.emp_mail, job.JOB, dept.DEPTNM, emp.STATUS, sal.salary, sal.bank, sal.account, sal.account_holder
+		FROM tbl_employee emp
+		JOIN tbl_salary sal ON emp.employee_id = sal.employee_id
+		JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+		WHERE emp.employee_id=#{employee_id}
+	</select>
+	
+	<update id="updateEventAuthApprove">
+		UPDATE tbl_event SET eve_auth='승인'
+		WHERE employee_id=#{employee_id} AND eve_class=#{eve_class} AND eve_subject=#{eve_subject}
+	</update>
+	
+	<update id="updateEventAuthReject">
+		UPDATE tbl_event SET eve_auth='거부'
+		WHERE employee_id=#{employee_id} AND eve_class=#{eve_class} AND eve_subject=#{eve_subject}
+	</update>
+	
+	<insert id="insertNotiEventAuth">
+		INSERT INTO tbl_notification (employee_id, noti_title, noti_link)
+		VALUES (#{employee_id}, #{noti_title}, #{noti_link})
 	</insert>
 </mapper>
