@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -8,7 +10,7 @@
 <body>
 	<h1>/board/modify.jsp</h1>
 	<h2>글 수정하기</h2>
-	
+	<h2>${boardVO }</h2>
 	<div class="box-header with-border">
 		<h3 class="box-title">게시판 글 수정하기</h3>
 	</div>
@@ -31,7 +33,7 @@
 			</div>
 
 			<div class="box-footer">
-				<button type="submit" class="btn btn-danger">글 수정</button>
+				<button type="submit" class="btn btn-danger">글 수정하기</button>				
 			</div>
 		</div>
 	</form>

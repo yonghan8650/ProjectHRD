@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +60,13 @@
 			<input type="hidden" name="page" value="${pageMaker.cri.page}"> <input type="hidden" name="pageSize" value="${pageMaker.cri.pageSize }"> <input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 		</form>
 	</div>
+	
+	<!-- 매니저, 관리자만 글쓰기 버튼 보임 -->
+	<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
 	<a href="/board/register">글 쓰기</a>
+	</sec:authorize>
+	
+	<a href="/common/main">메인으로</a>
 	<script type="text/javascript">
 		$(".pageInfo a").on("click", function(e) {
 
