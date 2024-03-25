@@ -1,5 +1,6 @@
 package com.bswill.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,10 +39,19 @@ public class NotificationServiceImpl implements NotificationService{
 
 
 	@Override
-	public void read(int employee_id)throws Exception {
+	public void read(int employee_id,String noti_title,Timestamp noti_time)throws Exception {
 		logger.debug(" read(int employee_id) 실행 ");
-		ndao.readNoti(employee_id);
+		ndao.readNoti(employee_id,noti_title,noti_time);
 	}
+
+	
+	@Override
+	public void readAll(int employee_id) throws Exception {
+		logger.debug(" readAll(int employee_id) 실행 ");
+		ndao.readAllNoti(employee_id);
+	}
+
+
 
 	@Override
 	public void delete(int employee_id) throws Exception{
@@ -60,6 +70,22 @@ public class NotificationServiceImpl implements NotificationService{
 	public void deleteAll() throws Exception{
 		logger.debug(" deleteAll() 실행 ");
 		ndao.deleteAllNoti();
+	}
+
+
+
+	@Override
+	public void moveLink(String noti_link) throws Exception {
+		logger.debug(" moveLink(String link) 실행 ");
+		ndao.link(noti_link);
+	}
+
+
+
+	@Override
+	public void markAsRead(String noti_Link) throws Exception {
+		logger.debug(" markAsRead(String noti_Link) 실행 ");
+		ndao.markAsRead(noti_Link);
 	}
 	
 	
