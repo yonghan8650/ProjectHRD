@@ -11,6 +11,7 @@
 		<div class="box-body">
 			<form action="" method="post">
 				<input type="hidden" id="employee_id" name="employee_id" value="${employee_id }">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<div class="form-group">
 					<label>경조구분</label>
 					<select class="form-control select2 select2-hidden-accessible" id="eve_class" name="eve_class" style="width: 520px;" tabindex="-1" aria-hidden="true">

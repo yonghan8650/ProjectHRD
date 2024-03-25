@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.bswill.domain.EmployeeVO;
+import com.bswill.domain.NotificationVO;
 import com.bswill.persistence.EmployeeDAO;
 
 @Service
@@ -43,10 +44,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
-	public int countEmpNo() throws Exception {
+	public int countEmpNo(Integer year) throws Exception {
 		logger.debug("countEmpNo() 호출");
 
-		return edao.selectEmpCount();
+		return edao.selectEmpCount(year);
 	}
 
 	@Override
@@ -88,6 +89,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		logger.debug("viewEmp(Integer employee_id) 호출");
 
 		return edao.selectEmp(employee_id);
+	}
+
+	@Override
+	public void notifyModification(NotificationVO nvo) throws Exception {
+		logger.debug("notifyModification(NotificationVO nvo) 호출");
+		
+		edao.insertNotiEmp(nvo);		
 	}
 
 }

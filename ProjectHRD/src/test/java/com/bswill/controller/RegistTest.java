@@ -1,5 +1,6 @@
 package com.bswill.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.inject.Inject;
@@ -59,9 +60,9 @@ public class RegistTest {
 		AppointmentVO avo = new AppointmentVO();
 
 		avo.setEmployee_id(1000000123);
-		avo.setApp_issue(1);
+		avo.setApp_issue("승진");
 		avo.setApp_content("대리 승진");
-		avo.setApp_date(Timestamp.valueOf("2024-03-21 00:00:00"));
+		avo.setApp_date(Date.valueOf("2024-03-21"));
 
 		adao.insertAppointment(avo);
 
@@ -79,7 +80,7 @@ public class RegistTest {
 		lvo.setEmployee_id(1000000123);
 		lvo.setLicense("정보처리기사");
 		lvo.setLi_org("큐넷");
-		lvo.setLi_date(Timestamp.valueOf("2024-03-21 00:00:00"));
+		lvo.setLi_date(Date.valueOf("2024-03-21"));
 		
 		ldao.insertLicense(lvo);
 		
