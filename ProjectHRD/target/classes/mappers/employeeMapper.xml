@@ -5,13 +5,12 @@
 
 <mapper namespace="com.bswill.mapper.EmployeeMapper">
 	<select id="selectEmpCount" resultType="int">
-		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT((SELECT
-		EXTRACT(YEAR FROM NOW())), '%'))
+		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
 	</select>
 
 	<insert id="insertEmp">
-		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID)
-		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID})
+		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID, start_date)
+		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID}, #{start_date})
 	</insert>
 
 	<select id="selectEmpList" resultType="map">
@@ -28,4 +27,9 @@
 		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
 		WHERE emp.employee_id=#{employee_id}
 	</select>
+	
+	<insert id="insertNotiEmpAuth">
+		INSERT INTO tbl_notification (employee_id, noti_title, noti_link)
+		VALUES (#{employee_id}, #{noti_title}, #{noti_link})
+	</insert>
 </mapper>

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.bswill.domain.EmployeeVO;
+import com.bswill.domain.NotificationVO;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
@@ -23,7 +24,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public int selectEmpCount() throws Exception {
+	public int selectEmpCount(Integer year) throws Exception {
 		logger.debug("selectEmpNo() 호출");
 
 		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount");
@@ -50,6 +51,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		logger.debug("selectEmp(Integer employee_id) 호출");
 
 		return sqlSession.selectOne(NAMESPACE + ".selectEmp", employee_id);
+	}
+
+	@Override
+	public void insertNotiEmp(NotificationVO nvo) throws Exception {
+		logger.debug("insertNotiEventAuth(NotificationVO nvo 호출");
+		
+		sqlSession.insert(NAMESPACE + ".insertNotiEmpAuth", nvo);		
 	}
 
 }

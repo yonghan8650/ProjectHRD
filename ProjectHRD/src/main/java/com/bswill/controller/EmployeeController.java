@@ -1,17 +1,19 @@
 package com.bswill.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,11 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bswill.domain.AppointmentListVO;
 import com.bswill.domain.AppointmentVO;
 import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.EventVO;
+import com.bswill.domain.LicenseListVO;
 import com.bswill.domain.LicenseVO;
 import com.bswill.domain.NotificationVO;
+import com.bswill.security.CustomNoopPasswordEncoder;
 import com.bswill.service.AppointmentService;
 import com.bswill.service.EmployeeService;
 import com.bswill.service.EventService;
@@ -52,25 +57,92 @@ public class EmployeeController {
 	@RequestMapping(value = "/registEmp", method = RequestMethod.GET)
 	public void registEmpGET(Model model) throws Exception {
 		logger.debug("registEmpGET() 호출");
-
-		model.addAttribute("empno", eService.countEmpNo());
 	}
 
 	@RequestMapping(value = "/emp/registEmp", method = RequestMethod.POST)
-	public String registEmpPOST(EmployeeVO evo, MultipartFile profile, Model model) throws Exception {
+	public String registEmpPOST(EmployeeVO evo, @ModelAttribute(value = "LicenseListVO") LicenseListVO lList,
+			@ModelAttribute(value = "AppointmentListVO") AppointmentListVO aList, @RequestParam("profile") MultipartFile profile, Model model)
+			throws Exception {
 		logger.debug("registEmpPOST() 호출");
 
-		logger.debug("evo" + evo);
+		logger.debug("evo:" + evo);
+		logger.debug("lList:" + lList);
+		logger.debug("aList" + aList);
+		logger.debug("profile: " + profile);
 
-		/*
-		 * 1. profile file, evo, lvo, avo를 전달 받는다. 2. profile 파일명을 사원번호로 변경하여 서버에 저장한다.
-		 * 3. evo에 프로필 파일명을 사원번호.확장자로 입력한다. 4. evo와 lvo, avo를 DB에 입력한다. 5. 입력이 실패하면
-		 * profile 파일을 삭제한다. 6. 입력이 성공하면 emp/viewEmp 페이지로 이동하여 입력한 정보를 출력한다.
-		 */
+		// 입사일자에서 년도 추출
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(evo.getStart_date());
+		int year = calendar.get(Calendar.YEAR);
+
+		int empno = eService.countEmpNo(year);
+
+		// employee_id = 입사년도 + 입사부서 + (해당년도 입사순번 + 100)
+		String employee_id = "" + year + evo.getDEPTID() + empno;
+		logger.debug("emp:" + employee_id);
+		evo.setEmployee_id(Integer.parseInt(employee_id));
+
+		// 최초 PASSWD = 생년월일(yyyyMMdd) + 입사일자(yyyyMMdd)
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String birthFormat = evo.getBirth().replaceAll("-", "");
+		logger.debug("birth:" + evo.getBirth());
+		String startFormat = sdf.format(evo.getStart_date());
+		String PASSWD = birthFormat + startFormat;
+		logger.debug("PASSWD:" + PASSWD);
+
+		// 비밀번호 암호화(단방향)
+		CustomNoopPasswordEncoder encoder = new CustomNoopPasswordEncoder();
+		String password = encoder.encode(PASSWD);
+		logger.debug("password:" + password);
+		evo.setPASSWD(password);
+
+		String profileName = saveProfile(evo.getEmployee_id(), profile);
+		logger.debug("profileName:" + profileName);
+		evo.setPROFIL(profileName);
+
+		eService.registEmp(evo);
+
+		logger.debug("lList" + lList.toString());
+
+		if (!lList.toString().equals("LicenseListVO(licenseList=null)")) {
+			for (LicenseVO lvo : lList.getLicenseList()) {
+				if (lvo.getLicense() != null) {
+					lvo.setEmployee_id(evo.getEmployee_id());
+					lService.registLicense(lvo);
+				}
+			}
+		}
+
+		if (aList.toString().equals("AppointmentListVO(appointmentList=null")) {
+			for (AppointmentVO avo : aList.getAppointmentList()) {
+				if (avo.getApp_issue() != null) {
+					avo.setEmployee_id(evo.getEmployee_id());
+					aService.registAppointment(avo);
+				}
+			}
+		}
+
+		NotificationVO nvo = new NotificationVO();
+		nvo.setEmployee_id(evo.getEmployee_id());
+		nvo.setNoti_title(evo.getEmp_name() + "님 입사를 축하합니다.");
+
+		vService.notifyModification(nvo);
 
 		model.addAttribute("employee_id", evo.getEmployee_id());
 
 		return "redirect:/emp/viewEmp";
+	}
+
+	private String saveProfile(int employee_id, MultipartFile profile) throws Exception {
+		String uploadDir = "D://upload/profile/";
+		String profileName = employee_id + "." + profile.getOriginalFilename().split("\\.")[1];
+		String profilePath = uploadDir + profileName;
+
+		try (OutputStream os = new FileOutputStream(profilePath)) {
+			os.write(profile.getBytes());
+		}
+
+		return profileName;
 	}
 
 	// http://localhost:8088/emp/listEmp
@@ -99,9 +171,8 @@ public class EmployeeController {
 		logger.debug("applyEventGET() 호출");
 
 		// 임시로 세션 생성
-		session.setAttribute("employee_id", 4000);
-
-		int employee_id = (int) session.getAttribute("employee_id");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int employee_id = Integer.parseInt(authentication.getName());
 
 		logger.debug("employee_id: " + employee_id);
 
@@ -123,12 +194,14 @@ public class EmployeeController {
 
 	// http://localhost:8088/emp/viewEvent?searchType=eve_class&keyword=
 	@RequestMapping(value = "viewEvent", method = RequestMethod.GET)
-	public void viewEventGET(HttpSession session, Model model,
-			@RequestParam(name = "searchType", required = false) String searchType,
-			@RequestParam(name = "keyword", required = false) String keyword) throws Exception {
+	public void viewEventGET(@RequestParam(name = "searchType", required = false) String searchType,
+			@RequestParam(name = "keyword", required = false) String keyword, Model model, HttpSession session) throws Exception {
 		logger.debug("viewEventGET() 호출");
 
-		int employee_id = (int) session.getAttribute("employee_id");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int employee_id = Integer.parseInt(authentication.getName());
+
+		logger.debug("employee_id: " + employee_id);
 
 		if (searchType == null) {
 			searchType = "''";

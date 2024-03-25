@@ -1,5 +1,6 @@
 package com.bswill.domain;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +14,6 @@ public class EmployeeVO {
 	private String PASSWD;
 	private String emp_name;
 	private String PROFIL;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String birth;
 	private int gender;
 	private String emp_tel;
@@ -22,8 +22,7 @@ public class EmployeeVO {
 	private int JOB_ID;
 	private int DEPTID;
 	private int STATUS;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String start_date;
+	private Date start_date;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Timestamp quit_date;
 	private String FAVORS;
