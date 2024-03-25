@@ -19,7 +19,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 		logger.debug(" CustomLoginFailureHandler_onAuthenticationFailure() 호출 ");
 		logger.debug(" 인증실패(로그인 실패) 후 처리 수행 ");
 		logger.debug(" 로그인 페이지로 이동 ");
-		response.sendRedirect("/common/customLogin?error");
+		response.sendRedirect("/common/customLogin?error=1");
 	}
 
 }

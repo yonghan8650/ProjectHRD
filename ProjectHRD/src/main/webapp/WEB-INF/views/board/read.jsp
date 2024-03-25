@@ -38,7 +38,7 @@ ${username }
 			</div>
 			<!-- 로그인한 사용자와 작성자가 같이 않으면 삭제버튼과 수정버튼이 나오지 않음 -->
 			<div class="box-footer">				
-				<c:if test="${username eq vo.employee_id.toString()}">
+				<c:if test="${employee_id eq vo.employee_id}">
 				<button type="submit" class="btn btn-danger" onclick="location.href='/board/modify?board_no=${vo.board_no}'">수정하기</button>
 				<button type="submit" class="btn btn-warning">삭제하기</button>
 				</c:if>

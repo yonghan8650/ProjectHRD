@@ -54,8 +54,8 @@ public class CommonController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public void mainPage(Model model) {
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	     String username = authentication.getName();
-	     model.addAttribute("username",username);
+	     int employee_id = Integer.parseInt(authentication.getName());
+	     model.addAttribute("employee_id",employee_id);
 		 logger.debug(" 메인페이지 ");
 	}
 	
@@ -89,11 +89,10 @@ public class CommonController {
 		
 		if(pwEncoder.matches(currentPw, passwd) && newPw.equals(confirmNewPw))  {
 			cService.changePass(loginInfo);
+			return "redirect:/common/main";
 		}else {
-			return "redirect:/common/changePw";
+			return "redirect:/common/changePw?error=1";
 		}
-	    
-		return "redirect:/common/main";
 	}
 	
 
