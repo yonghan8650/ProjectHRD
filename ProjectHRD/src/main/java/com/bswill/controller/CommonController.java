@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
  	import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bswill.domain.EmployeeVO;
 import com.bswill.service.CommonService;
 
 
@@ -52,11 +54,15 @@ public class CommonController {
 	
 	// 로그인 후 메인페이지
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public void mainPage(Model model) {
+	public void mainPage(Model model,HttpSession session) throws Exception {
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	     int employee_id = Integer.parseInt(authentication.getName());
 	     model.addAttribute("employee_id",employee_id);
 		 logger.debug(" 메인페이지 ");
+		 
+		 EmployeeVO evo = cService.getEmpInfo(employee_id);
+		 session.setAttribute("evo", evo);
+		 logger.debug("evo : " + evo);
 	}
 	
 	// 비밀번호 변경 페이지

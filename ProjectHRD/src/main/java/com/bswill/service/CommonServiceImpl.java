@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.bswill.domain.EmployeeVO;
 import com.bswill.persistence.CommonDAO;
 
 
@@ -29,6 +30,13 @@ public class CommonServiceImpl implements CommonService {
 		logger.debug("changePass(Map<String, Object> loginInfo) 실행 ");
 		cdao.passwdUpdate(loginInfo);
 	}
+
+	@Override
+	public EmployeeVO getEmpInfo(int employee_id) throws Exception {
+		logger.debug(" getEmpInfo(int employee_id) 실행 ");
+		return cdao.EmpInfoSelect(employee_id);
+	}
+	
 	
 	
 	

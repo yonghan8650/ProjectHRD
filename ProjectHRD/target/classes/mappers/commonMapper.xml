@@ -2,14 +2,41 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<!-- 패스워드 가져오기 -->
 <mapper namespace="com.bswill.mappers.CommonMapper">
+	<resultMap type="com.bswill.domain.EmployeeVO" id="employee">
+		<result property="employee_id" column="employee_id" />
+		<result property="PASSWD" column="PASSWD" />
+		<result property="emp_name" column="emp_name" />
+		<result property="PROFIL" column="PROFIL" />
+		<result property="birth" column="birth" />
+		<result property="gender" column="gender" />
+		<result property="emp_tel" column="emp_tel" />
+		<result property="emp_mail" column="emp_mail" />
+		<result property="emp_addr" column="emp_addr" />
+		<result property="JOB_ID" column="JOB_ID" />
+		<result property="DEPTID" column="DEPTID" />
+		<result property="STATUS" column="STATUS" />
+		<result property="start_date" column="start_date" />
+		<result property="quit_date" column="quit_date" />
+		<result property="FAVORS" column="FAVORS" />
+		<result property="enabled" column="enabled" />
+	</resultMap>
+
+
+	<!-- 패스워드 가져오기 -->
 	<select id="selectPass" resultType="String">
-		select passwd from tbl_employee where employee_id = #{employee_id}
+		select passwd from
+		tbl_employee where employee_id = #{employee_id}
 	</select>
-	
+
 	<update id="updatePass" parameterType="java.util.Map">
-		update tbl_employee set passwd = #{newPw} where employee_id = #{employee_id}
+		update tbl_employee set
+		passwd = #{newPw} where employee_id = #{employee_id}
 	</update>
+
+	<select id="selectEmpInfo" resultType="employeeVO">
+		select emp_name, profil,
+		JOB_ID, DEPTID, start_date from tbl_employee where employee_id =
+		#{employee_id}
+	</select>
 </mapper>
