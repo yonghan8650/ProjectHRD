@@ -10,7 +10,7 @@
 		<![CDATA[
 			SELECT 
 			    A.att_no,
-			    A.att_date,
+			    DATE_FORMAT(A.att_date, '%Y-%m-%d') AS att_date,
 			    A.employee_id,
 			    E.emp_name,
 			    J.job,
@@ -18,35 +18,30 @@
 			    A.work_type,
 			    A.start_time,
 			    A.finish_time,
-			    A.break_time
+			    A.break_time,
+			    SEC_TO_TIME(TIMESTAMPDIFF(SECOND, A.start_time, A.finish_time)) AS work_time
 			FROM 
 			    tbl_attendance A
 			    INNER JOIN tbl_employee E ON A.employee_id = E.employee_id
 			    INNER JOIN tbl_department D ON E.deptid = D.deptid
-			    INNER JOIN tbl_job J ON E.job_id = J.job_id > 0	
+			    INNER JOIN tbl_job J ON E.job_id = J.job_id
+			WHERE  
+			    A.att_no > 0
 		]]>
-			<include refid="period" />
-			<include refid="date" />
-			<include refid="departments" />
+		<include refid="date" />
+		<include refid="departments" />
 		<![CDATA[
 			ORDER BY att_no DESC, start_time DESC 
-			
 		]]>
-		<!-- limit #{startPage},#{pageSize} --><!-- 페이징 수정해야함 -->
 	</select>
 
 	<!-- 검색 조건 -->
-	<!-- 기간 -->
-	<sql id="period">
-		<if test="startDate != null and endDate != null">
-			AND
-			att_date BETWEEN #{startDate}
-			AND
-			#{endDate}
-		</if>
-	</sql>
 	<!-- 일 -->
 	<sql id="date">
+		<if test="searchDate == null">
+			AND
+			att_date LIKE now()
+		</if>
 		<if test="searchDate != null">
 			AND
 			att_date LIKE #{searchDate}
@@ -54,11 +49,25 @@
 	</sql>
 	<!-- 부서 -->
 	<sql id="departments">
-		<if test="keyword != null">
+		<if test="department != null">
 			AND
-			department LIKE concat('%',#{keyword}, '%')
+			DEPTID LIKE concat('%',#{department}, '%')
 		</if>
 	</sql>
+
+	<!-- 삭제 -->
+	<delete id="deleteAttendance">
+		DELETE FROM tbl_attendance
+		WHERE att_no = #{att_no}
+	</delete>
+
+	<!-- 부서 목록 불러오기 -->
+	<select id="selectDep" resultType="DepartmentVO">
+		SELECT *
+		FROM   tbl_department 
+	</select>
+
+
 
 
 </mapper>
