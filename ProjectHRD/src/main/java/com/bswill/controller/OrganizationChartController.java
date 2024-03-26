@@ -23,7 +23,7 @@ import com.bswill.service.OrganizationChartService;
 @RequestMapping(value = "/org/*")
 public class OrganizationChartController {
 
-    // 서비스 객체 주입
+    //  서비스 객체 주입
     @Inject
     private OrganizationChartService oService;
 
