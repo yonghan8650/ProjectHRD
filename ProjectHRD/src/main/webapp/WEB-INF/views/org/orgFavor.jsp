@@ -34,7 +34,7 @@
                 <td>연락처</td>
                 <td>이메일</td>
                 <td>재직 상태</td>
-                <td>즐겨찾기 해제</td> <%-- 추가된 열 --%>
+                <td>즐겨찾기 해제</td> 
             </tr>
 
             <c:forEach var="organizationChart" items="${getFavoriteEmployees}">
@@ -52,10 +52,11 @@
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                             <button onclick="removeFromFavorites('${organizationChart.employee_id}')">즐겨찾기 해제</button>
                         </form>
-                    </td> <%-- 추가된 셀 --%>
+                    </td> 
                 </tr>
             </c:forEach>
         </table>
     </c:if>
+    <button type="button" onclick="location.href='/org/orgList';">조직도 목록</button>
 </body>
 </html>

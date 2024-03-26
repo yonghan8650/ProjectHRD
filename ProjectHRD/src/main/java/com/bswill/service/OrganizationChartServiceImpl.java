@@ -26,9 +26,9 @@ public class OrganizationChartServiceImpl implements OrganizationChartService {
 	}
 
 	@Override
-	public List<OrganizationChartVO> orgDept(int DEPTID) throws Exception {
-		logger.debug(" orgDept(int DEPTID) 호출 ");
-		return odao.departmentEmployees(DEPTID);
+	public List<OrganizationChartVO> getDepartmentList() throws Exception {
+		logger.debug(" getDepartmentList() 호출 ");
+	    return odao.getDepartmentList();
 	}
 
 	@Override
@@ -50,8 +50,11 @@ public class OrganizationChartServiceImpl implements OrganizationChartService {
 		
 	}
 
-
-
+	@Override
+    public List<OrganizationChartVO> getEmployeesByDept(int deptId) throws Exception {
+		logger.debug(" getEmployeesByDept() 호출");
+        return odao.getEmployeesByDept(deptId);
+    }
 	
 	
 	

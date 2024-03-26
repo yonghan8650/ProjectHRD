@@ -37,6 +37,7 @@
 
     <form id="addToFavoritesForm" action="/org/addToFavorites" method="post" onsubmit="return submitForm();">
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        <input type="hidden" name="selectedEmployeeIds">
         <table>
             <tr>
                 <th><input type="checkbox" onclick="toggleAll(this)"></th>
@@ -65,30 +66,51 @@
     </form>
     
     <button type="button" onclick="location.href='/org/orgFavor';">즐겨찾기 이동</button>
-
+	<button type="button" onclick="location.href='/org/orgDept';">부서목록 보기</button>
     <script>
-        function toggleAll(source) {
-            checkboxes = document.getElementsByName('employee_id');
-            for(var i=0, n=checkboxes.length;i<n;i++) {
-                checkboxes[i].checked = source.checked;
+    // 체크박스를 클릭했을 때 선택된 행을 강조하는 함수
+    function highlightRow(checkbox) {
+        var row = checkbox.parentNode.parentNode; // 체크박스가 속한 행
+        if (checkbox.checked) {
+            row.style.backgroundColor = "#f0f0f0"; // 선택된 경우 배경색 변경
+        } else {
+            row.style.backgroundColor = ""; // 선택이 해제된 경우 배경색 초기화
+        }
+    }
+
+    function toggleAll(source) {
+        checkboxes = document.getElementsByName('employee_id');
+        for(var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+            highlightRow(checkboxes[i]); // 선택된 행 강조
+        }
+    }
+
+    function submitForm() {
+        var checkboxes = document.getElementsByName('employee_id');
+        var selectedEmployeeIds = [];
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedEmployeeIds.push(checkboxes[i].value);
             }
         }
 
-        function submitForm() {
-            var checkboxes = document.getElementsByName('employee_id');
-            var isChecked = false;
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    isChecked = true;
-                    break;
-                }
-            }
-            if (!isChecked) {
-                alert("선택된 사원이 없습니다.");
-                return false; // 폼을 전송하지 않음
-            }
-            return true; // 폼을 전송
+        if (selectedEmployeeIds.length === 0) {
+            alert("선택된 사원이 없습니다.");
+            return false;
         }
-    </script>
+
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'selectedEmployeeIds';
+        hiddenInput.value = JSON.stringify(selectedEmployeeIds);
+        document.getElementById('addToFavoritesForm').appendChild(hiddenInput);
+
+        return true;
+    }
+</script>
+
+
 </body>
 </html>

@@ -56,15 +56,19 @@ public class OrganizationChartController {
         }
     }
 
+    // 조직도 부서 목록
     // http://localhost:8088/org/orgDept
     @RequestMapping(value = "/orgDept", method = RequestMethod.GET)
-    public String orgDrpt(@RequestParam("DEPTID") int DEPTID, Model model) throws Exception {
-        try {
-            List<OrganizationChartVO> departmentEmployees = oService.orgDept(DEPTID);
-            model.addAttribute("departmentEmployees", departmentEmployees);
-            return "/org/orgDept"; // 뷰 페이지의 경로를 반환
-        } catch (Exception e) {
-            return "/org/orgDept";
+    public String orgDeptList(Model model) throws Exception {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	 if (authentication != null && authentication.isAuthenticated()) {
+        	int employee_id = Integer.parseInt(authentication.getName());
+        	logger.debug("employee_id : " + employee_id);
+            List<OrganizationChartVO> departmentList = oService.getDepartmentList();
+            model.addAttribute("departmentList", departmentList);
+            return "/org/orgDept"; // 부서 목록 페이지로 이동
+        }  else {
+            return "/org/orgList";
         }
     }
 
@@ -98,6 +102,8 @@ public class OrganizationChartController {
         // 즐겨찾기가 추가된 후에 적절한 페이지로 리다이렉트
         return "redirect:/org/orgList";
     }
+    
+    // 즐겨찾기 해제 기능
     @RequestMapping(value = "/removeFromFavorites", method = RequestMethod.POST)
     public String removeFromFavorites(@RequestParam("employee_id") int employee_id, RedirectAttributes redirectAttributes) {
         try {
@@ -111,4 +117,22 @@ public class OrganizationChartController {
         // 적절한 페이지로 리다이렉트
         return "redirect:/org/orgFavor";
     }
+    
+    // 부서별 직원 목록 가져오기
+    @RequestMapping(value = "/getEmployeesByDept", method = RequestMethod.GET)
+    public String getEmployeesByDept(@RequestParam("deptId") int deptId, Model model) {
+        try {
+            // 해당 부서의 직원 목록을 가져옴
+            List<OrganizationChartVO> employees = oService.getEmployeesByDept(deptId);
+            // 가져온 직원 목록을 모델에 담아서 뷰 페이지로 전달
+            model.addAttribute("employees", employees);
+            return "/org/employeesByDept"; // 직원 목록 페이지로 이동
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 에러 처리
+            return "/common/accessErr";
+        }
+    }
+
+    
 }
