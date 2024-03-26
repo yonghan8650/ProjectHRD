@@ -10,7 +10,7 @@
 	</insert>
 
 	<select id="selectEmpLicense" resultType="licenseVO">
-		SELECT *
+		SELECT license, li_org, li_date
 		FROM tbl_license
 		WHERE employee_id=#{employee_id}
 	</select>

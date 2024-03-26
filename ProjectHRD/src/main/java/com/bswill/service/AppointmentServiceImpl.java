@@ -1,5 +1,7 @@
 package com.bswill.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -22,6 +24,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.debug("registAppointment(AppointmentVO avo) 호출");
 
 		adao.insertAppointment(avo);
+	}
+
+	@Override
+	public List<AppointmentVO> viewEmpAppointment(int employee_id) throws Exception {
+		logger.debug("viewEmpAppointment(int employee_id) 호출");
+
+		return adao.selectEmpAppointment(employee_id);
 	}
 
 }

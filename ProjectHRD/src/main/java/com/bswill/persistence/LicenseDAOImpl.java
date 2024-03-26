@@ -1,5 +1,7 @@
 package com.bswill.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -24,6 +26,13 @@ public class LicenseDAOImpl implements LicenseDAO {
 		logger.debug("insertLicense(Integer employee_id) 호출");
 
 		sqlSession.insert(NAMESPACE + ".insertLicense", lvo);
+	}
+
+	@Override
+	public List<LicenseVO> selectEmpLicense(Integer employee_id) throws Exception {
+		logger.debug("selectEmpLicense(Integer employee_id) 호출");
+
+		return sqlSession.selectList(NAMESPACE + ".selectEmpLicense", employee_id);
 	}
 
 }

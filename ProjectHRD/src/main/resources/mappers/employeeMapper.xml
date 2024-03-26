@@ -32,4 +32,9 @@
 		INSERT INTO tbl_notification (employee_id, noti_title, noti_link)
 		VALUES (#{employee_id}, #{noti_title}, #{noti_link})
 	</insert>
+
+	<update id="updateEmpTelAndEmail">
+		UPDATE tbl_employee SET emp_tel=#{emp_tel}, emp_mail=#{emp_mail}
+		WHERE employee_id=#{employee_id}
+	</update>
 </mapper>

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -156,21 +157,39 @@ public class EmployeeController {
 
 	// http://localhost:8088/emp/viewEmp
 	@RequestMapping(value = "viewEmp", method = RequestMethod.GET)
-	public void viewEmpGET(@RequestParam("employee_id") int employee_id, Model model) throws Exception {
-		logger.debug("viewEmpGET()");
+	public void viewEmpGET(Model model) throws Exception {
+		logger.debug("viewEmpGET() 호출");
 
-		logger.debug("vo" + eService.viewEmp(employee_id));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int employee_id = Integer.parseInt(authentication.getName());
+
+		logger.debug("viewEmpVO: " + eService.viewEmp(employee_id));
+		logger.debug("viewEmpLicenseVO: " + lService.viewEmpLicense(employee_id));
+		logger.debug("viewEmpAppointmentVO: " + aService.viewEmpAppointment(employee_id));
 
 		model.addAttribute("viewEmpVO", eService.viewEmp(employee_id));
+		model.addAttribute("viewEmpLicenseVO", lService.viewEmpLicense(employee_id));
+		model.addAttribute("viewEmpAppointmentVO", aService.viewEmpAppointment(employee_id));
+	}
+
+	@RequestMapping(value = "viewEmp", method = RequestMethod.POST)
+	public String viewEmpPOST(@RequestParam("emp_tel") String emp_tel, @RequestParam("emp_mail") String emp_mail, Model model) throws Exception {
+		logger.debug("viewEmpPOST() 호출");
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int employee_id = Integer.parseInt(authentication.getName());
+
+		eService.modifyEmpTelAndEmail(employee_id, emp_tel, emp_mail);
+
+		return "redirect:/emp/viewEmp?employee_id=" + employee_id;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// http://localhost:8088/emp/applyEvent
 	@RequestMapping(value = "/applyEvent", method = RequestMethod.GET)
-	public void applyEventGET(Model model, HttpSession session) throws Exception {
+	public void applyEventGET(Model model) throws Exception {
 		logger.debug("applyEventGET() 호출");
 
-		// 임시로 세션 생성
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		int employee_id = Integer.parseInt(authentication.getName());
 

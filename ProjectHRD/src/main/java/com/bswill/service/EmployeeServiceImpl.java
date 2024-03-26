@@ -72,12 +72,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		for (Map<String, Object> emp : empList) {
-            Object startDateObj = emp.get("start_date");
-            if (startDateObj instanceof java.util.Date) {
-                String startDateStr = dateFormat.format((java.util.Date) startDateObj);
-                emp.put("start_date", startDateStr);
-            }
-        }
+			Object startDateObj = emp.get("start_date");
+			if (startDateObj instanceof java.util.Date) {
+				String startDateStr = dateFormat.format((java.util.Date) startDateObj);
+				emp.put("start_date", startDateStr);
+			}
+		}
 
 		logger.debug("empList: " + empList);
 
@@ -94,8 +94,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void notifyModification(NotificationVO nvo) throws Exception {
 		logger.debug("notifyModification(NotificationVO nvo) 호출");
-		
-		edao.insertNotiEmp(nvo);		
+
+		edao.insertNotiEmp(nvo);
+	}
+
+	@Override
+	public void modifyEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) throws Exception {
+		logger.debug("modifyEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) 호출");
+
+		edao.updateEmpTelAndEmail(employee_id, emp_tel, emp_mail);
 	}
 
 }
