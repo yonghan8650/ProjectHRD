@@ -98,16 +98,16 @@ public class BoardController {
 
 	// 본문 수정(POST) : /board/modify
 	@PostMapping(value = "/modify")
-	public String modifyPOST(BoardVO vo) throws Exception {
+	public String modifyPOST(Model model,BoardVO vo, BoardCri cri) throws Exception {
 		logger.debug("/board/modify -> modifyPOST() 호출 ");
-
+		
 		// 전달 정보 저장(bno, title, writer, content)
 		logger.debug("vo : " + vo);
 		// 서비스 -> DAO 게시판 글 정보 수정
 		bService.modify(vo);
-		// 수정완료후에 list페이지로 이동(redirect)
-
-		return "redirect:/board/list";
+		// 수정완료후에 read페이지로 이동(redirect)
+		
+		return "redirect:/board/read?board_no="+vo.getBoard_no()+"&page="+cri.getPage()+"&pageSize="+cri.getPageSize();
 	}
 	
 	// 본문 삭제(POST) : /board/remove +(post)bno=000

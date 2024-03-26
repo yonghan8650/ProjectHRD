@@ -24,7 +24,7 @@
 			<h4 id="txtLength">5000</h4>
 			<div class="box-footer">
 				<button type="submit" class="btn btn-default">글 수정하기</button>
-				<button type="button" class="btn btn-default" onclick="location.href='/board/list'">목록으로</button>				
+				<button type="button" class="btn btn-default" onclick="location.href='/board/list&page=${param.page}&pageSize=${param.pageSize}'">목록으로</button>				
 			</div>
 		</div>
 	</form>

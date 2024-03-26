@@ -3,7 +3,7 @@
 <body>
 <%-- ${vo.employee_id }
 ${username } --%>
-	
+	${cri }
 	<form role="form" action="" method="get" class="fm">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="hidden" name="board_no" value="${vo.board_no }"/>
@@ -29,7 +29,7 @@ ${username } --%>
 			<!-- 로그인한 사용자와 작성자가 같이 않으면 삭제버튼과 수정버튼이 나오지 않음 -->
 			<div class="box-footer">				
 				<c:if test="${sessionScope['SPRING_SECURITY_CONTEXT'].authentication.name eq vo.employee_id}">
-				<button type="submit" class="btn btn-default" onclick="location.href='/board/modify?board_no=${vo.board_no}'">수정하기</button>
+				<button type="submit" class="btn btn-default" onclick="location.href='/board/modify?board_no=${vo.board_no}&page=${param.page}&pageSize=${param.pageSize} '">수정하기</button>
 				<button type="submit" class="btn btn-default btn-delete">삭제하기</button>
 				</c:if>
 				<button type="submit" class="btn btn-default btn-list" >목록이동</button>
