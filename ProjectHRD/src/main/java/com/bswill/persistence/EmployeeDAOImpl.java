@@ -1,5 +1,6 @@
 package com.bswill.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +57,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void insertNotiEmp(NotificationVO nvo) throws Exception {
 		logger.debug("insertNotiEventAuth(NotificationVO nvo 호출");
+
+		sqlSession.insert(NAMESPACE + ".insertNotiEmpAuth", nvo);
+	}
+
+	@Override
+	public void updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) throws Exception {
+		logger.debug("updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) 호출");
 		
-		sqlSession.insert(NAMESPACE + ".insertNotiEmpAuth", nvo);		
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("employee_id", employee_id);
+		paramMap.put("emp_tel", emp_tel);
+		paramMap.put("emp_mail", emp_mail);
+		
+		sqlSession.update(NAMESPACE + ".updateEmpTelAndEmail", paramMap);
 	}
 
 }

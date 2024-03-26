@@ -15,7 +15,9 @@ public interface EmployeeDAO {
 	public List<Map<String, Object>> selectEmpList() throws Exception;
 
 	public Map<String, Object> selectEmp(Integer employee_id) throws Exception;
-	
+
 	public void insertNotiEmp(NotificationVO nvo) throws Exception;
+
+	public void updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) throws Exception;
 
 }

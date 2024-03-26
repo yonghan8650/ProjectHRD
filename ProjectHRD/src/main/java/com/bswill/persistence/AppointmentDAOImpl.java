@@ -1,5 +1,7 @@
 package com.bswill.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,8 +23,15 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public void insertAppointment(AppointmentVO avo) throws Exception {
-		logger.debug("insertAppointment(AppointmentVO avo)");
+		logger.debug("insertAppointment(AppointmentVO avo) 호출");
 
 		sqlSession.insert(NAMESPACE + ".insertAppointment", avo);
+	}
+
+	@Override
+	public List<AppointmentVO> selectEmpAppointment(int employee_id) throws Exception {
+		logger.debug("selectEmpAppointment(int employee_id) 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectEmpAppointment", employee_id);
 	}
 }

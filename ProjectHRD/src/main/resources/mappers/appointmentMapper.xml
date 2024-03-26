@@ -10,8 +10,8 @@
 		#{app_date})
 	</insert>
 
-	<select id="selectEmpLicense" resultType="AppointmentVO">
-		SELECT *
+	<select id="selectEmpAppointment" resultType="AppointmentVO">
+		SELECT app_issue, app_content, app_date
 		FROM tbl_appointment
 		WHERE employee_id=#{employee_id}
 	</select>
