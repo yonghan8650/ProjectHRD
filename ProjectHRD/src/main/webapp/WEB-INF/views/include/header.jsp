@@ -81,21 +81,11 @@
 										${sessionScope.evo.emp_name } <small>Member since ${sessionScope.evo.start_date }</small>
 									</p></li>
 								<!-- Menu Body -->
-								<li class="user-body">
-									<div class="col-xs-4 text-center">
-										<a href="#">Followers</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Sales</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Friends</a>
-									</div>
-								</li>
+								
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">내 정보</a>
+										<a href="/common/changePw" class="btn btn-default btn-flat">비밀번호 변경</a>
 									</div>
 									<div class="pull-right">
 										<form action="/customLogout" method="post" onsubmit="showAlert()">
@@ -130,7 +120,7 @@
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					<li class="header">Menu</li>
-					<li class="treeview"><a href="#"> <i class="fa-solid fa-user"> </i> <span>인사 관리</span> <i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="#"> <i class="fa-solid fa-user"> </i> &nbsp <span>인사 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
@@ -140,7 +130,7 @@
 							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
 							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
 						</ul></li>
-					<li class="treeview"><a href="#"> <i class="fa-solid fa-building"></i> <span>근태 관리</span> <i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="#"> <i class="fa-solid fa-building"></i> &nbsp <span>근태 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
@@ -150,7 +140,7 @@
 							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
 							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
 						</ul></li>
-					<li class="treeview"><a href="#"> <i class="fa-solid fa-won-sign"></i> <span>급여 관리</span> <i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="#"> <i class="fa-solid fa-won-sign"></i> &nbsp <span>급여 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
@@ -160,7 +150,7 @@
 							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
 							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
 						</ul></li>
-					<li class="treeview"><a href="#"> <i class="fa-solid fa-people-roof"></i> <span>조직도</span> <i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="#"> <i class="fa-solid fa-people-roof"></i> &nbsp <span>조직도</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
@@ -170,7 +160,7 @@
 							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
 							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
 						</ul></li>
-					<li class="treeview"><a href="/board/list"> <i class="fa-regular fa-clipboard"></i> <span>공지사항</span> <i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="/board/list"> <i class="fa-regular fa-clipboard"></i> &nbsp &nbsp <span> 공지사항</span>
 					</a></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-laptop"></i> <span>UI Elements</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>

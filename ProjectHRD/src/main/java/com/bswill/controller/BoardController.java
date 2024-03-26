@@ -29,7 +29,7 @@ public class BoardController {
 
 	@Inject
 	private BoardService bService;
-
+	// http://localhost:8088/common/customLogin
 	// http://localhost:8088/board/list
 //	@GetMapping(value = "/list")
 //	public void ListGET(Model model, HttpSession session) throws Exception {

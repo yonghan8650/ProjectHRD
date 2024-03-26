@@ -13,18 +13,20 @@
 	
 	<!-- 로그인 실패후 이동 객체 -->
 	<bean id="customLoginFailure" class="com.bswill.security.CustomLoginFailureHandler"/>
+	
 	<!-- 암호화 처리 객체 -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
 	<security:http>
 		<security:intercept-url pattern="/*" access="permitAll" />
-		<security:intercept-url pattern="/board/*" access="permitAll" />
+		<security:intercept-url pattern="/board/*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/common/main" access="permitAll" />
 		
 		
 		<!-- 로그인 -->
-		<security:form-login login-page="/customLogin"
+		<security:form-login login-page="/common/customLogin"
 							 authentication-success-handler-ref="customLoginSuccess"
-							 authentication-failure-handler-ref="customLoginFailure"							 
+							 authentication-failure-handler-ref="customLoginFailure"
 							 />
 		
 		<!-- 로그아웃 -->
@@ -32,7 +34,7 @@
 							 
 		
 		<!-- 접근권한이 없을 때 보여지는 뷰페이지 이동 (redirect) -->
-		<security:access-denied-handler ref="customAccessDenied" />
+		<security:access-denied-handler ref="customAccessDenied"/>
 
 
 	</security:http>
