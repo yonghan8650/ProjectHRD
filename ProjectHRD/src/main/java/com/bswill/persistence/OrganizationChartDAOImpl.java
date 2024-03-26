@@ -37,10 +37,23 @@ public class OrganizationChartDAOImpl implements OrganizationChartDAO {
 	@Override
 	public List<OrganizationChartVO> favoriteEmployees() throws Exception {
 		logger.debug(" favoriteEmployees() 호출 ");
-		return sqlSession.selectList(NAMESPACE+".favoriteEmployees");
+		return sqlSession.selectList(NAMESPACE+".getFavoriteEmployees");
 	}
 
-	 
+	@Override
+    public void addToFavorites(int employee_id) throws Exception {
+        logger.debug(" addToFavorites() 호출");
+        sqlSession.insert(NAMESPACE + ".addToFavorites", employee_id);
+    }
 
+	@Override
+	public void removeFromFavorites(int employee_id) throws Exception {
+		logger.debug(" removeFromFavorites() 호출");
+		sqlSession.update(NAMESPACE + ".removeFromFavorites", employee_id);
+	}
+
+
+	
+	
 	
 }

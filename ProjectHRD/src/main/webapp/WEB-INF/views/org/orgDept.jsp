@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,20 +23,20 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${orgList}" var="OrganizationMapper">
+        <c:forEach items="${departmentEmployees }" var="departmentChart">
             <tr>
-                <td>${organization.employee_id}</td>
-                <td>${organization.profil}</td>
-                <td>${organization.JOB_ID}</td>
-                <td>${organization.DEPTID}</td>
-                <td>${organization.emp_tel}</td>
-                <td>${organization.emp_mail}</td>
-                <td>${organization.STATUS}</td>
+                <td>${departmentEmployees.emp_name}</td>
+                <td>${departmentEmployees.profil}</td>
+                <td>${departmentEmployees.JOB_ID}</td>
+                <td>${departmentEmployees.DEPTID}</td>
+                <td>${departmentEmployees.emp_tel}</td>
+                <td>${departmentEmployees.emp_mail}</td>
+                <td>${departmentEmployees.STATUS}</td>
                 <td>
-                    <input type="checkbox" id="favorite_${employee.employee_id}" onchange="toggleFavorite(${employee.employee_id})" ${employee.FAVORS ? 'checked' : ''}>
+                    <input type="checkbox" id="favorite_${departmentEmployees.employee_id}" onchange="toggleFavorite(${departmentEmployees.employee_id})" ${departmentEmployees.FAVORS ? 'checked' : ''}>
                 </td>
                 <td>
-                    <button onclick="toggleFavorite(${employee.employee_id})">
+                    <button onclick="toggleFavorite(${departmentEmployees.employee_id})">
                         확인
                     </button>
                 </td>

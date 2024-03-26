@@ -37,6 +37,21 @@ public class OrganizationChartServiceImpl implements OrganizationChartService {
 		return odao.favoriteEmployees();
 	}
 
+	@Override
+	public void addToFavorites(int employee_id) throws Exception {
+		logger.debug(" addToFavorites() 호출");
+        odao.addToFavorites(employee_id);
+	}
+
+	@Override
+	public void removeFromFavorites(int employee_id) throws Exception {
+		logger.debug(" removeFromFavorites() 호출");
+        odao.removeFromFavorites(employee_id);
+		
+	}
+
+
+
 	
 	
 	

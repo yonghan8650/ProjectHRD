@@ -16,4 +16,11 @@ public interface OrganizationChartDAO {
     
     // 즐겨찾기 체크
     public List<OrganizationChartVO> favoriteEmployees() throws Exception;
+    
+    // 즐겨찾기에 추가
+    public void addToFavorites(int employee_id) throws Exception;
+    
+    // 즐겨찾기에서 제거
+    public void removeFromFavorites(int employee_id) throws Exception;
+
 }
