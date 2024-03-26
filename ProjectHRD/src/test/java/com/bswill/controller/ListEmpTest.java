@@ -26,10 +26,10 @@ public class ListEmpTest {
 	@Test
 	public void listEmpTest() throws Exception {
 		logger.debug("listEmpTest() 호출");
-		
-		 List<Map<String, Object>> empList = edao.selectEmpList();
-		 
-		 logger.debug("empList: " + empList);
+
+		List<Map<String, Object>> empList = edao.selectEmpList("", "");
+
+		logger.debug("empList: " + empList);
 	}
 
 }

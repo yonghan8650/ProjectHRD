@@ -12,7 +12,7 @@
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<div class="profile">
 				<label for="PROFIL">프로필</label>
-				<input type="file" id="profile" name="profile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" required />
+				<input type="file" id="profile" name="profile" onchange="previewImage(event)" accept="image/png" required />
 
 				<img id="preview" src="#" alt="미리보기" style="display: none; max-width: 200px; max-height: 200px;" />
 
@@ -25,10 +25,18 @@
 				<label>사원정보</label>
 				<table>
 					<tr>
-						<td><label for="emp_name">성명</label></td>
-						<td><input type="text" id="emp_name" name="emp_name" required autofocus></td>
-						<td><label for="birth">생년월일</label></td>
-						<td><input type="date" id="birth" name="birth" max="9999-12-31" required></td>
+						<td>
+							<label for="emp_name">성명</label>
+						</td>
+						<td>
+							<input type="text" id="emp_name" name="emp_name" required autofocus>
+						</td>
+						<td>
+							<label for="birth">생년월일</label>
+						</td>
+						<td>
+							<input type="date" id="birth" name="birth" max="9999-12-31" required>
+						</td>
 						<td>성별</td>
 						<td>
 							<input type="radio" id="male" name="gender" value="1" checked>
@@ -38,12 +46,24 @@
 						</td>
 					</tr>
 					<tr>
-						<td><label for="emp_tel">연락처</label></td>
-						<td><input type="tel" id="emp_tel" name="emp_tel" required></td>
-						<td><label for="emp_mail">이메일</label></td>
-						<td><input type="email" id="emp_mail" name="emp_mail" required></td>
-						<td><label for="start_date">입사일</label></td>
-						<td><input type="date" id="start_date" name="start_date" max="9999-12-31" required></td>
+						<td>
+							<label for="emp_tel">연락처</label>
+						</td>
+						<td>
+							<input type="tel" id="emp_tel" name="emp_tel" required>
+						</td>
+						<td>
+							<label for="emp_mail">이메일</label>
+						</td>
+						<td>
+							<input type="email" id="emp_mail" name="emp_mail" required>
+						</td>
+						<td>
+							<label for="start_date">입사일</label>
+						</td>
+						<td>
+							<input type="date" id="start_date" name="start_date" max="9999-12-31" required>
+						</td>
 					</tr>
 					<tr>
 						<td>직급</td>
@@ -84,37 +104,42 @@
 						</td>
 					</tr>
 					<tr>
-						<td><label for="emp_addr">주소</label></td>
-						<td colspan="5"><input type="text" id="emp_addr" name="emp_addr" required></td>
+						<td>
+							<label for="emp_addr">주소</label>
+						</td>
+						<td colspan="5">
+							<input type="text" id="emp_addr" name="emp_addr" required>
+						</td>
 					</tr>
 				</table>
 			</div>
 
 			<div class="license">
 				<label>자격정보</label>
-				<table id="licenseTable">
+				<table id="licenseTable" border="1" style="width: 550px;">
 					<tr>
 						<td>자격증명</td>
 						<td>발급기관</td>
 						<td>취득일자</td>
-						<td><input type="button" value="행 추가" onclick="addRow('licenseTable');"></td>
-					</tr>
-				</table>
-			</div>
-
-			<div class="appointment">
-				<label>발령정보</label>
-				<table id="appointmentTable">
-					<tr>
-						<td>발령구분</td>
-						<td>발령내용</td>
-						<td>발령일자</td>
 						<td>
-							<input type="button" value="행 추가" onclick="addRow('appointmentTable');">
+							<input type="button" value="행 추가" onclick="addRow('licenseTable');">
 						</td>
 					</tr>
 				</table>
 			</div>
+				<div class="appointment">
+					<label>발령정보</label>
+					<table id="appointmentTable" border="1" style="width: 550px;">
+						<tr>
+							<td>발령구분</td>
+							<td>발령내용</td>
+							<td>발령일자</td>
+							<td>
+								<input type="button" value="행 추가" onclick="addRow('appointmentTable');">
+							</td>
+						</tr>
+					</table>
+				</div>
 			<button type="submit">사원 등록</button>
 		</form>
 	</div>

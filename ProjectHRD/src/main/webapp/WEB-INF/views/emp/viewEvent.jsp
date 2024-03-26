@@ -11,15 +11,15 @@
 		</div>
 
 		<form action="" method="get">
-			<label for="searchType">검색 유형:</label>
-			<select id="searchType" name="searchType">
+			<label for="searchType">검색 유형:</label> <select id="searchType" name="searchType">
 				<option value="eve_class">경조구분</option>
 				<option value="eve_subject">대상자명</option>
 				<option value="eve_date">경조일자</option>
 				<option value="req_date">신청일자</option>
 				<option value="eve_auth">신청상태</option>
 			</select>
-			<input type="hidden" value="${employee_id }"> <input type="text" id="keyword" name="keyword">
+			<input type="hidden" value="${employee_id }">
+			<input type="text" id="keyword" name="keyword">
 			<button type="submit">검색</button>
 		</form>
 
@@ -61,6 +61,22 @@
 			</tbody>
 		</table>
 
+	</div>
+	<div class="row">
+		<div class="col-sm-7">
+			<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+				<ul class="pagination">
+					<li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
+					<li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
+					<li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
+					<li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
+					<li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
+					<li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
+					<li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
+					<li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
 

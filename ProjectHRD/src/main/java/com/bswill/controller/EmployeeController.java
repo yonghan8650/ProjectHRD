@@ -1,16 +1,20 @@
 package com.bswill.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import javax.inject.Inject;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -148,10 +152,19 @@ public class EmployeeController {
 
 	// http://localhost:8088/emp/listEmp
 	@RequestMapping(value = "listEmp", method = RequestMethod.GET)
-	public void listEmpGET(Model model, HttpSession session) throws Exception {
+	public void listEmpGET(@RequestParam(name = "searchType", required = false) String searchType,
+			@RequestParam(name = "keyword", required = false) String keyword, Model model, HttpSession session) throws Exception {
 		logger.debug("listEmpGET()");
 
-		model.addAttribute("listEmp", eService.listEmp());
+		if (searchType == null) {
+			searchType = "''";
+		}
+
+		if (keyword == null) {
+			keyword = "''";
+		}
+
+		model.addAttribute("listEmp", eService.listEmp(searchType, keyword));
 
 	}
 
@@ -182,6 +195,71 @@ public class EmployeeController {
 		eService.modifyEmpTelAndEmail(employee_id, emp_tel, emp_mail);
 
 		return "redirect:/emp/viewEmp?employee_id=" + employee_id;
+	}
+
+	@RequestMapping(value = "/modifyEmp", method = RequestMethod.GET)
+	public void modifyEmpGET(@RequestParam("employee_id") int employee_id, Model model) throws Exception {
+		logger.debug("modifyEmpGET() 호출");
+
+		model.addAttribute("viewEmpVO", eService.viewEmp(employee_id));
+	}
+
+	@RequestMapping(value = "/modifyEmp", method = RequestMethod.POST)
+	public String modifyEmpPOST(EmployeeVO evo, @RequestParam(name = "profile", required = false) MultipartFile profile, Model model)
+			throws Exception {
+		logger.debug("modifyEmpPOST() 호출");
+
+		logger.debug("evo: " + evo);
+
+		if (profile != null) {
+			saveProfile(evo.getEmployee_id(), profile);
+		}
+
+		if (evo.getSTATUS() == 3) {
+			evo.setQuit_date(new Timestamp(System.currentTimeMillis()));
+			evo.setEnabled("0");
+		} else {
+			evo.setQuit_date(new Timestamp(System.currentTimeMillis()));
+			evo.setEnabled("1");
+		}
+
+		eService.modifyEmp(evo);
+
+		return "redirect:/emp/listEmp?searchType=employee_id&keyword=";
+	}
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void fileDownload(@RequestParam("PROFIL") String PROFIL, HttpServletResponse resp) throws Exception {
+		logger.debug("fileDownload() 호출");
+
+		String downloadPath = "D:\\upload\\profile\\";
+
+		logger.debug("다운로드할 fileName: " + PROFIL);
+
+		// 다운로드할 파일
+		File file = new File(downloadPath + PROFIL);
+
+		// 첨부파일을 전송하는 통로
+		OutputStream out = resp.getOutputStream();
+
+		// 모든 파일의 다운로드 형태를 통일
+		resp.setHeader("Cache-Control", "no-cache");
+		resp.addHeader("Content-disposition", "attachment; fileName=" + (URLEncoder.encode(PROFIL, "UTF-8")));
+
+		// 파일 데이터 읽기
+		FileInputStream fis = new FileInputStream(file);
+
+		byte[] buffer = new byte[1024 * 8];
+
+		int data = 0;
+		while ((data = fis.read(buffer)) != -1) { // -1 = 파일의 끝(EOF)
+			// 다운로드 출력
+			out.write(buffer, 0, data);
+		}
+
+		out.flush(); // 버퍼의 여백을 공백으로 채움
+		out.close();
+		fis.close();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

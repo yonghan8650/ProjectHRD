@@ -10,11 +10,14 @@
 
 			<div class="box box-primary">
 				<div class="box-body box-profile" style="min-height: 490px;">
-					<img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/profile/1111100102.png" alt="User profile picture">
+					<img class="profile-user-img img-responsive img-circle" src="/emp/download?PROFIL=${viewEmpVO.PROFIL }" alt="User profile picture">
 					<h3 class="profile-username text-center">${viewEmpVO.emp_name }</h3>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item"><b>입사일</b> <a class="pull-right">${viewEmpVO.start_date }</a></li>
-						<li class="list-group-item"><b>부서</b> <a class="pull-right">${viewEmpVO.DEPTNM }</a></li>
+						<li class="list-group-item">
+							<b><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">부서</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">퇴직일</c:if></b>
+							<a class="pull-right"><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">${viewEmpVO.DEPTNM }</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">${viewEmpVO.quit_date }</c:if></a>
+						</li>
 						<li class="list-group-item"><b>직책</b> <a class="pull-right">${viewEmpVO.JOB }</a></li>
 					</ul>
 				</div>
