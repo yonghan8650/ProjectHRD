@@ -33,5 +33,9 @@ public interface NotificationService {
 	public void moveLink(String noti_link) throws Exception;
 	
 	// 알림을 읽은 상태로 표시하는 메서드 추가
-    void markAsRead(String noti_Link) throws Exception;
+    public void markAsRead(String noti_Link) throws Exception;
+    
+    // 알림 출력 여부 업데이트
+    public void updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) throws Exception;
 }
+

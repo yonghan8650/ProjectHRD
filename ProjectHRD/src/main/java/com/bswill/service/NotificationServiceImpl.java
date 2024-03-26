@@ -88,7 +88,11 @@ public class NotificationServiceImpl implements NotificationService{
 		ndao.markAsRead(noti_Link);
 	}
 	
-	
+	@Override
+    public void updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) throws Exception {
+		logger.debug(" updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) 실행 ");
+        ndao.updatePrintStatus(employee_id, noti_title, noti_time, noti_print);
+    }
 	
 	
 }

@@ -96,5 +96,14 @@ public class NotificationDAOImpl implements NotificationDAO{
 		
 	}
 
-	
+	@Override
+    public void updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) throws Exception {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("employee_id", employee_id);
+        paramMap.put("noti_title", noti_title);
+        paramMap.put("noti_time", noti_time);
+        paramMap.put("noti_print", noti_print);
+        logger.debug(" updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) 호출 ");
+        sqlSession.update(NAMESPACE + ".updatePrintStatus", paramMap);
+    }
 }
