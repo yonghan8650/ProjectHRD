@@ -1,5 +1,6 @@
 package com.bswill.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,23 +21,37 @@ public class NotificationServiceImpl implements NotificationService{
     
 	private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
-	@Override
-	public NotificationVO notiInfo(int employee_id) throws Exception{
-		logger.debug(" notiInfo(int employee_id) 실행 ");
-		return ndao.selectNoti(employee_id);
-	}
 
 	@Override
-	public List<NotificationVO> notiList() throws Exception {
-		logger.debug(" notiList() 실행 ");
-	    return ndao.notiListSelect();
+	public List<NotificationVO> notiList(int employee_id) throws Exception {
+		logger.debug(" notiList(int employee_id) 실행 ");
+	    return ndao.notiListSelect(employee_id);
 	}
 
+	
+	
 	@Override
-	public void read(int employee_id)throws Exception {
+	public int getNotificationCount(int employee_id) throws Exception {
+		logger.debug(" getNotificationCount(int employee_id) 실행 ");
+		return ndao.notificationCount(employee_id);
+	}
+
+
+
+	@Override
+	public void read(int employee_id,String noti_title,Timestamp noti_time)throws Exception {
 		logger.debug(" read(int employee_id) 실행 ");
-		ndao.readNoti(employee_id);
+		ndao.readNoti(employee_id,noti_title,noti_time);
 	}
+
+	
+	@Override
+	public void readAll(int employee_id) throws Exception {
+		logger.debug(" readAll(int employee_id) 실행 ");
+		ndao.readAllNoti(employee_id);
+	}
+
+
 
 	@Override
 	public void delete(int employee_id) throws Exception{
@@ -56,8 +71,28 @@ public class NotificationServiceImpl implements NotificationService{
 		logger.debug(" deleteAll() 실행 ");
 		ndao.deleteAllNoti();
 	}
+
+
+
+	@Override
+	public void moveLink(String noti_link) throws Exception {
+		logger.debug(" moveLink(String link) 실행 ");
+		ndao.link(noti_link);
+	}
+
+
+
+	@Override
+	public void markAsRead(String noti_Link) throws Exception {
+		logger.debug(" markAsRead(String noti_Link) 실행 ");
+		ndao.markAsRead(noti_Link);
+	}
 	
-	
+	@Override
+    public void updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) throws Exception {
+		logger.debug(" updatePrintStatus(int employee_id, String noti_title, Timestamp noti_time, String noti_print) 실행 ");
+        ndao.updatePrintStatus(employee_id, noti_title, noti_time, noti_print);
+    }
 	
 	
 }
