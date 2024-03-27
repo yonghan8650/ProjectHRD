@@ -34,9 +34,32 @@
 		PASSWD = #{newPw} where employee_id = #{employee_id}
 	</update>
 
-	<select id="selectEmpInfo" resultType="employeeVO">
+	<select id="selectEmpInfo" resultType="EmployeeVO">
 		select emp_name, PROFIL,
 		JOB_ID, DEPTID, start_date from tbl_employee where employee_id =
 		#{employee_id}
 	</select>
+	
+	<select id="selectCurrentEmpCnt" resultType="int">
+		select count(*)
+		from tbl_employee
+		where STATUS = 1;
+	</select>
+	
+	<select id="selectDeptInfo" resultType="DepartmentVO">
+		select *
+		from tbl_department;
+	</select>
+
+	<select id="selectJobInfo" resultType="JobVO">
+		select *
+		from tbl_job;
+	</select>
+	
+	<select id="selectRestEmpCnt" resultType="int">
+		select count(*)
+		from tbl_employee
+		where STATUS = 2;
+	</select>
+	
 </mapper>

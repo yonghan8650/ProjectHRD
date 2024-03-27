@@ -97,26 +97,26 @@ ${viewEmpVO }
 								<label for="DEPTID" class="col-sm-2 control-label">부서</label>
 								<div class="col-sm-10">
 									<select id="DEPTID" name="DEPTID" class="form-control" style="width: 500px;">
-										<option value="100" <c:if test="${viewEmpVO.DEPTNM eq '경영' }">selected</c:if>>경영부</option>
-										<option value="101" <c:if test="${viewEmpVO.DEPTNM eq '인사' }">selected</c:if>>인사과</option>
-										<option value="102" <c:if test="${viewEmpVO.DEPTNM eq '재무회계' }">selected</c:if>>재무회계과</option>
-										<option value="103" <c:if test="${viewEmpVO.DEPTNM eq '마케팅' }">selected</c:if>>마케팅과</option>
-										<option value="104" <c:if test="${viewEmpVO.DEPTNM eq '경영전략' }">selected</c:if>>경영전략과</option>
-										<option value="200" <c:if test="${viewEmpVO.DEPTNM eq '개발' }">selected</c:if>>개발부</option>
-										<option value="201" <c:if test="${viewEmpVO.DEPTNM eq '웹 개발 1' }">selected</c:if>>웹개발1과</option>
-										<option value="202" <c:if test="${viewEmpVO.DEPTNM eq '웹 개발 2' }">selected</c:if>>웹개발2과</option>
-										<option value="203" <c:if test="${viewEmpVO.DEPTNM eq '앱 개발 1' }">selected</c:if>>앱개발과</option>
-										<option value="204" <c:if test="${viewEmpVO.DEPTNM eq '유지보수 1' }">selected</c:if>>유지보수1과</option>
-										<option value="205" <c:if test="${viewEmpVO.DEPTNM eq '유지보수 2' }">selected</c:if>>유지보수2과</option>
-										<option value="206" <c:if test="${viewEmpVO.DEPTNM eq '디자인 1' }">selected</c:if>>디자인과</option>
-										<option value="300" <c:if test="${viewEmpVO.DEPTNM eq '서비스' }">selected</c:if>>서비스부</option>
-										<option value="301" <c:if test="${viewEmpVO.DEPTNM eq '영업 1' }">selected</c:if>>영업1과</option>
-										<option value="302" <c:if test="${viewEmpVO.DEPTNM eq '영업 2' }">selected</c:if>>영업2과</option>
-										<option value="303" <c:if test="${viewEmpVO.DEPTNM eq '고객지원' }">selected</c:if>>고객지원과</option>
-										<option value="304" <c:if test="${viewEmpVO.DEPTNM eq '교육' }">selected</c:if>>교육과</option>
-										<option value="401" <c:if test="${viewEmpVO.DEPTNM eq '감사' }">selected</c:if>>감사실</option>
-										<option value="501" <c:if test="${viewEmpVO.DEPTNM eq '비서' }">selected</c:if>>비서실</option>
-										<option value="601" <c:if test="${viewEmpVO.DEPTNM eq '사장' }">selected</c:if>>사장실</option>
+										<option value="100" <c:if test="${viewEmpVO.DEPTNM eq '경영부' }">selected</c:if>>경영부</option>
+										<option value="101" <c:if test="${viewEmpVO.DEPTNM eq '인사과' }">selected</c:if>>인사과</option>
+										<option value="102" <c:if test="${viewEmpVO.DEPTNM eq '재무회계과' }">selected</c:if>>재무회계과</option>
+										<option value="103" <c:if test="${viewEmpVO.DEPTNM eq '마케팅과' }">selected</c:if>>마케팅과</option>
+										<option value="104" <c:if test="${viewEmpVO.DEPTNM eq '경영전략과' }">selected</c:if>>경영전략과</option>
+										<option value="200" <c:if test="${viewEmpVO.DEPTNM eq '개발부' }">selected</c:if>>개발부</option>
+										<option value="201" <c:if test="${viewEmpVO.DEPTNM eq '웹개발 1과' }">selected</c:if>>웹개발 1과</option>
+										<option value="202" <c:if test="${viewEmpVO.DEPTNM eq '웹개발 2과' }">selected</c:if>>웹개발 2과</option>
+										<option value="203" <c:if test="${viewEmpVO.DEPTNM eq '앱개발 1과' }">selected</c:if>>앱개발과</option>
+										<option value="204" <c:if test="${viewEmpVO.DEPTNM eq '유지보수 1과' }">selected</c:if>>유지보수 1과</option>
+										<option value="205" <c:if test="${viewEmpVO.DEPTNM eq '유지보수 2과' }">selected</c:if>>유지보수 2과</option>
+										<option value="206" <c:if test="${viewEmpVO.DEPTNM eq '디자인과' }">selected</c:if>>디자인과</option>
+										<option value="300" <c:if test="${viewEmpVO.DEPTNM eq '서비스부' }">selected</c:if>>서비스부</option>
+										<option value="301" <c:if test="${viewEmpVO.DEPTNM eq '영업 1과' }">selected</c:if>>영업 1과</option>
+										<option value="302" <c:if test="${viewEmpVO.DEPTNM eq '영업 2과' }">selected</c:if>>영업 2과</option>
+										<option value="303" <c:if test="${viewEmpVO.DEPTNM eq '고객지원과' }">selected</c:if>>고객지원과</option>
+										<option value="304" <c:if test="${viewEmpVO.DEPTNM eq '교육과' }">selected</c:if>>교육과</option>
+										<option value="401" <c:if test="${viewEmpVO.DEPTNM eq '감사실' }">selected</c:if>>감사실</option>
+										<option value="501" <c:if test="${viewEmpVO.DEPTNM eq '비서실' }">selected</c:if>>비서실</option>
+										<option value="601" <c:if test="${viewEmpVO.DEPTNM eq '사장실' }">selected</c:if>>사장실</option>
 									</select>
 								</div>
 							</div>
