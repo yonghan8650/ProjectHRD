@@ -1,40 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>조직도</title>
-<style>
+<%@ include file="../include/header.jsp" %>
+ <style>
+
+    
     table {
-        border-collapse: collapse;
         width: 100%;
+        border-collapse: collapse;
     }
+
     th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
         padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
     }
+
     th {
         background-color: #f2f2f2;
     }
-    img {
-        width: 50px;
-        height: auto;
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
     }
+
+    /* 체크박스 선택 시 배경색 변경 */
+    tr.selected {
+        background-color: #e0e0e0;
+    }
+    
     button {
-        background-color: #008CBA;
-        color: white;
-        padding: 10px 20px;
+        background-color: #4CAF50; /* Green */
         border: none;
-        border-radius: 5px;
+        color: white;
+        padding: 10px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
         cursor: pointer;
+        border-radius: 12px;
+    }
+
+    button:hover {
+        background-color: #45a049;
     }
 </style>
-</head>
-<body>
+    
     <h2>조직도</h2>
-
+<button type="button" onclick="location.href='/org/orgFavor';">즐겨찾기 이동</button>
+	<button type="button" onclick="location.href='/org/orgDept';">부서목록 보기</button>
     <form id="addToFavoritesForm" action="/org/addToFavorites" method="post" onsubmit="return submitForm();">
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         <input type="hidden" name="selectedEmployeeIds">
@@ -65,8 +80,7 @@
         <button type="submit">즐겨찾기 추가</button>
     </form>
     
-    <button type="button" onclick="location.href='/org/orgFavor';">즐겨찾기 이동</button>
-	<button type="button" onclick="location.href='/org/orgDept';">부서목록 보기</button>
+    
     <script>
     // 체크박스를 클릭했을 때 선택된 행을 강조하는 함수
     function highlightRow(checkbox) {
@@ -112,5 +126,4 @@
 </script>
 
 
-</body>
-</html>
+<%@ include file="../include/footer.jsp" %>

@@ -42,13 +42,13 @@ public class OrganizationChartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
         if (authentication != null && authentication.isAuthenticated()) {
-            // 인증된 사용자인 경우에만 알림 목록을 가져옴
+            // 인증된 사용자인 경우에만 조직도 목록을 가져옴
             int employee_id = Integer.parseInt(authentication.getName());
             logger.debug("employee_id : " + employee_id);
             // 조직도 목록 받기 -> DAO
             List<OrganizationChartVO> orgList = oService.orgList();
             logger.debug(" orgList.size : " + orgList.size());
-            // 알림 목록 값을 페이지에 전달(Model)
+            // 조직도 목록 값을 페이지에 전달(Model)
             model.addAttribute("orgList", orgList);
             return "/org/orgList";
         } else {
@@ -120,7 +120,7 @@ public class OrganizationChartController {
     }
     
     // 부서별 직원 목록 가져오기
-    @RequestMapping(value = "/getEmployeesByDept", method = RequestMethod.GET)
+    @RequestMapping(value = "/employeesByDept", method = RequestMethod.GET)
     public String getEmployeesByDept(@RequestParam("deptId") int deptId, Model model) {
         try {
             // 해당 부서의 직원 목록을 가져옴

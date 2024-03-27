@@ -19,7 +19,7 @@
 	</select>
 
 	<!-- 알림 개수 -->
-	<select id="notiCount" resultType="NotificationVO">
+	<select id="notiCount" resultMap="noti">
 		SELECT COUNT(*) FROM tbl_notification WHERE employee_id = #{employee_id}
 	</select>
 
