@@ -37,7 +37,6 @@ public class CommonController {
 		logger.info(" 접근 권한없는 접근 발생 ");
 		logger.info(" auth : " + auth);
 		
-		model.addAttribute("auth", auth);
 	}
 
 	// http://localhost:8088/common/customLogin
