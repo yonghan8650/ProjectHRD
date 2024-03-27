@@ -25,17 +25,17 @@
 
 	<!-- 패스워드 가져오기 -->
 	<select id="selectPass" resultType="String">
-		select passwd from
+		select PASSWD from
 		tbl_employee where employee_id = #{employee_id}
 	</select>
 
 	<update id="updatePass" parameterType="java.util.Map">
 		update tbl_employee set
-		passwd = #{newPw} where employee_id = #{employee_id}
+		PASSWD = #{newPw} where employee_id = #{employee_id}
 	</update>
 
 	<select id="selectEmpInfo" resultType="employeeVO">
-		select emp_name, profil,
+		select emp_name, PROFIL,
 		JOB_ID, DEPTID, start_date from tbl_employee where employee_id =
 		#{employee_id}
 	</select>
