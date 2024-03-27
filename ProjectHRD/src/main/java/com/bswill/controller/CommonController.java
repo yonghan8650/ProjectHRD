@@ -32,7 +32,7 @@ public class CommonController {
 	private PasswordEncoder pwEncoder;
 
 	@RequestMapping(value = "/accessErr", method = RequestMethod.GET)
-	public void accessDenied(Authentication auth, Model model) {
+	public void accessDenied(Authentication auth) {
 		logger.info(" accessDenied() 호출 ");
 		logger.info(" 접근 권한없는 접근 발생 ");
 		logger.info(" auth : " + auth);
