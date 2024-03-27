@@ -27,7 +27,6 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <!-- jQuery 2.1.4 -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -48,27 +47,39 @@
 						<!-- Messages: style can be found in dropdown.less-->
 
 						<!-- Notifications: style can be found in dropdown.less -->
-						<li class="dropdown notifications-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
+						<li class="dropdown notifications-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span class="label label-warning">${notificationCount}</span>
 						</a>
 							<ul class="dropdown-menu">
-								<li class="header">You have 10 notifications</li>
+								<li class="header"><span>알림이 ${notificationCount}개 있습니다.</span>
+									<div class="notification-buttons">
+										<form action="<%=request.getContextPath()%>/noti/notifications" method="GET">
+											<button type="submit">알림목록</button>
+										</form>
+										<form action="<%=request.getContextPath()%>/noti/deleteAllNoti" method="post">
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+											<button type="submit">모두삭제</button>
+										</form>
+									</div></li>
 								<li>
 									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
-										<li><a href="#"> <i class="fa fa-users text-aqua"></i> 5 new members joined today
-										</a></li>
-										<li><a href="#"> <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems
-										</a></li>
-										<li><a href="#"> <i class="fa fa-users text-red"></i> 5 new members joined
-										</a></li>
 
-										<li><a href="#"> <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-										</a></li>
-										<li><a href="#"> <i class="fa fa-user text-red"></i> You changed your username
-										</a></li>
+										<!-- 알림 목록 출력 -->
+										<c:forEach var="notification" items="${notiListSelect}">
+											<li>
+												<div>
+													<span>${notification.employee_id}</span> <span><a href="${notification.noti_link}">${notification.noti_title}</a></span> <span>${notification.noti_check == 0 ? '읽지 않음' : '읽음'}</span>
+													<!-- 알림 확인을 위한 폼 -->
+													<form action="${pageContext.request.contextPath}/noti/readNoti" method="post" style="display: inline;">
+														<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <input type="hidden" name="employee_id" value="${notification.employee_id}"> <input type="hidden" name="noti_title" value="${notification.noti_title}"> <input type="hidden" name="noti_time" value="${notification.noti_time}">
+														<button type="submit">확인</button>
+													</form>
+												</div>
+											</li>
+										</c:forEach>
 									</ul>
 								</li>
-								<li class="footer"><a href="#">View all</a></li>
+
 							</ul></li>
 
 						<!-- User Account: style can be found in dropdown.less -->
@@ -81,7 +92,7 @@
 										${sessionScope.evo.emp_name } <small>Member since ${sessionScope.evo.start_date }</small>
 									</p></li>
 								<!-- Menu Body -->
-								
+
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
@@ -153,21 +164,19 @@
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-people-roof"></i> &nbsp <span>조직도</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
-							<li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> 메뉴2 </a></li>
-							<li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> 메뉴3 </a></li>
-							<li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> 메뉴4 </a></li>
-							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
-							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
+							<li><a href="../org/orgList"><i class="fa fa-circle-o"></i> 전체 조직도 </a></li>
+							<li><a href="../org/orgDept"><i class="fa fa-circle-o"></i> 전체 부서 </a></li>
+							<li><a href="../org/getEmployeesByDept"><i class="fa fa-circle-o"></i> 부서 별 조직도 </a></li>
+							<li><a href="../org/orgFavor"><i class="fa fa-circle-o"></i> 즐겨찾기 </a></li>
 						</ul></li>
 					<li class="treeview"><a href="/board/list"> <i class="fa-regular fa-clipboard"></i> &nbsp &nbsp <span> 공지사항</span>
 					</a></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-laptop"></i> <span>UI Elements</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
-							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
-						</sec:authorize>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
+							</sec:authorize>
 							<li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> 메뉴2 </a></li>
 							<li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> 메뉴3 </a></li>
 							<li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> 메뉴4 </a></li>
@@ -187,8 +196,8 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<ol class="breadcrumb">
-					<li></li>
-					<li></li>
-					<li></li>
+					<!-- 					<li></li> -->
+					<!-- 					<li></li> -->
+					<!-- 					<li></li> -->
 				</ol>
 			</section>
