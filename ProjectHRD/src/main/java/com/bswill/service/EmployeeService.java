@@ -22,4 +22,6 @@ public interface EmployeeService {
 
 	public void modifyEmp(EmployeeVO evo) throws Exception;
 
+	public int getEmpListCount(String searchType, String keyword) throws Exception;
+
 }

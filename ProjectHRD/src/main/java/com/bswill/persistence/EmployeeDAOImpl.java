@@ -86,4 +86,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		sqlSession.update(NAMESPACE + ".updateEmp", evo);
 	}
 
+	@Override
+	public int empListCount(String searchType, String keyword) throws Exception {
+		logger.debug("empListCount() 호출");
+
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("searchType", searchType);
+		paramMap.put("keyword", keyword);
+
+		return sqlSession.selectOne(NAMESPACE + ".totalCountEmpList", paramMap);
+	}
+
 }

@@ -14,10 +14,10 @@ ${viewEmpVO }
 					<h3 class="profile-username text-center">${viewEmpVO.emp_name }</h3>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item"><b>입사일</b> <a class="pull-right">${viewEmpVO.start_date }</a></li>
-						<li class="list-group-item">
-							<b><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">부서</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">퇴직일</c:if></b>
-							<a class="pull-right"><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">${viewEmpVO.DEPTNM }</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">${viewEmpVO.quit_date }</c:if></a>
-						</li>
+						<li class="list-group-item"><b><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">부서</c:if> <c:if test="${viewEmpVO.STATUS eq 3 }">퇴직일</c:if></b> <a class="pull-right">
+								<c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">${viewEmpVO.DEPTNM }</c:if>
+								<c:if test="${viewEmpVO.STATUS eq 3 }">${viewEmpVO.quit_date }</c:if>
+							</a></li>
 						<li class="list-group-item"><b>직책</b> <a class="pull-right">${viewEmpVO.JOB }</a></li>
 					</ul>
 				</div>
@@ -36,16 +36,18 @@ ${viewEmpVO }
 				<div class="tab-content" style="min-height: 450px;">
 					<div class="active tab-pane" id="activity">
 
-						<form class="form-horizontal" action="" method="post">
-							<div class="profile">
-								<label for="PROFIL">프로필</label>
-								<input type="file" id="profile" name="profile" onchange="previewImage(event)" accept="image/png" />
-								<img id="preview" src="#" alt="미리보기" style="display: none; max-width: 200px; max-height: 200px;" />
-								<div id="result"></div>
-								<p id="errorMessage" style="display: none; color: red;">이미지 파일을 선택하세요.</p>
+						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+							<sec:csrfInput />
+							<input type="hidden" name="PROFIL" value="${viewEmpVO.PROFIL }">
+							<div class="form-group">
+								<div class="profile">
+									<label for="profile" class="col-sm-2 control-label">프로필</label>
+									<input type="file" id="profile" name="profile" onchange="previewImage(event)" accept="image/jpeg, image/png, image/gif" style="margin-left: 30px;" />
+									<img id="preview" src="#" alt="미리보기" style="display: none; max-width: 200px; max-height: 200px;" />
+									<div id="result"></div>
+									<p id="errorMessage" style="display: none; color: red;">이미지 파일을 선택하세요.</p>
+								</div>
 							</div>
-
-							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 							<div class="form-group">
 								<label for="employee_id" class="col-sm-2 control-label">사원번호</label>
 								<div class="col-sm-10">
@@ -55,13 +57,13 @@ ${viewEmpVO }
 							<div class="form-group">
 								<label for="emp_name" class="col-sm-2 control-label">사원명</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_name" name="emp_name" value="${viewEmpVO.emp_name }" style="max-width: 500px;">
+									<input type="text" class="form-control" id="emp_name" name="emp_name" value="${viewEmpVO.emp_name }" style="max-width: 500px;" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="birth" class="col-sm-2 control-label">생년월일</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="birth" name="birth" value="${viewEmpVO.birth }" style="max-width: 500px;">
+									<input type="text" class="form-control" id="birth" name="birth" value="${viewEmpVO.birth }" pattern="\d{4}-\d{2}-\d{2}" style="max-width: 500px;" required placeholder="yyyy-MM-dd 형식으로 입력해주세요.">
 								</div>
 							</div>
 							<div class="form-group">
@@ -76,19 +78,19 @@ ${viewEmpVO }
 							<div class="form-group">
 								<label for="emp_tel" class="col-sm-2 control-label">연락처</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_tel" name="emp_tel" value="${viewEmpVO.emp_tel }" style="max-width: 500px">
+									<input type="text" class="form-control" id="emp_tel" name="emp_tel" value="${viewEmpVO.emp_tel }" pattern="[0-9]{7,12}" style="max-width: 500px" placeholder="-를 뺴고 입력해주세요." required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="emp_mail" class="col-sm-2 control-label">이메일</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_mail" name="emp_mail" value="${viewEmpVO.emp_mail }" style="max-width: 500px">
+									<input type="text" class="form-control" id="emp_mail" name="emp_mail" value="${viewEmpVO.emp_mail }" style="max-width: 500px" placeholder="이메일 형식으로 입력해주세요." required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="emp_addr" class="col-sm-2 control-label">주소</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_addr" name="emp_addr" value="${viewEmpVO.emp_addr }" style="max-width: 500px; background-color: #ffffff;">
+									<input type="text" class="form-control" id="emp_addr" name="emp_addr" value="${viewEmpVO.emp_addr }" style="max-width: 500px; background-color: #ffffff;" required>
 								</div>
 							</div>
 							<div class="form-group">
@@ -135,14 +137,14 @@ ${viewEmpVO }
 								<label for="STATUS" class="col-sm-2 control-label">재직상태</label>
 								<div class="col-sm-10">
 									<select id="STATUS" name="STATUS" class="form-control" style="width: 500px;">
-										<option value="1" <c:if test="${viewEmpVO.STATUS eq 1 }">selected</c:if>><c:if test="${viewEmpVO.STATUS eq 1 }">재직</c:if></option>
-										<option value="2" <c:if test="${viewEmpVO.STATUS eq 2 }">selected</c:if>><c:if test="${viewEmpVO.STATUS eq 1 }">휴직</c:if></option>
-										<option value="3" <c:if test="${viewEmpVO.STATUS eq 3 }">selected</c:if>><c:if test="${viewEmpVO.STATUS eq 1 }">퇴직</c:if></option>
+										<option value="1" <c:if test="${viewEmpVO.STATUS eq 1 }">selected</c:if>>재직</option>
+										<option value="2" <c:if test="${viewEmpVO.STATUS eq 2 }">selected</c:if>>휴직</option>
+										<option value="3" <c:if test="${viewEmpVO.STATUS eq 3 }">selected</c:if>>퇴직</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">사원번호는 변경 불가합니다. 이미지는 변경 시만 업로드해주세요.</div>
+								<div class="col-sm-offset-2 col-sm-10">사원번호는 변경 불가합니다. 이미지는 변경 시에만 업로드해주세요.</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
@@ -160,9 +162,10 @@ ${viewEmpVO }
 								<tbody>
 									<tr>
 										<th style="width: 10px;">#</th>
-										<th style="width: 270px;">자격증명</th>
-										<th style="width: 270px;">발급기관</th>
+										<th style="width: 230px;">자격증명</th>
+										<th style="width: 230px;">발급기관</th>
 										<th>취득일자</th>
+										<th style="width: 80px;">변경</th>
 									</tr>
 									<c:forEach var="list" items="${viewEmpLicenseVO }" varStatus="stat">
 										<tr>
@@ -170,8 +173,35 @@ ${viewEmpVO }
 											<td>${list.license }</td>
 											<td>${list.li_org }</td>
 											<td>${list.li_date }</td>
+											<td>
+												<form action="/emp/deleteLicense" method="post">
+													<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+													<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
+													<input type="hidden" name="license" value="${list.license }">
+													<input type="submit" value="삭제하기">
+												</form>
+											</td>
 										</tr>
 									</c:forEach>
+									<tr>
+										<form action="/emp/insertLicense" method="post">
+											<td>+</td>
+											<td>
+												<input type="text" name="license" required>
+											</td>
+											<td>
+												<input type="text" name="li_org" required>
+											</td>
+											<td>
+												<input type="date" name="li_date" required max="9999-12-31">
+											</td>
+											<td>
+												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+												<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
+												<input type="submit" value="추가하기">
+											</td>
+										</form>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -185,9 +215,10 @@ ${viewEmpVO }
 								<tbody>
 									<tr>
 										<th style="width: 10px">#</th>
-										<th style="width: 270px">발령구분</th>
-										<th style="width: 270px">발령내용</th>
+										<th style="width: 230px">발령구분</th>
+										<th style="width: 230px">발령내용</th>
 										<th>발령일자</th>
+										<th style="width: 80px;">변경</th>
 									</tr>
 									<c:forEach var="list" items="${viewEmpAppointmentVO }" varStatus="stat">
 										<tr>
@@ -195,8 +226,39 @@ ${viewEmpVO }
 											<td>${list.app_issue }</td>
 											<td>${list.app_content }</td>
 											<td>${list.app_date }</td>
+											<td>
+												<form action="/emp/deleteAppointment" method="post">
+													<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+													<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
+													<input type="hidden" name="app_issue" value="${list.app_issue }">
+													<input type="hidden" name="app_date" value="${list.app_date }">
+													<input type="submit" value="삭제하기">
+												</form>
+											</td>
 										</tr>
 									</c:forEach>
+									<tr>
+										<form action="/emp/insertAppointment" method="post">
+											<td>+</td>
+											<td>
+												<select name="app_issue" required>
+													<option value="입사">입사</option>
+													<option value="휴직">휴직</option>
+													<option value="복직">복직</option>
+													<option value="퇴직">퇴직</option>
+													<option value="승진">승진</option>
+													<option value="이동">이동</option>
+												</select>
+											</td>
+											<td><input type="text" name="app_content"></td>
+											<td><input type="date" name="app_date" required max="9999-12-31"></td>
+											<td>
+												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+												<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
+												<input type="submit" value="추가하기">
+											</td>
+										</form>
+									</tr>
 								</tbody>
 							</table>
 						</div>

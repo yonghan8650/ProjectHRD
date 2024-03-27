@@ -61,13 +61,13 @@
 								<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 								<label for="emp_tel" class="col-sm-2 control-label">연락처</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_tel" name="emp_tel" value="${viewEmpVO.emp_tel }" style="max-width: 500px">
+									<input type="text" class="form-control" id="emp_tel" name="emp_tel" value="${viewEmpVO.emp_tel }" pattern="[0-9]{7,12}" style="max-width: 500px" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="emp_mail" class="col-sm-2 control-label">이메일</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="emp_mail" name="emp_mail" value="${viewEmpVO.emp_mail }" style="max-width: 500px">
+									<input type="email" class="form-control" id="emp_mail" name="emp_mail" value="${viewEmpVO.emp_mail }" style="max-width: 500px" required>
 								</div>
 							</div>
 						</form>

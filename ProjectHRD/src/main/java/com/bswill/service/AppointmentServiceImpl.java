@@ -33,4 +33,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return adao.selectEmpAppointment(employee_id);
 	}
 
+	@Override
+	public void addEmpAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("addEmpAppointment(AppointmentVO avo) 호출");
+
+		adao.insertEmpAppointment(avo);
+	}
+
+	@Override
+	public void subEmpAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("subEmpAppointment(AppointmentVO avo) 호출");
+
+		adao.deleteEmpAppointment(avo);
+	}
+
 }

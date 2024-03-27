@@ -31,7 +31,21 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 	@Override
 	public List<AppointmentVO> selectEmpAppointment(int employee_id) throws Exception {
 		logger.debug("selectEmpAppointment(int employee_id) 호출");
-		
+
 		return sqlSession.selectList(NAMESPACE + ".selectEmpAppointment", employee_id);
+	}
+
+	@Override
+	public void insertEmpAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("insertEmpAppointment(AppointmentVO avo) 호출");
+
+		sqlSession.insert(NAMESPACE + ".insertAppointment", avo);
+	}
+
+	@Override
+	public void deleteEmpAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("deleteEmpAppointment(AppointmentVO avo) 호출");
+
+		sqlSession.delete(NAMESPACE + ".deleteAppointment", avo);
 	}
 }

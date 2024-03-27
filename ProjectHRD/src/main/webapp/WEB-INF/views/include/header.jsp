@@ -129,9 +129,9 @@
 								<li><a href="/emp/listEmp?searchType=employee_id&keyword="><i class="fa fa-circle-o"></i> 인사목록조회 </a></li>
 							</sec:authorize>
 							<li><a href="/emp/applyEvent"><i class="fa fa-circle-o"></i> 경조비신청 </a></li>
-							<li><a href="/emp/viewEvent?searchType=eve_class&keyword="><i class="fa fa-circle-o"></i> 경조비승인내역 </a></li>
+							<li><a href="/emp/viewEvent?searchType=eve_class&keyword="><i class="fa fa-circle-o"></i> 경조비신청내역 </a></li>
 							<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
-								<li><a href="/emp/listEvent?searchType=employee_id&keyword="><i class="fa fa-circle-o"></i> 경조비관리 </a></li>
+								<li><a href="/emp/listEvent?searchType=employee_id&keyword="><i class="fa fa-circle-o"></i> 경조비신청관리 </a></li>
 							</sec:authorize>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-building"></i> &nbsp <span>근태 관리</span> <i class="fa fa-angle-left pull-right"></i>

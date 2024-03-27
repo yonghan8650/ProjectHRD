@@ -5,10 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -135,7 +133,7 @@ public class EmployeeController {
 
 		model.addAttribute("employee_id", evo.getEmployee_id());
 
-		return "redirect:/emp/viewEmp";
+		return "redirect:/emp/listEmp?searchType=employee_id&keyword=";
 	}
 
 	private String saveProfile(int employee_id, MultipartFile profile) throws Exception {
@@ -148,6 +146,14 @@ public class EmployeeController {
 		}
 
 		return profileName;
+	}
+
+	private void deleteProfile(String profileName) {
+		String uploadDir = "D://upload/profile/";
+		File file = new File(uploadDir + profileName);
+		if (file.exists()) {
+			file.delete();
+		}
 	}
 
 	// http://localhost:8088/emp/listEmp
@@ -165,7 +171,6 @@ public class EmployeeController {
 		}
 
 		model.addAttribute("listEmp", eService.listEmp(searchType, keyword));
-
 	}
 
 	// http://localhost:8088/emp/viewEmp
@@ -202,6 +207,8 @@ public class EmployeeController {
 		logger.debug("modifyEmpGET() 호출");
 
 		model.addAttribute("viewEmpVO", eService.viewEmp(employee_id));
+		model.addAttribute("viewEmpLicenseVO", lService.viewEmpLicense(employee_id));
+		model.addAttribute("viewEmpAppointmentVO", aService.viewEmpAppointment(employee_id));
 	}
 
 	@RequestMapping(value = "/modifyEmp", method = RequestMethod.POST)
@@ -211,21 +218,38 @@ public class EmployeeController {
 
 		logger.debug("evo: " + evo);
 
-		if (profile != null) {
-			saveProfile(evo.getEmployee_id(), profile);
+		logger.debug("profile: " + profile);
+		if (profile != null && !profile.isEmpty()) {
+			String profileName = saveProfile(evo.getEmployee_id(), profile);
+
+			logger.debug("profileName: " + profileName);
+
+			if (!profileName.equals(evo.getPROFIL())) {
+				deleteProfile(evo.getPROFIL());
+			}
+
+			evo.setPROFIL(profileName);
 		}
 
 		if (evo.getSTATUS() == 3) {
 			evo.setQuit_date(new Timestamp(System.currentTimeMillis()));
 			evo.setEnabled("0");
 		} else {
-			evo.setQuit_date(new Timestamp(System.currentTimeMillis()));
+			evo.setQuit_date(null);
 			evo.setEnabled("1");
 		}
 
 		eService.modifyEmp(evo);
 
-		return "redirect:/emp/listEmp?searchType=employee_id&keyword=";
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(evo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 사원정보가 변경되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + evo.getEmployee_id();
 	}
 
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
@@ -260,6 +284,82 @@ public class EmployeeController {
 		out.flush(); // 버퍼의 여백을 공백으로 채움
 		out.close();
 		fis.close();
+	}
+
+	@RequestMapping(value = "/insertLicense", method = RequestMethod.POST)
+	public String insertLicense(LicenseVO lvo) throws Exception {
+		logger.debug("insertLicense() 호출");
+
+		logger.debug("lvo: " + lvo);
+
+		lService.addEmpLicense(lvo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(lvo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 자격정보가 추가되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + lvo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/deleteLicense", method = RequestMethod.POST)
+	public String deleteLicense(LicenseVO lvo) throws Exception {
+		logger.debug("insertLicense() 호출");
+
+		logger.debug("lvo: " + lvo);
+
+		lService.subEmpLicense(lvo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(lvo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 자격정보가 삭제되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + lvo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/insertAppointment", method = RequestMethod.POST)
+	public String insertAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("inserAppointment() 호출");
+
+		logger.debug("lvo: " + avo);
+
+		aService.addEmpAppointment(avo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(avo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 발령정보가 추가되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + avo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/deleteAppointment", method = RequestMethod.POST)
+	public String deleteAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("insertAppointment() 호출");
+
+		logger.debug("lvo: " + avo);
+
+		aService.subEmpAppointment(avo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(avo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 발령정보가 삭제되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + avo.getEmployee_id();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +452,7 @@ public class EmployeeController {
 		NotificationVO nvo = new NotificationVO();
 		nvo.setEmployee_id(vvo.getEmployee_id());
 		nvo.setNoti_title("요청하신 " + vvo.getEve_subject() + "씨의 " + vvo.getEve_class() + " 경조비 신청이 승인되었습니다.");
-		nvo.setNoti_link("http://localhost:8088/emp/viewEvent?searchType=eve_auth&keyword=%EC%8A%B9%EC%9D%B8");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEvent?searchType=eve_auth&keyword=%EC%8A%B9%EC%9D%B8");
 
 		vService.notifyModification(nvo);
 
@@ -370,7 +470,7 @@ public class EmployeeController {
 		NotificationVO nvo = new NotificationVO();
 		nvo.setEmployee_id(vvo.getEmployee_id());
 		nvo.setNoti_title("요청하신 " + vvo.getEve_subject() + "씨의 " + vvo.getEve_class() + " 경조비 신청이 거부되었습니다.");
-		nvo.setNoti_link("http://localhost:8088/emp/viewEvent?searchType=eve_auth&keyword=%EA%B1%B0%EB%B6%80");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEvent?searchType=eve_auth&keyword=%EA%B1%B0%EB%B6%80");
 
 		vService.notifyModification(nvo);
 

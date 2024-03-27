@@ -35,4 +35,18 @@ public class LicenseDAOImpl implements LicenseDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectEmpLicense", employee_id);
 	}
 
+	@Override
+	public void insertEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("insertEmpLicense(LicenseVO lvo) 호출");
+
+		sqlSession.insert(NAMESPACE + ".insertLicense", lvo);
+	}
+
+	@Override
+	public void deleteEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("deleteEmpLicense(LicenseVO lvo) 호출");
+
+		sqlSession.delete(NAMESPACE + ".deleteLicense", lvo);
+	}
+
 }

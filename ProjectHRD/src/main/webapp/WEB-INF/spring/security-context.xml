@@ -21,6 +21,9 @@
 		<security:intercept-url pattern="/*" access="permitAll" />
 		<security:intercept-url pattern="/board/*" access="isAuthenticated()" />
 		<security:intercept-url pattern="/emp/*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/emp/registEmp" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/emp/listEmp" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/emp/listEvent" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/common/main" access="permitAll" />
 		
 		

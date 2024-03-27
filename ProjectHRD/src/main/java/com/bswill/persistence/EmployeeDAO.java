@@ -22,4 +22,6 @@ public interface EmployeeDAO {
 
 	public void updateEmp(EmployeeVO evo) throws Exception;
 
+	public int empListCount(String searchType, String keyword) throws Exception;
+
 }

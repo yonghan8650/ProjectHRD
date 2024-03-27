@@ -112,4 +112,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		edao.updateEmp(evo);
 	}
 
+	@Override
+	public int getEmpListCount(String searchType, String keyword) throws Exception {
+		logger.debug("getEmpListCount() 호출");
+
+		return edao.empListCount(searchType, keyword);
+	}
+
 }
