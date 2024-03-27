@@ -60,10 +60,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Map<String, Object>> listEmp() throws Exception {
+	public List<Map<String, Object>> listEmp(String searchType, String keyword) throws Exception {
 		logger.debug("listEmp() 호출");
 
-		List<Map<String, Object>> empList = edao.selectEmpList();
+		List<Map<String, Object>> empList = edao.selectEmpList(searchType, keyword);
 
 		for (Map<String, Object> emp : empList) {
 			int status = (int) emp.get("STATUS");
@@ -103,6 +103,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 		logger.debug("modifyEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) 호출");
 
 		edao.updateEmpTelAndEmail(employee_id, emp_tel, emp_mail);
+	}
+
+	@Override
+	public void modifyEmp(EmployeeVO evo) throws Exception {
+		logger.debug("modifyEmp(int employee_id) 호출");
+
+		edao.updateEmp(evo);
+	}
+
+	@Override
+	public int getEmpListCount(String searchType, String keyword) throws Exception {
+		logger.debug("getEmpListCount() 호출");
+
+		return edao.empListCount(searchType, keyword);
 	}
 
 }

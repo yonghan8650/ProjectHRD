@@ -10,4 +10,8 @@ public interface AppointmentDAO {
 
 	public List<AppointmentVO> selectEmpAppointment(int employee_id) throws Exception;
 
+	public void insertEmpAppointment(AppointmentVO avo) throws Exception;
+
+	public void deleteEmpAppointment(AppointmentVO avo) throws Exception;
+
 }

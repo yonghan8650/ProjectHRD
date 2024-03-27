@@ -14,4 +14,9 @@
 		FROM tbl_license
 		WHERE employee_id=#{employee_id}
 	</select>
+	
+	<delete id="deleteLicense">
+		DELETE FROM tbl_license
+		WHERE employee_id=#{employee_id} AND license=#{license}
+	</delete>
 </mapper>

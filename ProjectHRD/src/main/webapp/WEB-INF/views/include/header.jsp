@@ -134,12 +134,16 @@
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-user"> </i> &nbsp <span>인사 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
-							<li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> 메뉴2 </a></li>
-							<li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> 메뉴3 </a></li>
-							<li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> 메뉴4 </a></li>
-							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
-							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
+							<li><a href="/emp/viewEmp"><i class="fa fa-circle-o"></i> 인사정보조회 </a></li>
+							<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+								<li><a href="/emp/registEmp"><i class="fa fa-circle-o"></i> 인사정보등록 </a></li>
+								<li><a href="/emp/listEmp?searchType=employee_id&keyword="><i class="fa fa-circle-o"></i> 인사목록조회 </a></li>
+							</sec:authorize>
+							<li><a href="/emp/applyEvent"><i class="fa fa-circle-o"></i> 경조비신청 </a></li>
+							<li><a href="/emp/viewEvent?searchType=eve_class&keyword="><i class="fa fa-circle-o"></i> 경조비신청내역 </a></li>
+							<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+								<li><a href="/emp/listEvent?searchType=employee_id&keyword="><i class="fa fa-circle-o"></i> 경조비신청관리 </a></li>
+							</sec:authorize>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-building"></i> &nbsp <span>근태 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
