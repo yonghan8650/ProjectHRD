@@ -1,12 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>알림 목록</title>
-</head>
-<body>
+<%@ include file="../include/header.jsp" %>
     <h1>알림 목록</h1>
     <!-- 알림 목록 테이블 -->
     <table border="1">
@@ -62,5 +55,4 @@
         <input type="submit" value="모두 삭제">
     </form>
 
-</body>
-</html>
+<%@ include file="../include/footer.jsp" %>

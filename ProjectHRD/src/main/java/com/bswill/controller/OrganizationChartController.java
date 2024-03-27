@@ -72,6 +72,7 @@ public class OrganizationChartController {
         }
     }
 
+    // 즐겨 찾기 목록
     // http://localhost:8088/org/orgFavor
     @RequestMapping(value = "/orgFavor", method = RequestMethod.GET)
     public String orgFavor(Model model) throws Exception {
