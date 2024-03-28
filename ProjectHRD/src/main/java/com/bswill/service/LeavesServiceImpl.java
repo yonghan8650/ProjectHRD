@@ -42,4 +42,46 @@ public class LeavesServiceImpl implements LeavesService {
 		ldao.leaveRejection(req_leave_no);
 	}
 
+	// 연차 목록 조회
+	@Override
+	public List<LeaveVO> annualLeaveList(SearchCriteria cri) throws Exception {
+		logger.debug(" === S :  annualLeaveList(SearchCriteria cri) 실행 === ");
+		return ldao.annualLeaveList(cri);
+	}
+
+	// 연차 삭제
+	@Override
+	public void deleteAnnualLeave(int leave_no) throws Exception {
+		logger.debug(" === S :  deleteAnnualLeave(int leave_no) 실행 === ");
+		ldao.deleteAnnualLeave(leave_no);
+	}
+
+	// 연차 생성 가능 사원 목록
+	@Override
+	public List<LeaveVO> canCreateAnnualLeaveList() throws Exception {
+		logger.debug(" === S :  canCreateAnnualLeaveList() 실행 === ");
+		return ldao.canCreateAnnualLeaveList();
+	}
+
+	// 연차 생성 가능 사원 정보 가져오기
+	@Override
+	public LeaveVO canCreateAnnualLeave(int employee_id) throws Exception {
+		logger.debug(" === S :  canCreateAnnualLeave(int employee_id) 실행 === ");
+		return ldao.canCreateAnnualLeave(employee_id);
+	}
+
+	// 해당년도 휴가 갯수 세어오기
+	@Override
+	public LeaveVO selectLeaveCount() throws Exception {
+		logger.debug(" === S :  selectLeaveCount() 실행 === ");
+		return ldao.selectLeaveCount();
+	}
+
+	// 연차 생성
+	@Override
+	public void createAnnualLeave(LeaveVO vo) throws Exception {
+		logger.debug(" === S :  createAnnualLeave() 실행 === ");
+		ldao.createAnnualLeave(vo);
+	}
+
 }
