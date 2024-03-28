@@ -59,9 +59,15 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public int getRestEmpCnt() throws Exception {
-		logger.debug(" getRestEmpCnt() 실행 ");		
-		return cdao.restEmpCountSelect();
+	public int getAllEmpCnt() throws Exception {
+		logger.debug(" getAllEmpCnt() 실행 ");		
+		return cdao.allEmpCountSelect();
+	}
+
+	@Override
+	public int getNewEmptCnt() throws Exception {
+		logger.debug(" getNewEmptCnt() 실행 ");
+		return cdao.newEmpCountSeclect();
 	}
 	
 	

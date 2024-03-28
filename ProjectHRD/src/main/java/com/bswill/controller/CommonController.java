@@ -70,8 +70,10 @@ public class CommonController {
 
 		// 재직 사원 수
 		model.addAttribute("currentEmpCnt", cService.getCurrentEmpCnt());
-		// 휴직 사원 수
-		model.addAttribute("restEmpCnt", cService.getRestEmpCnt());
+		// 전체 사원 수
+		model.addAttribute("allEmpCnt", cService.getAllEmpCnt());
+		// 올해 입사자 수
+		model.addAttribute("newEmpCnt",cService.getNewEmptCnt());		
 		// 부서 정보
 		model.addAttribute("deptInfo", cService.getdeptInfo());
 		// 직책 정보

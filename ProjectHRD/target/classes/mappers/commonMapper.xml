@@ -39,27 +39,36 @@
 		JOB_ID, DEPTID, start_date from tbl_employee where employee_id =
 		#{employee_id}
 	</select>
-	
+
 	<select id="selectCurrentEmpCnt" resultType="int">
 		select count(*)
-		from tbl_employee
+		from
+		tbl_employee
 		where STATUS = 1;
 	</select>
-	
+
 	<select id="selectDeptInfo" resultType="DepartmentVO">
 		select *
-		from tbl_department;
+		from
+		tbl_department;
 	</select>
 
 	<select id="selectJobInfo" resultType="JobVO">
 		select *
 		from tbl_job;
 	</select>
-	
-	<select id="selectRestEmpCnt" resultType="int">
+
+	<select id="selectAllEmpCnt" resultType="int">
 		select count(*)
-		from tbl_employee
-		where STATUS = 2;
+		from
+		tbl_employee
+		where STATUS = 1 or STATUS = 2;
 	</select>
-	
+
+	<select id="selectNewEmpCnt" resultType="int">
+		SELECT count(*) FROM tbl_employee
+		WHERE start_date like concat(YEAR(CURRENT_DATE()), '%')
+	</select>
+
+
 </mapper>

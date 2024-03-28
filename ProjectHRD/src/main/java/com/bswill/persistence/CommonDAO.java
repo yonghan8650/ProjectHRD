@@ -21,5 +21,7 @@ public interface CommonDAO {
 
 	public List<JobVO> jobInfoSelect() throws Exception;
 
-	public int restEmpCountSelect() throws Exception;
+	public int allEmpCountSelect() throws Exception;
+
+	public int newEmpCountSeclect() throws Exception;
 }
