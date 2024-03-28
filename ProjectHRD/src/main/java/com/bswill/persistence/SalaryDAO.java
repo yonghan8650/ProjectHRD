@@ -11,14 +11,17 @@ public interface SalaryDAO {
 
 	public List<Map<String, Object>> salarySearchEmpSelect(SalaryCri cri) throws Exception;
 	
+	public List<Map<String, Object>> salarySearchMeSelect(SalaryCri cri, Integer emp_id) throws Exception;
+	
 	public List<Map<String, Object>> salarySearchMoreSelect(SalaryCri cri) throws Exception;
 	
-	//public List<Map<String, Object>> salarySearchMonthlySelect(SalaryCri cri) throws Exception;
 	public List<Map<String, Object>> salarySearchMonthlySelect(String yearMonth) throws Exception;
 	
 	public List<Map<String, Object>> salaryInfoEmpSelect(SalaryCri cri) throws Exception;
 	
 	public List<Map<String, Object>> salaryInfoMoreSelect(SalaryCri cri) throws Exception;
+	
+	public List<Map<String, Object>> salaryInfoNewSelect(SalaryCri cri) throws Exception;
 	
 	public void salaryInfoMoreUpdate(SalaryVO svo) throws Exception;
 	

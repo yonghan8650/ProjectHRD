@@ -2,12 +2,16 @@ package com.bswill.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,43 +39,88 @@ public class SalaryController {
 		logger.debug("/salarySearch -> salarySearchGET() 호출");
 		logger.debug("/salarySearch.jsp 뷰 연결");
 		
-		List<Map<String, Object>> salarySearchEmp;
-		List<Map<String, Object>> salarySearchMore;
-		
-		// 서비스 -> DAO 급여조회 급여목록 가져오기
-		if(cri.getStartDate() != null)
-		{
-			salarySearchEmp = sService.getSalarySearchEmp(cri);
-			logger.debug(" emplist.size : "+salarySearchEmp.size());
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    
+	    // 현재 접속한 사용자의 employee_id와 권한 확인
+	    int employee_id = Integer.parseInt(authentication.getName());
+	    
+	    List<String> userAuthorities = authentication.getAuthorities().stream()
+	                                                            .map(GrantedAuthority::getAuthority)
+	                                                            .collect(Collectors.toList());
+	    
+	    // 급여 조회 처리
+	    if (userAuthorities.contains("ROLE_MEMBER")) {
+	        // ROLE_MEMBER인 경우 자신의 급여 정보만 조회
+			// 서비스 -> DAO 급여조회 급여목록 가져오기
+			if(cri.getStartDate() != null)
+			{
+				List<Map<String, Object>> salarySearchMe = sService.getSalarySearchMe(cri, employee_id);
+				logger.debug(" emplist.size : "+salarySearchMe.size());
+				
+				// 연결된 뷰페이지로 전달(Model)
+				model.addAttribute("salarySearchEmp", salarySearchMe);
+				
+				model.addAttribute("cri", cri);
+			}
 			
+			// 서비스 -> DAO 급여조회 급여명세서 가져오기
+			if(cri.getEmployee_id() != null) {
+				
+				List<Map<String, Object>> salarySearchMore = sService.getSalarySearchMore(cri);
+				logger.debug(" morelist.size : "+salarySearchMore.size());
+				
+		        ObjectMapper mapper = new ObjectMapper();
+		        //List<String> salaryList = // 여기에서 데이터를 가져옴
+		        try {
+		            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
+		            model.addAttribute("salaryList", jsonSalaryList);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            // 오류 처리
+		        }
+		        
+				// 연결된 뷰페이지로 전달(Model)
+				model.addAttribute("salarySearchMore", salarySearchMore);
+				
+				model.addAttribute("cri", cri);
+			}
+
+	    } else if (userAuthorities.contains("ROLE_ADMIN") || userAuthorities.contains("ROLE_MANAGER")) {
+	        // ROLE_ADMIN 또는 ROLE_MANAGER인 경우 모든 사용자의 급여 정보 조회
+			// 서비스 -> DAO 급여조회 급여목록 가져오기
+			if(cri.getStartDate() != null)
+			{
+				List<Map<String, Object>> salarySearchEmp = sService.getSalarySearchEmp(cri);
+				logger.debug(" emplist.size : "+salarySearchEmp.size());
+				
+				// 연결된 뷰페이지로 전달(Model)
+				model.addAttribute("salarySearchEmp", salarySearchEmp);
+				
+				model.addAttribute("cri", cri);
+			}
 			
-			// 연결된 뷰페이지로 전달(Model)
-			model.addAttribute("salarySearchEmp", salarySearchEmp);
-			
-			model.addAttribute("cri", cri);
-		}
-		
-		// 서비스 -> DAO 급여조회 급여명세서 가져오기
-		if(cri.getEmployee_id() != null) {
-			
-			salarySearchMore = sService.getSalarySearchMore(cri);
-			logger.debug(" morelist.size : "+salarySearchMore.size());
-			
-	        ObjectMapper mapper = new ObjectMapper();
-	        //List<String> salaryList = // 여기에서 데이터를 가져옴
-	        try {
-	            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
-	            model.addAttribute("salaryList", jsonSalaryList);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            // 오류 처리
-	        }
-	        
-			// 연결된 뷰페이지로 전달(Model)
-			model.addAttribute("salarySearchMore", salarySearchMore);
-			
-			model.addAttribute("cri", cri);
-		}
+			// 서비스 -> DAO 급여조회 급여명세서 가져오기
+			if(cri.getEmployee_id() != null) {
+				
+				List<Map<String, Object>> salarySearchMore = sService.getSalarySearchMore(cri);
+				logger.debug(" morelist.size : "+salarySearchMore.size());
+				
+		        ObjectMapper mapper = new ObjectMapper();
+		        //List<String> salaryList = // 여기에서 데이터를 가져옴
+		        try {
+		            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
+		            model.addAttribute("salaryList", jsonSalaryList);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            // 오류 처리
+		        }
+		        
+				// 연결된 뷰페이지로 전달(Model)
+				model.addAttribute("salarySearchMore", salarySearchMore);
+				
+				model.addAttribute("cri", cri);
+			}
+	    }
 		
 		//return "/salarySearch";
 	}
@@ -105,20 +154,30 @@ public class SalaryController {
 			model.addAttribute("salaryInfoEmp", salaryInfoEmp);
 			
 			model.addAttribute("cri", cri);
+			
+			// 서비스 -> DAO 급상여기본정보관리 상세정보 가져오기
+			if(cri.getEmployee_id() != null) {
+				
+//				for (Map<String, Object> emp : salaryInfoEmp) {
+//				    if (cri.getEmployee_id().equals(emp.get("employee_id").toString())) {
+//				    	List<Map<String, Object>> salaryInfoNew = sService.getSalaryInfoNew(cri);
+//				    	logger.debug(salaryInfoNew.toString());
+//						logger.debug(" newlist.size : "+salaryInfoNew.size());
+//				    }
+//				}
+				
+				salaryInfoMore = sService.getSalaryInfoMore(cri);
+				logger.debug(" morelist.size : "+salaryInfoMore.size());
+				logger.debug(salaryInfoMore.toString());
+				
+				// 연결된 뷰페이지로 전달(Model)
+				model.addAttribute("salaryInfoMore", salaryInfoMore);
+				
+				model.addAttribute("cri", cri);
+			}
+			
 		}
 		
-		// 서비스 -> DAO 급상여기본정보관리 상세정보 가져오기
-		if(cri.getEmployee_id() != null) {
-			
-			salaryInfoMore = sService.getSalaryInfoMore(cri);
-			logger.debug(" morelist.size : "+salaryInfoMore.size());
-			
-			// 연결된 뷰페이지로 전달(Model)
-			model.addAttribute("salaryInfoMore", salaryInfoMore);
-			
-			model.addAttribute("cri", cri);
-		}
-
 		//return "/salaryInfo";
 	}
 	
@@ -130,6 +189,7 @@ public class SalaryController {
 		// 한글처리 인코딩
 		// 전달정보 저장(bank, account, account_holder)
 		logger.debug(" SalaryVO : "+svo);
+		
 		
 		// 서비스 -> DAO 급상여 상세정보 수정 동작
 		sService.updateSalaryInfoMore(svo);
@@ -148,7 +208,7 @@ public class SalaryController {
 		
 		List<Map<String, Object>> salaryEnterEmp;
 		List<Map<String, Object>> salaryEnterMore;
-		List<Map<String, Object>> salaryEnterSalary;
+		List<Map<String, Object>> salaryEnterSalary;	
 		
 		// 서비스 -> DAO 급여입력 사원정보 가져오기
 		if(cri.getStartDate() != null)
@@ -179,6 +239,7 @@ public class SalaryController {
 			
 			salaryEnterSalary = sService.getSalaryEnter(cri);
 			logger.debug(" morelist.size : "+salaryEnterSalary.size());
+			logger.debug(salaryEnterSalary.toString());
 			
 			// 연결된 뷰페이지로 전달(Model)
 			model.addAttribute("salaryEnterSalary", salaryEnterSalary);

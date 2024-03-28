@@ -32,6 +32,15 @@ public class SalaryDAOImpl implements SalaryDAO {
 	}
 	
 	@Override
+	public List<Map<String, Object>> salarySearchMeSelect(SalaryCri cri, Integer emp_id) throws Exception {
+		logger.debug(" salarySearchEmpSelect() -> mapper 호출");
+		
+		cri.setEmployee_id(Integer.toString(emp_id));
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchMe", cri);
+	}
+	
+	@Override
 	public List<Map<String, Object>> salarySearchMoreSelect(SalaryCri cri) throws Exception {
 		logger.debug(" salarySearchMoreSelect() -> mapper 호출");
 		
@@ -57,6 +66,13 @@ public class SalaryDAOImpl implements SalaryDAO {
 		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
 		
 		return sqlSession.selectList(NAMESPACE + ".selectSalaryInfoMore", cri);
+	}
+	
+	@Override
+	public List<Map<String, Object>> salaryInfoNewSelect(SalaryCri cri) throws Exception {
+		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryInfoNew", cri);
 	}
 
 	@Override

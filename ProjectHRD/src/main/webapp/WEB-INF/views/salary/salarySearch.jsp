@@ -36,7 +36,7 @@
 </script>
 
 <section class="content-header">
-	<h1>급여조회(관리자)</h1>
+	<h1>급여조회</h1>
 </section>
 
 <section class="content">

@@ -7,7 +7,9 @@ public class SalaryCri {
 	
 	private String pay_yearmonth;
 	private String employee_id;
+	private String JOB;
 	private String JOB_ID;
+
 	private String salary;
 	
 	public String getStartDate() {
@@ -42,10 +44,18 @@ public class SalaryCri {
 		this.employee_id = emp_id;
 	}
 	
+	public String getJOB() {
+		return JOB;
+	}
+	
+	public void setJOB(String JOB) {
+		this.JOB = JOB;
+	}
+	
 	public String getJOB_ID() {
 		return JOB_ID;
 	}
-	
+
 	public void setJOB_ID(String jOB_ID) {
 		JOB_ID = jOB_ID;
 	}

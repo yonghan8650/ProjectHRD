@@ -8,8 +8,10 @@
 <script src="<c:url value="/resources/plugins/datepicker/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/resources/plugins/datepicker/locales/bootstrap-datepicker.kr.js"/>"></script>
 
+${cri.employee_id}
+
 <section class="content-header">
-	<h1>급상여기본정보관리(관리자)</h1>
+	<h1>급상여기본정보관리</h1>
 </section>
 
 <section class="content">
@@ -63,8 +65,8 @@
 										<a href="/salary/salaryInfo?startDate=${cri.startDate }&employee_id=${sie.employee_id }">${sie.employee_id }</a>
 									</td>
 									<td>${sie.emp_name }</td>
-									<td>${sie.JOB_ID }</td>
-									<td>${sie.department }</td>
+									<td>${sie.JOB }</td>
+									<td>${sie.DEPTNM }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -80,7 +82,7 @@
 						<div class="box-header">
 							<h3 class="box-title">상세정보</h3>
 							<div class="box-tools">
-								<button type="submit" class="btn btn-primary" onclick="alert('급여정보가 수정되었습니다.')">수정하기</button>
+								<button type="submit" class="btn btn-primary" onclick="alert('급여기본정보가 수정되었습니다.')">수정하기</button>
 							</div>
 						</div>
 						
@@ -96,11 +98,11 @@
 								</tr>
 								<tr>
 									<td><b>직급</b></td>
-									<td><input type="text" name="JOB_ID" value="${sim.JOB_ID }" disabled></td>
+									<td><input type="text" name="JOB_ID" value="${sim.JOB }" disabled></td>
 								</tr>
 								<tr>
 									<td><b>부서</b></td>
-									<td><input type="text" name="department" value="${sim.department }" disabled></td>
+									<td><input type="text" name="department" value="${sim.DEPTNM }" disabled></td>
 								</tr>
 								<tr>
 									<td><b>은행명</b></td>
@@ -115,6 +117,7 @@
 									<td><input type="text" name="account_holder" value="${sim.account_holder }"></td>
 								</tr>
 							</table>
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						</div>
 					</form>
 				</div>
