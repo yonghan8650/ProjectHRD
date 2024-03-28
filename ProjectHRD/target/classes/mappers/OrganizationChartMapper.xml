@@ -17,7 +17,7 @@
     </resultMap> 
     <!-- 사용자 ID를 기반으로 사용자 정보 조회 -->
 	<select id="getUserById" resultMap="org">
-	    SELECT * FROM tbl_employee WHERE employee_id = #{employeeId}
+	    SELECT * FROM tbl_employee WHERE employee_id = #{employee_id}
 	</select>
     
     <!-- 조직도 -->
@@ -39,24 +39,25 @@
     </select>
     
     <!-- 즐겨찾기 목록 조회 -->
-    <select id="selectFavorList" resultMap="org">
+    <select id="selectFavorList" resultType="OrganizationChartVO">
         SELECT * FROM tbl_employee
-        WHERE employee_Id IN (
+        WHERE employee_id IN (
             SELECT FAVORS FROM tbl_employee
-            WHERE employee_id = #{employeeId}
+            WHERE employee_id = #{employee_id}
         )
     </select>
     
     <!-- 즐겨찾기 추가 -->
-	<insert id="updateFavor" parameterType="map">
-	    INSERT INTO tbl_employee (employee_id, FAVORS)
-	    VALUES (#{employeeId}, #{favors})
-	</insert>
+	<update id="updateFavor" parameterType="map">
+	    UPDATE tbl_employee
+	    SET FAVORS = #{favors}
+	    WHERE employee_id = #{employee_id}
+	</update>
 
     <!-- 즐겨찾기 해제 -->
     <update id="removeFavor" parameterType="map">
 	    UPDATE tbl_employee
 	    SET FAVORS = NULL
-	    WHERE employee_id = #{employeeId}
+	    WHERE employee_id = #{employee_id}
 	</update>
 </mapper>
