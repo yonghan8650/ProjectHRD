@@ -12,14 +12,15 @@
 	<h1>salarySearchMonthly.jsp</h1>
 	<h2>월별 급여조회 페이지(관리자용)</h2>
 	
-	salarySearchMonthly : ${salarySearchMonthly }
+	salarySearchEmp : ${salarySearchEmp }<br>
+	salarySearchMonthly : ${salarySearchMonthly }<br>
 	
 	<hr>
 	
-	<form action="/salarySearchMonthly">
+	<form action="/salary/salarySearchMonthly">
 		<fieldset>
 			<legend>월별 급여 검색</legend>
-				급여년월 : <input type="text" name="keyword"> ~ <input type="text" name="keyword2">
+				급여년월 : <input type="text" name="startDate"> ~ <input type="text" name="endDate">
 				<input type="submit" value="검색">
 				예시 : 2023-09 ~ 2023-12
 		</fieldset>
@@ -37,12 +38,12 @@
 				</tr>
 				
 				<!-- 검색 값이 여기에 출력 -->
-				<c:forEach var="ssm" items="${salarySearchMonthly }">
+				<c:forEach var="ssm" items="${salarySearchEmp }">
 					<tr>
 						<!-- 순번은 임시로 지정함 -->
 						<td>1</td>
 						<td>
-							<a href="/salarySearch?keyword=<fmt:formatDate value="${ssm.pay_yearmonth }" pattern="yyyy-MM"/>
+							<a href="/salary/salarySearchMonthly?startDate=${cri.startDate }&endDate=${cri.endDate }
 							&emp_id=${ssm.employee_id }">${ssm.employee_id }</a>
 						</td>
 						<td>${ssm.emp_name }</td>
@@ -58,23 +59,24 @@
 		<legend>급상여 상세내역</legend>
 		    <table border="1">
 		    	<thead>
-					<tr>
-					   <td>순번</td>
-					   <td>항목명</td>
-					   <!-- 월별은 임시, 추후 2023-01 식으로 변경 -->
-					   <td>1월</td>
-					   <td>2월</td>
-					   <td>3월</td>
-					   <td>4월</td>
-					   <td>5월</td>
-					   <td>6월</td>
-					   <td>7월</td>
-					   <td>8월</td>
-					   <td>9월</td>
-					   <td>10월</td>
-					   <td>11월</td>
-					   <td>12월</td>
-					</tr>
+		    		<c:forEach var="ss" items="${salarySearchMonthly }">
+						<tr>
+						   <td>항목명</td>
+						   <!-- 월별은 임시, 추후 2023-01 식으로 변경 -->
+						   <td>1월</td>
+						   <td>2월</td>
+						   <td>3월</td>
+						   <td>4월</td>
+						   <td>5월</td>
+						   <td>6월</td>
+						   <td>7월</td>
+						   <td>8월</td>
+						   <td>9월</td>
+						   <td>10월</td>
+						   <td>11월</td>
+						   <td>12월</td>
+						</tr>
+					</c:forEach>
 				</thead>
 				<tbody>
 					<!-- 검색 값이 여기에 출력 -->

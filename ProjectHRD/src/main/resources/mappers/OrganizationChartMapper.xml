@@ -53,7 +53,6 @@
 	    SET FAVORS = #{favors}
 	    WHERE employee_id = #{employee_id}
 	</update>
-
     <!-- 즐겨찾기 해제 -->
     <update id="removeFavor" parameterType="map">
 	    UPDATE tbl_employee
@@ -61,3 +60,4 @@
 	    WHERE employee_id = #{employee_id}
 	</update>
 </mapper>
+

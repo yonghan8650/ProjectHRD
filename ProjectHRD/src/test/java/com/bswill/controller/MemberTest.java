@@ -69,8 +69,14 @@ public class MemberTest {
 
 		} // for
 	}// test_회원가입()
-
-	@Test
+	
+	//@Test
+	public void test_암호화() throws Exception{
+		String encryptedPassword = pwEncoder.encode("1000");
+		System.out.println(encryptedPassword);
+	}
+	
+	//@Test
 	public void test_비밀번호암호화() throws Exception {
 
 		Connection con = null;
@@ -92,18 +98,18 @@ public class MemberTest {
 		// ???
 
 		// 비밀번호 암호화
-		String encryptedPassword = pwEncoder.encode("4000");
+		String encryptedPassword = pwEncoder.encode("1000");
 
 		// ?에 값 설정
-		pstmt.setInt(1, 4000); // 예시로 employee_id를 설정
+		pstmt.setInt(1, 1000); // 예시로 employee_id를 설정
 		pstmt.setString(2, encryptedPassword); // 암호화된 비밀번호 설정
-		pstmt.setString(3, "어드민"); // 예시로 emp_name 설정
-		pstmt.setString(4, "admin.png"); // 예시로 profil 설정
-		pstmt.setString(5, "1986-10-20"); // 예시로 birth 설정
+		pstmt.setString(3, "멤버"); // 예시로 emp_name 설정
+		pstmt.setString(4, "memb.png"); // 예시로 profil 설정
+		pstmt.setString(5, "1988-10-20"); // 예시로 birth 설정
 		pstmt.setInt(6, 1); // 예시로 gender 설정
-		pstmt.setString(7, "010-1111-2213"); // 예시로 emp_tel 설정
-		pstmt.setString(8, "2008101124@gmail.com"); // 예시로 emp_mail 설정
-		pstmt.setString(9, "김해시"); // 예시로 emp_addr 설정
+		pstmt.setString(7, "010-1111-1133"); // 예시로 emp_tel 설정
+		pstmt.setString(8, "mem@gmail.com"); // 예시로 emp_mail 설정
+		pstmt.setString(9, "울산시"); // 예시로 emp_addr 설정
 		pstmt.setInt(10, 902); // 예시로 job_id 설정
 		pstmt.setInt(11, 101); // 예시로 deptid 설정
 		pstmt.setString(12, "1986-10-20"); // 예시로 start_date 설정

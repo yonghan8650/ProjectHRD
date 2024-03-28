@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.LeavesMapper">
+	<!--모든 view를 조회하는 쿼리 -->
+	<!-- SHOW FULL TABLES IN [DB명] WHERE TABLE_TYPE LIKE 'VIEW'; -->
+
+	<!-- 휴가 신청 목록 조회 -->
+	<select id="leaveReqList" resultType="ReqLeavesVO">
+		<![CDATA[
+		SELECT r.req_leave_no,
+		       Date_format(r.req_leave_date, '%Y-%m-%d') AS req_leave_date,
+		       r.leave_type,
+		       A.emp_name,
+		       A.deptnm,
+		       Date_format(r.start_date, '%Y-%m-%d')     AS start_date,
+		       Date_format(r.end_date, '%Y-%m-%d')       AS end_date,
+		       r.reason,
+		       r.approval
+		FROM   tbl_req_leaves r
+		       JOIN (SELECT e.employee_id,
+		                    e.emp_name,
+		                    d.DEPTID,
+		                    d.deptnm
+		             FROM   tbl_employee e
+		                    JOIN tbl_department d
+		                      ON e.DEPTID = d.DEPTID) A
+		         ON r.employee_id = A.employee_id
+		WHERE  req_leave_no > 0 
+    	]]>
+		<if test="startDate == null and endDate == null">
+			AND r.req_leave_date = CURDATE()
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND r.req_leave_date between #{startDate} and #{endDate}
+		</if>
+		<if test="approval != null">
+			AND r.approval = #{approval}
+		</if>
+		<if test="leaveType != null">
+			AND r.leave_type = #{leaveType}
+		</if>
+		<if test="department != null">
+			AND A.DEPTID = #{department}
+		</if>
+	    <![CDATA[
+	    	ORDER BY r.req_leave_no ASC, r.leave_type DESC 
+	    ]]>
+	</select>
+
+	<!-- 휴가 승인 -->
+	<update id="leaveApproval">
+		UPDATE tbl_req_leaves
+		SET approval = 'Y'
+		WHERE
+		req_leave_no = #{req_leave_no}
+	</update>
+
+	<!-- 휴가 반려 -->
+	<update id="leaveRejection">
+		UPDATE tbl_req_leaves
+		SET approval = 'N'
+		WHERE
+		req_leave_no = #{req_leave_no}
+	</update>
+
+	<!-- 연차 목록 조회 -->
+	<select id="annualLeaveList" resultType="LeaveVO">
+		<![CDATA[
+			SELECT l.leave_no,
+			       l.employee_id,
+			       a.emp_name,
+			       a.deptnm,
+			       a.start_date,
+			       a.years_of_service,
+			       l.leave_days,
+			       Date_format(l.creation_date, '%Y-%m-%d') AS creation_date,
+			       l.leave_type
+			FROM   tbl_leave l
+			       JOIN annual_view a
+			         ON l.employee_id = a.employee_id
+			WHERE  l.leave_type = '1'
+		 ]]>
+		<if test="baseYear == null">
+			AND LEFT(l.leave_no, 4) = YEAR(CURDATE());
+		</if>
+		<if test="baseYear != null">
+			AND l.leave_no like CONCAT(#{baseYear},'%')
+		</if>
+		<if test="department != null">
+			AND A.DEPTID like #{department}
+		</if>
+		<if test="keyword != null">
+			AND l.employee_id like #{keyword}
+		</if>
+	</select>
+
+	<!-- 연차 삭제 -->
+	<delete id="deleteAnnualLeave">
+		DELETE FROM tbl_leave
+		WHERE leave_no = #{leave_no}
+	</delete>
+
+	<!-- 연차 생성 가능 사원 목록 가져오기 -->
+	<select id="canCreateLeaveList" resultType="LeaveVO">
+		<!-- 수정해야함 -->
+		<![CDATA[
+		SELECT a.employee_id,
+		       a.emp_name,
+		       a.start_date,
+		       a.years_of_service,
+		       a.leave_days,
+		       B.deptid,
+		       B.deptnm
+		FROM   annual_view a
+		       JOIN (SELECT e.employee_id,
+		                    e.emp_name,
+		                    e.start_date,
+		                    e.deptid,
+		                    d.deptnm
+		             FROM   tbl_employee e
+		                    LEFT JOIN tbl_leave l
+		                           ON e.employee_id = l.employee_id
+		                              AND l.leave_type = 1
+		                    LEFT JOIN tbl_department d
+		                           ON e.deptid = d.deptid
+		             WHERE  l.leave_no IS NULL
+		                     OR l.leave_type != 1) B
+		         ON a.employee_id = B.employee_id
+		            AND NOT years_of_service IN( 0 )
+		WHERE  a.employee_id > 0
+		 ]]>
+		<if test="department != null">
+			AND B.DEPTID like #{department}
+		</if>
+		<if test="keyword != null">
+			AND a.employee_id LIKE #{keyword}
+		</if>
+	</select>
+
+	<!-- 연차 생성 가능 사원 한명씩 가져오기 -->
+	<select id="canCreateLeaveOne" resultType="LeaveVO">
+		<![CDATA[
+		SELECT a.employee_id,
+		       a.emp_name,
+		       a.start_date,
+		       a.years_of_service,
+		       a.leave_days,
+		       B.deptid,
+		       B.deptnm
+		FROM   annual_view a
+		       JOIN (SELECT e.employee_id,
+		                    e.emp_name,
+		                    e.start_date,
+		                    e.deptid,
+		                    d.deptnm
+		             FROM   tbl_employee e
+		                    LEFT JOIN tbl_leave l
+		                           ON e.employee_id = l.employee_id
+		                              AND l.leave_type = 1
+		                    LEFT JOIN tbl_department d
+		                           ON e.deptid = d.deptid
+		             WHERE  l.leave_no IS NULL
+		                     OR l.leave_type != 1) B
+		         ON a.employee_id = B.employee_id
+		            AND NOT years_of_service IN( 0 )
+		WHERE  a.employee_id > 0
+		 		AND a.employee_id = #{employee_id}
+		 ]]>
+	</select>
+
+	<!-- 해당년도 휴가 갯수 세어오기 -->
+	<select id="selectLeaveCount" resultType="LeaveVO">
+		SELECT Count(*) AS leave_count
+		FROM   tbl_leave
+		WHERE  leave_no LIKE Concat(Year(CURRENT_DATE()), '%') 
+	</select>
+
+	<!-- 연차 생성 -->
+	<insert id="createAnnualLeave">
+		INSERT INTO tbl_leave
+		            (leave_no,
+		             employee_id,
+		             creation_date,
+		             leave_type,
+		             leave_days)
+		VALUES      ( #{leave_no},
+		              #{employee_id},
+		              Now(),
+		              "1",
+		              #{leave_days}) 	
+	</insert>
+</mapper>
+  

@@ -29,4 +29,15 @@ public interface BoardDAO {
 	
 	// 글 조회수 증가
 	public void boardReadcntUpdate(int board_no) throws Exception;
+	
+	// 모든 사원id 가져오기
+	public List<Integer> allEmpIdSelect() throws Exception;
+	
+	// 공지사항 등록 알림추가
+	public void NotiInsert(int employee_id, int board_no) throws Exception;
+
+	public int maxBnoSelect() throws Exception;
+	
+	
+	
 }

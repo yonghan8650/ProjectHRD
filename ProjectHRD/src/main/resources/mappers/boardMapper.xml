@@ -36,7 +36,7 @@
 	<!-- 글 수정 -->
 	<update id="updateBoard">
 		update tbl_board set title= #{title}, employee_id=#{employee_id},
-		content=#{content}
+		content=#{content}, updatedate=now()
 		where board_no = #{board_no}
 	</update>
 
@@ -70,4 +70,20 @@
 	update tbl_board set readcnt = readcnt + 1
 	where board_no = #{board_no}
 	</update>
+	
+	<!-- 모든사원 empid 가져오기 -->
+	<select id="selectEmpIdList" resultType="Integer">
+	select employee_id
+	from tbl_employee	
+	</select>
+	
+	<!-- 공지사항 작성 알림 추가 -->
+	<insert id="insertNoti" parameterType="java.util.Map">
+	insert into tbl_notification(employee_id,noti_title,noti_link)
+	value(#{employee_id}, '공지사항이 등록되었습니다.', concat('/board/read?board_no=', #{board_no}))
+	</insert>
+	
+	<select id="selectMaxBno" resultType="int">
+	SELECT MAX(board_no) FROM tbl_board
+	</select>
 </mapper>

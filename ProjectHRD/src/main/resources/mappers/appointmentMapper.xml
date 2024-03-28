@@ -6,13 +6,17 @@
 <mapper namespace="com.bswill.mapper.AppointmentMapper">
 	<insert id="insertAppointment">
 		INSERT INTO tbl_appointment(employee_id, app_issue, app_content, app_date)
-		VALUES(#{employee_id}, #{app_issue}, #{app_content},
-		#{app_date})
+		VALUES(#{employee_id}, #{app_issue}, #{app_content}, #{app_date})
 	</insert>
 
-	<select id="selectEmpLicense" resultType="AppointmentVO">
-		SELECT *
+	<select id="selectEmpAppointment" resultType="AppointmentVO">
+		SELECT app_issue, app_content, app_date
 		FROM tbl_appointment
 		WHERE employee_id=#{employee_id}
 	</select>
+	
+	<delete id="deleteAppointment">
+	DELETE FROM tbl_appointment
+	WHERE employee_id=#{employee_id} AND app_issue=#{app_issue} AND app_date=#{app_date}
+	</delete>
 </mapper>
