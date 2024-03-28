@@ -24,4 +24,6 @@ public interface EmployeeDAO {
 
 	public int empListCount(String searchType, String keyword) throws Exception;
 
+	public void insertRole_Member(Integer employee_id) throws Exception;
+
 }

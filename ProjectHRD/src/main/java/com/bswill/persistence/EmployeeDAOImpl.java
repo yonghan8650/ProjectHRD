@@ -98,4 +98,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return sqlSession.selectOne(NAMESPACE + ".totalCountEmpList", paramMap);
 	}
 
+	@Override
+	public void insertRole_Member(Integer employee_id) throws Exception {
+		logger.debug("insertRole_Member(Integer employee_id) 호출");
+
+		sqlSession.insert(NAMESPACE + ".insertRole_Member", employee_id);
+	}
+
 }

@@ -24,4 +24,6 @@ public interface EmployeeService {
 
 	public int getEmpListCount(String searchType, String keyword) throws Exception;
 
+	public void addRole_Member(Integer employee_id) throws Exception;
+
 }
