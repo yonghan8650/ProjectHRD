@@ -3,61 +3,78 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bswill.mapper.OrganizationChartMapper">
-    <resultMap type="com.bswill.domain.OrganizationChartVO" id="org">
-        <result property="employee_id" column="employee_id" />
-        <result property="emp_name" column="emp_name" />        
-        <result property="profil" column="profil" />
-        <result property="JOB_ID" column="JOB_ID" />
-        <result property="DEPTID" column="DEPTID" />
-        <result property="DEPT_NAME" column="DEPT_NAME" />
-        <result property="emp_tel" column="emp_tel" />
-        <result property="emp_mail" column="emp_mail" />
-        <result property="STATUS" column="STATUS" />
-        <result property="FAVORS" column="FAVORS" />
-    </resultMap> 
+	<resultMap type="com.bswill.domain.OrganizationChartVO" id="org">
+		<result property="employee_id" column="employee_id" />
+		<result property="emp_name" column="emp_name" />
+		<result property="profil" column="profil" />
+		<result property="JOB_ID" column="JOB_ID" />
+		<result property="DEPTID" column="DEPTID" />
+		<result property="DEPT_NAME" column="DEPT_NAME" />
+		<result property="emp_tel" column="emp_tel" />
+		<result property="emp_mail" column="emp_mail" />
+		<result property="STATUS" column="STATUS" />
+		<result property="FAVORS" column="FAVORS" />
+	</resultMap>
+	
     <!-- 사용자 ID를 기반으로 사용자 정보 조회 -->
 	<select id="getUserById" resultMap="org">
-	    SELECT * FROM tbl_employee WHERE employee_id = #{employee_id}
+		SELECT * FROM tbl_employee
+		WHERE employee_id=#{employee_id}
 	</select>
     
     <!-- 조직도 -->
-    <select id="allEmployees" resultMap="org">
-        SELECT employee_id, emp_name, profil, JOB_ID, DEPTID, emp_tel, emp_mail, STATUS
-        FROM tbl_employee
-    </select>
+	<select id="allEmployees" resultType="map">
+		SELECT employee_id, emp_name, JOB, DEPTNM, emp_tel, emp_mail, STATUS, FAVORS
+		FROM tbl_employee emp
+		JOIN tbl_job job
+		ON emp.JOB_ID=job.JOB_ID
+		JOIN tbl_department dept ON emp.DEPTID=dept.DEPTID
+	</select>
+	    
+    <!-- 즐겨찾기 추가 -->
+	<update id="updateFavors">
+		UPDATE tbl_employee SET FAVORS=#{FAVORS}
+		WHERE employee_id=#{employee_id}
+	</update>
+	
+    <!-- 즐겨찾기 목록 조회 -->
+	<select id="selectEmpFavorsList" resultType="map">
+		SELECT employee_id, emp_name, JOB, DEPTNM, emp_tel, emp_mail, STATUS
+		FROM tbl_employee emp
+		JOIN tbl_job job ON emp.JOB_ID=job.JOB_ID
+		JOIN tbl_department dept on emp.DEPTID=dept.DEPTID
+		WHERE FIND_IN_SET(emp.employee_id, (SELECT FAVORS FROM tbl_employee WHERE employee_id=#{employee_id}));
+	</select>
+	
+	<!-- getFAVORS -->
+	<select id="selectEmpFavors" resultType="String">
+		SELECT FAVORS
+		FROM tbl_employee
+		WHERE employee_id=#{employee_id}
+	</select>
     
     <!-- 부서 목록 조회 -->
-    <select id="getDepartmentList" resultMap="org">
-        SELECT DISTINCT DEPTID, DEPTNM AS DEPT_NAME
-        FROM tbl_department
-        ORDER BY DEPT_NAME
-    </select>
+	<select id="getDepartmentList" resultMap="org">
+		SELECT DISTINCT DEPTID, DEPTNM AS DEPT_NAME
+		FROM tbl_department
+		ORDER BY DEPT_NAME
+	</select>
     
     <!-- 부서별 직원 목록 가져오기 -->
-    <select id="getEmployeesByDept" resultMap="org">
-        SELECT * FROM tbl_employee WHERE DEPTID = #{DEPTID}
-    </select>
+	<select id="getEmployeesByDept" resultType="map">
+		SELECT employee_id, emp_name, JOB, DEPTNM, emp_tel, emp_mail, STATUS
+		FROM tbl_employee emp
+		JOIN tbl_job job ON emp.JOB_ID=job.JOB_ID
+		JOIN tbl_department dept on emp.DEPTID=dept.DEPTID
+		WHERE dept.DEPTID = #{DEPTID}
+	</select>
     
-    <!-- 즐겨찾기 목록 조회 -->
-    <select id="selectFavorList" resultType="OrganizationChartVO">
-        SELECT * FROM tbl_employee
-        WHERE employee_id IN (
-            SELECT FAVORS FROM tbl_employee
-            WHERE employee_id = #{employee_id}
-        )
-    </select>
-    
-    <!-- 즐겨찾기 추가 -->
-	<update id="updateFavor" parameterType="map">
-	    UPDATE tbl_employee
-	    SET FAVORS = #{favors}
-	    WHERE employee_id = #{employee_id}
-	</update>
+
     <!-- 즐겨찾기 해제 -->
-    <update id="removeFavor" parameterType="map">
-	    UPDATE tbl_employee
-	    SET FAVORS = NULL
-	    WHERE employee_id = #{employee_id}
+	<update id="removeFavor" parameterType="map">
+		UPDATE tbl_employee
+		SET FAVORS = NULL
+		WHERE employee_id = #{employee_id}
 	</update>
 </mapper>
 
