@@ -25,12 +25,12 @@
 
 	<!-- 알림 읽음 -->
 	<update id="readNoti" parameterType="map">
-    UPDATE tbl_notification SET noti_check = 1 WHERE employee_id = #{employee_id} AND noti_title = #{noti_title} AND noti_time = #{noti_time}
+    UPDATE tbl_notification SET noti_check = 1, read_time = now() WHERE employee_id = #{employee_id} AND noti_title = #{noti_title} AND noti_time = #{noti_time}
 	</update>
 	
 	<!-- 알림 전체 읽음 -->
 	<update id="readAllNoti" parameterType="int">
-    UPDATE tbl_notification SET noti_check = 1 WHERE employee_id = #{employee_id}
+    UPDATE tbl_notification SET noti_check = 1, read_time = now() WHERE employee_id = #{employee_id}
 	</update>
 	
 	<!-- 알림 삭제 -->

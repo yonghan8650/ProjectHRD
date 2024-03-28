@@ -154,16 +154,21 @@ public class NotificationController {
 		return "redirect:" + link; // 링크로 리다이렉트
 	}
 
-	// 알림 출력 여부 업데이트
-	@RequestMapping(value = "/updatePrintStatus", method = RequestMethod.POST)
-	public String updatePrintStatus(@RequestParam int employee_id, @RequestParam String noti_title,
-			@RequestParam Timestamp noti_time, @RequestParam String noti_print) {
-		try {
-			nService.updatePrintStatus(employee_id, noti_title, noti_time, noti_print);
-		} catch (Exception e) {
-			// 예외 처리
-			e.printStackTrace();
-		}
-		return "redirect:/noti/notifications";
-	}
+	 @RequestMapping(value = "/updatePrintStatus", method = RequestMethod.POST)
+	    public String updatePrintStatus(@RequestParam int employee_id, @RequestParam String noti_title,
+	                                    @RequestParam Timestamp noti_time, @RequestParam String noti_print,
+	                                    RedirectAttributes redirectAttributes) throws Exception {
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        if (authentication != null && authentication.isAuthenticated()) {
+	            int employeeId = Integer.parseInt(authentication.getName());
+	            nService.updatePrintStatus(employee_id, noti_title, noti_time, noti_print);
+	            return "redirect:/noti/notifications";
+	        } else {
+	            // 사용자가 인증되지 않은 경우에 대한 처리
+	            // 여기서는 로그만 남기고 화면에 에러 메시지를 표시하거나 로그인 페이지로 리다이렉트하는 등의 작업을 수행할 수 있습니다.
+	            logger.error("사용자가 인증되지 않았습니다. 출력 여부 업데이트에 실패했습니다.");
+	            redirectAttributes.addFlashAttribute("error", "로그인이 필요합니다.");
+	            return "redirect:/common/customLogin";
+	        }
+	    }
 }

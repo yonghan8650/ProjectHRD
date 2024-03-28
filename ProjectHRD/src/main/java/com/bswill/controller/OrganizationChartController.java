@@ -1,5 +1,6 @@
 package com.bswill.controller;
 
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import com.bswill.domain.OrganizationChartVO;
 import com.bswill.service.OrganizationChartService;
 
@@ -23,117 +25,145 @@ import com.bswill.service.OrganizationChartService;
 @RequestMapping(value = "/org/*")
 public class OrganizationChartController {
 
-    //  서비스 객체 주입
     @Inject
     private OrganizationChartService oService;
 
     private static final Logger logger = LoggerFactory.getLogger(OrganizationChartController.class);
 
-    
-    
     // http://localhost:8088/common/customLogin
     // http://localhost:8088/org/orgList
-    // 조직도 목록
+    // 조직도 목록 페이지 이동 및 데이터 전달
     @RequestMapping(value = "/orgList", method = RequestMethod.GET)
     public String orgList(Model model, HttpSession session) throws Exception {
         logger.debug(" /orgList -> orgList() 실행 ");
         logger.debug(" /orgList.jsp 이동 ");
 
+        // 사용자 인증 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
+
         if (authentication != null && authentication.isAuthenticated()) {
-            // 인증된 사용자인 경우에만 조직도 목록을 가져옴
-            int employee_id = Integer.parseInt(authentication.getName());
-            logger.debug("employee_id : " + employee_id);
-            // 조직도 목록 받기 -> DAO
+            int employeeId = Integer.parseInt(authentication.getName());
+            logger.debug("employeeId : " + employeeId);
+            
+            // 조직도 목록 조회
             List<OrganizationChartVO> orgList = oService.orgList();
             logger.debug(" orgList.size : " + orgList.size());
-            // 조직도 목록 값을 페이지에 전달(Model)
             model.addAttribute("orgList", orgList);
-            return "/org/orgList";
+      
+
+            return "/org/orgList"; // 조직도 목록 페이지로 이동
         } else {
             return "/org/orgList";
         }
     }
 
-    // 조직도 부서 목록
-    // http://localhost:8088/org/orgDept
+    // 부서 목록 페이지 이동 및 데이터 전달
     @RequestMapping(value = "/orgDept", method = RequestMethod.GET)
     public String orgDeptList(Model model) throws Exception {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	 if (authentication != null && authentication.isAuthenticated()) {
-        	int employee_id = Integer.parseInt(authentication.getName());
-        	logger.debug("employee_id : " + employee_id);
+        // 사용자 인증 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication != null && authentication.isAuthenticated()) {
+            int employeeId = Integer.parseInt(authentication.getName());
+            logger.debug("employeeId : " + employeeId);
+            
+            // 부서 목록 조회
             List<OrganizationChartVO> departmentList = oService.getDepartmentList();
             model.addAttribute("departmentList", departmentList);
+            
             return "/org/orgDept"; // 부서 목록 페이지로 이동
         }  else {
-            return "/org/orgList";
+            return "/org/orgList"; 
         }
     }
 
-    // 즐겨 찾기 목록
-    // http://localhost:8088/org/orgFavor
+ // 즐겨찾기 목록 페이지 이동 및 데이터 전달
     @RequestMapping(value = "/orgFavor", method = RequestMethod.GET)
     public String orgFavor(Model model) throws Exception {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	if (authentication != null && authentication.isAuthenticated()) {
-    		// 인증된 사용자인 경우에만 즐겨찾기 목록을 가져옴
-            int employee_id = Integer.parseInt(authentication.getName());
-            logger.debug("employee_id : " + employee_id);
-            List<OrganizationChartVO> getFavoriteEmployees = oService.orgFavor();
-            model.addAttribute("getFavoriteEmployees", getFavoriteEmployees);
+        // 사용자 인증 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication != null && authentication.isAuthenticated()) {
+            int employeeId = Integer.parseInt(authentication.getName());
+            logger.debug("employeeId : " + employeeId);
+            
+            // 즐겨찾기 목록 조회
+            List<OrganizationChartVO> selectFavorList = oService.orgFavor(employeeId);
+            model.addAttribute("getFavoriteEmployees", selectFavorList);
+            
+            // 현재 사용자의 즐겨찾기 목록 가져오기
+            OrganizationChartVO currentUser = oService.getUserById(employeeId);
+            String userFavorites = currentUser.getFAVORS();
+            
+            if (userFavorites != null) {
+                model.addAttribute("userFavorites", userFavorites);
+                logger.debug(" userFavorites : "+ userFavorites.indexOf(userFavorites));
+            } else {
+                // 즐겨찾기된 사원이 없는 경우 빈 문자열을 전달
+                model.addAttribute("userFavorites", "");
+            }
+            
             logger.debug(" orgFavor 이동 ");
-            return "/org/orgFavor";
-        }  else {
-            return "/org/orgList";
+            return "/org/orgFavor"; // 즐겨찾기 목록 페이지로 이동
+        } else {
+            return "/org/orgList"; 
         }
     }
-    
-    // 즐겨찾기 추가 기능
+
+    // 즐겨찾기 추가
     @RequestMapping(value = "/addToFavorites", method = RequestMethod.POST)
-    public String addToFavorites(@RequestParam("employee_id") int employee_id, RedirectAttributes redirectAttributes) {
-        // 즐겨찾기 추가 기능 구현
-        try {
-            oService.addToFavorites(employee_id);
-            logger.debug(" employee_id "+employee_id);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public String addToFavorites(@RequestParam("employeeId") int employeeId, HttpSession session, Model model)
+            throws Exception {
+        // 사용자 인증 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userId = authentication.getName(); // 사용자 ID 가져오기
+            oService.addToFavorites(employeeId, userId); // 즐겨찾기 추가
+            logger.debug(" 즐겨찾기 추가 성공 ");
+
+            // 즐겨찾기 목록 페이지로 이동
+            return "redirect:/org/orgFavor"; 
+        } else {
+            logger.debug(" 즐겨찾기 추가 실패 ");
+            return "redirect:/org/orgList"; 
         }
-        // 즐겨찾기가 추가된 후에 적절한 페이지로 리다이렉트
-        return "redirect:/org/orgList";
     }
-    
-    // 즐겨찾기 해제 기능
-    @RequestMapping(value = "/removeFromFavorites", method = RequestMethod.POST)
-    public String removeFromFavorites(@RequestParam("employee_id") int employee_id, RedirectAttributes redirectAttributes) {
-        try {
-            // 즐겨찾기 해제 기능 구현
-            oService.removeFromFavorites(employee_id);
-            logger.debug(" employee_id " + employee_id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 에러 처리
+
+
+ // 즐겨찾기 해제
+    @RequestMapping(value = "/removeFavor", method = RequestMethod.POST)
+    public String removeFavor(@RequestParam("employeeId") int employeeId,
+            RedirectAttributes redirectAttributes) throws Exception {
+        // 사용자 인증 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userId = authentication.getName(); // 사용자 ID 가져오기
+            // 즐겨찾기 해제
+            oService.removeFromFavorites(employeeId, userId);
+            logger.debug(" 즐겨찾기 해제 성공 ");
+            // 즐겨찾기 목록 페이지로 이동
+            return "redirect:/org/orgFavor"; 
+        } else {
+            logger.debug(" 즐겨찾기 해제 실패 ");
+            return "redirect:/org/orgFavor"; 
         }
-        // 적절한 페이지로 리다이렉트
-        return "redirect:/org/orgFavor";
     }
-    
-    // 부서별 직원 목록 가져오기
+
+
+
+    // 부서별 직원 목록 페이지 이동 및 데이터 전달
     @RequestMapping(value = "/employeesByDept", method = RequestMethod.GET)
     public String getEmployeesByDept(@RequestParam("deptId") int deptId, Model model) {
         try {
-            // 해당 부서의 직원 목록을 가져옴
+            // 해당 부서의 직원 목록 조회
             List<OrganizationChartVO> employees = oService.getEmployeesByDept(deptId);
-            // 가져온 직원 목록을 모델에 담아서 뷰 페이지로 전달
             model.addAttribute("employees", employees);
-            return "/org/employeesByDept"; // 직원 목록 페이지로 이동
+            return "/org/employeesByDept"; // 부서별 직원 목록 페이지로 이동
         } catch (Exception e) {
             e.printStackTrace();
-            // 에러 처리
-            return "/common/accessErr";
+            return "/common/accessErr"; // 에러 페이지로 이동
         }
     }
-
-    
 }
