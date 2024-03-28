@@ -1,16 +1,18 @@
 package com.bswill.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 
 import javax.inject.Inject;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -131,7 +133,7 @@ public class EmployeeController {
 
 		model.addAttribute("employee_id", evo.getEmployee_id());
 
-		return "redirect:/emp/viewEmp";
+		return "redirect:/emp/listEmp?searchType=employee_id&keyword=";
 	}
 
 	private String saveProfile(int employee_id, MultipartFile profile) throws Exception {
@@ -146,13 +148,29 @@ public class EmployeeController {
 		return profileName;
 	}
 
+	private void deleteProfile(String profileName) {
+		String uploadDir = "D://upload/profile/";
+		File file = new File(uploadDir + profileName);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
+
 	// http://localhost:8088/emp/listEmp
 	@RequestMapping(value = "listEmp", method = RequestMethod.GET)
-	public void listEmpGET(Model model, HttpSession session) throws Exception {
+	public void listEmpGET(@RequestParam(name = "searchType", required = false) String searchType,
+			@RequestParam(name = "keyword", required = false) String keyword, Model model, HttpSession session) throws Exception {
 		logger.debug("listEmpGET()");
 
-		model.addAttribute("listEmp", eService.listEmp());
+		if (searchType == null) {
+			searchType = "''";
+		}
 
+		if (keyword == null) {
+			keyword = "''";
+		}
+
+		model.addAttribute("listEmp", eService.listEmp(searchType, keyword));
 	}
 
 	// http://localhost:8088/emp/viewEmp
@@ -182,6 +200,166 @@ public class EmployeeController {
 		eService.modifyEmpTelAndEmail(employee_id, emp_tel, emp_mail);
 
 		return "redirect:/emp/viewEmp?employee_id=" + employee_id;
+	}
+
+	@RequestMapping(value = "/modifyEmp", method = RequestMethod.GET)
+	public void modifyEmpGET(@RequestParam("employee_id") int employee_id, Model model) throws Exception {
+		logger.debug("modifyEmpGET() 호출");
+
+		model.addAttribute("viewEmpVO", eService.viewEmp(employee_id));
+		model.addAttribute("viewEmpLicenseVO", lService.viewEmpLicense(employee_id));
+		model.addAttribute("viewEmpAppointmentVO", aService.viewEmpAppointment(employee_id));
+	}
+
+	@RequestMapping(value = "/modifyEmp", method = RequestMethod.POST)
+	public String modifyEmpPOST(EmployeeVO evo, @RequestParam(name = "profile", required = false) MultipartFile profile, Model model)
+			throws Exception {
+		logger.debug("modifyEmpPOST() 호출");
+
+		logger.debug("evo: " + evo);
+
+		logger.debug("profile: " + profile);
+		if (profile != null && !profile.isEmpty()) {
+			String profileName = saveProfile(evo.getEmployee_id(), profile);
+
+			logger.debug("profileName: " + profileName);
+
+			if (!profileName.equals(evo.getPROFIL())) {
+				deleteProfile(evo.getPROFIL());
+			}
+
+			evo.setPROFIL(profileName);
+		}
+
+		if (evo.getSTATUS() == 3) {
+			evo.setQuit_date(new Timestamp(System.currentTimeMillis()));
+			evo.setEnabled("0");
+		} else {
+			evo.setQuit_date(null);
+			evo.setEnabled("1");
+		}
+
+		eService.modifyEmp(evo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(evo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 사원정보가 변경되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + evo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void fileDownload(@RequestParam("PROFIL") String PROFIL, HttpServletResponse resp) throws Exception {
+		logger.debug("fileDownload() 호출");
+
+		String downloadPath = "D:\\upload\\profile\\";
+
+		logger.debug("다운로드할 fileName: " + PROFIL);
+
+		// 다운로드할 파일
+		File file = new File(downloadPath + PROFIL);
+
+		// 첨부파일을 전송하는 통로
+		OutputStream out = resp.getOutputStream();
+
+		// 모든 파일의 다운로드 형태를 통일
+		resp.setHeader("Cache-Control", "no-cache");
+		resp.addHeader("Content-disposition", "attachment; fileName=" + (URLEncoder.encode(PROFIL, "UTF-8")));
+
+		// 파일 데이터 읽기
+		FileInputStream fis = new FileInputStream(file);
+
+		byte[] buffer = new byte[1024 * 8];
+
+		int data = 0;
+		while ((data = fis.read(buffer)) != -1) { // -1 = 파일의 끝(EOF)
+			// 다운로드 출력
+			out.write(buffer, 0, data);
+		}
+
+		out.flush(); // 버퍼의 여백을 공백으로 채움
+		out.close();
+		fis.close();
+	}
+
+	@RequestMapping(value = "/insertLicense", method = RequestMethod.POST)
+	public String insertLicense(LicenseVO lvo) throws Exception {
+		logger.debug("insertLicense() 호출");
+
+		logger.debug("lvo: " + lvo);
+
+		lService.addEmpLicense(lvo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(lvo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 자격정보가 추가되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + lvo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/deleteLicense", method = RequestMethod.POST)
+	public String deleteLicense(LicenseVO lvo) throws Exception {
+		logger.debug("insertLicense() 호출");
+
+		logger.debug("lvo: " + lvo);
+
+		lService.subEmpLicense(lvo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(lvo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 자격정보가 삭제되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + lvo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/insertAppointment", method = RequestMethod.POST)
+	public String insertAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("inserAppointment() 호출");
+
+		logger.debug("lvo: " + avo);
+
+		aService.addEmpAppointment(avo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(avo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 발령정보가 추가되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + avo.getEmployee_id();
+	}
+
+	@RequestMapping(value = "/deleteAppointment", method = RequestMethod.POST)
+	public String deleteAppointment(AppointmentVO avo) throws Exception {
+		logger.debug("insertAppointment() 호출");
+
+		logger.debug("lvo: " + avo);
+
+		aService.subEmpAppointment(avo);
+
+		NotificationVO nvo = new NotificationVO();
+
+		nvo.setEmployee_id(avo.getEmployee_id());
+		nvo.setNoti_title("관리자에 의해 발령정보가 삭제되었습니다.");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEmp");
+
+		vService.notifyModification(nvo);
+
+		return "redirect:/emp/modifyEmp?employee_id=" + avo.getEmployee_id();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -274,7 +452,7 @@ public class EmployeeController {
 		NotificationVO nvo = new NotificationVO();
 		nvo.setEmployee_id(vvo.getEmployee_id());
 		nvo.setNoti_title("요청하신 " + vvo.getEve_subject() + "씨의 " + vvo.getEve_class() + " 경조비 신청이 승인되었습니다.");
-		nvo.setNoti_link("http://localhost:8088/emp/viewEvent?searchType=eve_auth&keyword=%EC%8A%B9%EC%9D%B8");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEvent?searchType=eve_auth&keyword=%EC%8A%B9%EC%9D%B8");
 
 		vService.notifyModification(nvo);
 
@@ -292,7 +470,7 @@ public class EmployeeController {
 		NotificationVO nvo = new NotificationVO();
 		nvo.setEmployee_id(vvo.getEmployee_id());
 		nvo.setNoti_title("요청하신 " + vvo.getEve_subject() + "씨의 " + vvo.getEve_class() + " 경조비 신청이 거부되었습니다.");
-		nvo.setNoti_link("http://localhost:8088/emp/viewEvent?searchType=eve_auth&keyword=%EA%B1%B0%EB%B6%80");
+		nvo.setNoti_link("http://c6d2311t2.itwillbs.com/emp/viewEvent?searchType=eve_auth&keyword=%EA%B1%B0%EB%B6%80");
 
 		vService.notifyModification(nvo);
 

@@ -12,12 +12,16 @@ public interface EmployeeDAO {
 
 	public int selectEmpCount(Integer year) throws Exception;
 
-	public List<Map<String, Object>> selectEmpList() throws Exception;
+	public List<Map<String, Object>> selectEmpList(String searchType, String keyword) throws Exception;
 
 	public Map<String, Object> selectEmp(Integer employee_id) throws Exception;
 
 	public void insertNotiEmp(NotificationVO nvo) throws Exception;
 
 	public void updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) throws Exception;
+
+	public void updateEmp(EmployeeVO evo) throws Exception;
+
+	public int empListCount(String searchType, String keyword) throws Exception;
 
 }

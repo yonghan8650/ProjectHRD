@@ -11,15 +11,15 @@
 		</div>
 
 		<form action="" method="get">
-			<label for="searchType">검색 유형:</label>
-			<select id="searchType" name="searchType">
+			<label for="searchType">검색 유형:</label> <select id="searchType" name="searchType">
 				<option value="eve_class">경조구분</option>
 				<option value="eve_subject">대상자명</option>
 				<option value="eve_date">경조일자</option>
 				<option value="req_date">신청일자</option>
 				<option value="eve_auth">신청상태</option>
 			</select>
-			<input type="hidden" value="${employee_id }"> <input type="text" id="keyword" name="keyword">
+			<input type="hidden" value="${employee_id }">
+			<input type="text" id="keyword" name="keyword">
 			<button type="submit">검색</button>
 		</form>
 
@@ -48,11 +48,11 @@
 								<c:when test="${list.eve_auth eq '신청'}">
 									<span class="label label-warning">신청</span>
 								</c:when>
-								<c:when test="${list.eve_auth == '승인'}">
+								<c:when test="${list.eve_auth eq '승인'}">
 									<span class="label label-success">승인</span>
 								</c:when>
-								<c:when test="${list.eve_auth == '보류'}">
-									<span class="label label-danger">보류</span>
+								<c:when test="${list.eve_auth eq '거부'}">
+									<span class="label label-danger">거부</span>
 								</c:when>
 							</c:choose>
 						</td>
@@ -60,7 +60,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
 	</div>
 </div>
 

@@ -41,10 +41,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectEmpList() throws Exception {
+	public List<Map<String, Object>> selectEmpList(String searchType, String keyword) throws Exception {
 		logger.debug("selectEmpList() 호출");
 
-		return sqlSession.selectList(NAMESPACE + ".selectEmpList");
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("searchType", searchType);
+		paramMap.put("keyword", keyword);
+
+		return sqlSession.selectList(NAMESPACE + ".selectEmpList", paramMap);
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public void insertNotiEmp(NotificationVO nvo) throws Exception {
-		logger.debug("insertNotiEventAuth(NotificationVO nvo 호출");
+		logger.debug("insertNotiEventAuth(NotificationVO nvo) 호출");
 
 		sqlSession.insert(NAMESPACE + ".insertNotiEmpAuth", nvo);
 	}
@@ -64,14 +69,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) throws Exception {
 		logger.debug("updateEmpTelAndEmail(Integer employee_id, String emp_tel, String emp_mail) 호출");
-		
+
 		Map<String, Object> paramMap = new HashMap<>();
 
 		paramMap.put("employee_id", employee_id);
 		paramMap.put("emp_tel", emp_tel);
 		paramMap.put("emp_mail", emp_mail);
-		
+
 		sqlSession.update(NAMESPACE + ".updateEmpTelAndEmail", paramMap);
+	}
+
+	@Override
+	public void updateEmp(EmployeeVO evo) throws Exception {
+		logger.debug("updateEmp(Integer employee_id) 호출");
+
+		sqlSession.update(NAMESPACE + ".updateEmp", evo);
+	}
+
+	@Override
+	public int empListCount(String searchType, String keyword) throws Exception {
+		logger.debug("empListCount() 호출");
+
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("searchType", searchType);
+		paramMap.put("keyword", keyword);
+
+		return sqlSession.selectOne(NAMESPACE + ".totalCountEmpList", paramMap);
 	}
 
 }

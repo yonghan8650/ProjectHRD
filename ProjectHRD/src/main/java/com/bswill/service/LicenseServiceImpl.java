@@ -32,4 +32,18 @@ public class LicenseServiceImpl implements LicenseService {
 
 		return ldao.selectEmpLicense(employee_id);
 	}
+
+	@Override
+	public void addEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("addEmpLicense(LicenseVO lvo) 호출");
+
+		ldao.insertEmpLicense(lvo);
+	}
+
+	@Override
+	public void subEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("subEmpLicense(LicenseVO lvo) 호출");
+
+		ldao.deleteEmpLicense(lvo);
+	}
 }

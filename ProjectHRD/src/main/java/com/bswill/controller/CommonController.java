@@ -36,6 +36,7 @@ public class CommonController {
 		logger.info(" accessDenied() 호출 ");
 		logger.info(" 접근 권한없는 접근 발생 ");
 		logger.info(" auth : " + auth);
+
 	}
 
 	// http://localhost:8088/common/customLogin
@@ -64,8 +65,19 @@ public class CommonController {
 			session.setAttribute("evo", evo);
 			logger.debug("evo : " + evo);
 		} catch (NumberFormatException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
+
+		// 재직 사원 수
+		model.addAttribute("currentEmpCnt", cService.getCurrentEmpCnt());
+		// 전체 사원 수
+		model.addAttribute("allEmpCnt", cService.getAllEmpCnt());
+		// 올해 입사자 수
+		model.addAttribute("newEmpCnt",cService.getNewEmptCnt());		
+		// 부서 정보
+		model.addAttribute("deptInfo", cService.getdeptInfo());
+		// 직책 정보
+		model.addAttribute("jobInfo", cService.getJobInfo());
 	}
 
 	// 비밀번호 변경 페이지
