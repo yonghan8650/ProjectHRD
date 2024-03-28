@@ -85,7 +85,7 @@
 		var keyword = document.getElementById("keyword").value;
 		var department = document.getElementById("department").value;
 
-		var url = "/leaves/anuualLeaveAdd?";
+		var url = "/leaves/annualLeaveAdd?";
 		var params = [];
 
 		if (department.trim() !== "" && department.trim() !== "부서") {

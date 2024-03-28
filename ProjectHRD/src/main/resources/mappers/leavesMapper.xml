@@ -84,13 +84,13 @@
 			WHERE  l.leave_type = '1'
 		 ]]>
 		<if test="baseYear == null">
-			AND LEFT(l.leave_no, 4) = YEAR(CURDATE());
+			AND LEFT(l.leave_no, 4) = YEAR(CURDATE())
 		</if>
 		<if test="baseYear != null">
 			AND l.leave_no like CONCAT(#{baseYear},'%')
 		</if>
 		<if test="department != null">
-			AND A.DEPTID like #{department}
+			AND a.deptid = #{department}
 		</if>
 		<if test="keyword != null">
 			AND l.employee_id like #{keyword}
@@ -133,10 +133,10 @@
 		WHERE  a.employee_id > 0
 		 ]]>
 		<if test="department != null">
-			AND B.DEPTID like #{department}
+			AND B.DEPTID = #{department}
 		</if>
 		<if test="keyword != null">
-			AND a.employee_id LIKE #{keyword}
+			AND a.employee_id = #{keyword}
 		</if>
 	</select>
 

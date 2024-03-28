@@ -193,11 +193,18 @@ public class LeavesController {
 	public void canAnnualLeaveAddGET(@RequestParam(required = false) String department,
 			@RequestParam(required = false) String keyword, Model model) throws Exception {
 
+		// 검색
+		SearchCriteria cri = new SearchCriteria();
+		cri.setDepartment(department);
+		cri.setKeyword(keyword);
+		logger.debug(" department : " + department);
+		logger.debug(" keyword : " + keyword);
+		
 		// 부서 목록 가져오기
 		List<DepartmentVO> depList = aService.departmentList();
 
 		// 연차 생성 가능한 사원 목록
-		List<LeaveVO> annualList = lService.canCreateAnnualLeaveList();
+		List<LeaveVO> annualList = lService.canCreateAnnualLeaveList(cri);
 
 		model.addAttribute("depList", depList);
 		model.addAttribute("annualList", annualList);

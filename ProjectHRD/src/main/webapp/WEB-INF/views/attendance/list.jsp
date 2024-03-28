@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <div class="content">
 	<section class="content-header">
@@ -15,14 +16,18 @@
 	<div class="box">
 		<div class="box-header with-border">
 			<form id="searchForm" name="searchForm" action="/attendance/list">
-				<table>
+				<table border=0>
 					<tr>
 						<td>
 							<div class="input-group date">
-								<input type="date" class="form-control pull-right" id="searchDate" name="searchDate" value="${formattedDate}">
+								<input type="date" class="form-control pull-right"
+									id="searchDate" name="searchDate">
 							</div>
 						</td>
-						<td><select id="department" name="department" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+						<td><select id="department" name="department"
+							class="form-control select2 select2-hidden-accessible"
+							style="width: 100%;" data-select2-id="1" tabindex="-1"
+							aria-hidden="true">
 								<option>부서</option>
 								<c:forEach var="list" items="${depList}">
 									<option value="${list.DEPTID }">${list.DEPTNM}</option>
@@ -31,23 +36,31 @@
 						<td>
 							<button onclick="search()" class="btn btn-block btn-default">조회</button>
 						</td>
+						<td width="1300px"><button style="width: 80px; float: right;"
+								class="btn btn-block btn-default float-right"
+								onclick="deleteChecked()">행삭제</button></td>
 					</tr>
 				</table>
 			</form>
+
 		</div>
 		<div class="box-body">
-			<form method="POST" name="attendanceList" id="attendanceList" action="">
-				<input type="hidden" name="checkList" id="checkList"> <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
+			<form method="POST" name="attendanceList" id="attendanceList"
+				action="">
+				<input type="hidden" name="checkList" id="checkList"> <input
+					type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<th><input type="checkbox" name="allCheck" id="allCheck" onclick="checkAll()"></th>
+							<th><input type="checkbox" name="allCheck" id="allCheck"
+								onclick="checkAll()"></th>
 							<th>근무일자</th>
 							<th>사원번호</th>
 							<th>성명</th>
 							<th>직책</th>
 							<th>부서</th>
-							<th>근무상태</th> <!-- 정상근무1, 외근2, 출장3, 연차4, 휴가5, 조퇴6, 결근7 -->
+							<th>근무상태</th>
+							<!-- 정상근무1, 외근2, 출장3, 연차4, 휴가5, 조퇴6, 결근7 -->
 							<th>출근시각</th>
 							<th>퇴근시각</th>
 							<th>휴게시간</th>
@@ -55,7 +68,8 @@
 						</tr>
 						<c:forEach var="list" items="${attendanceList}">
 							<tr>
-								<td><input type="checkbox" id="ap_check" name="ap_check" value="${list.att_no}"></td>
+								<td><input type="checkbox" id="ap_check" name="ap_check"
+									value="${list.att_no}"></td>
 								<td>${list.att_date}</td>
 								<td>${list.employee_id}</td>
 								<td>${list.emp_name}</td>
@@ -72,7 +86,7 @@
 				</table>
 				<table>
 					<tr>
-						<td><button class="btn btn-block btn-default" onclick="deleteChecked()">행삭제</button></td>
+
 					</tr>
 				</table>
 			</form>
@@ -81,6 +95,19 @@
 </div>
 <%@ include file="../include/footer.jsp"%>
 <script>
+	//페이지가 로드될 때 이전에 선택한 날짜와 부서를 유지
+	window.onload = function() {
+		var searchDate = "${searchDate}";
+		if (searchDate.trim() !== "") {
+			document.getElementById("searchDate").value = searchDate;
+		}
+
+		var department = "${department}";
+		if (department.trim() !== "" && department.trim() !== "부서") {
+			document.getElementById("department").value = department;
+		}
+	}
+
 	// 검색
 	function search() {
 		var searchDate = document.getElementById("searchDate").value;

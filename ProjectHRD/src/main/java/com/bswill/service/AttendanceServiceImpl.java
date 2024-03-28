@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
 import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.EmployeeVO;
 import com.bswill.persistence.AttendanceDAO;
 
 @Service
@@ -42,6 +43,5 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public List<DepartmentVO> departmentList() throws Exception {
 		logger.debug(" S : === departmentList() 실행 === ");
 		return adao.departmentList();
-	}
-
+	}	
 }

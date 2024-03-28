@@ -74,51 +74,62 @@
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token }"> <input type="hidden"
 					name="checkList" id="checkList">
-				<table class="table table-bordered">
-					<tbody>
-						<tr>
-							<th><input type="checkbox" name="allCheck" id="allCheck"
-								onclick="checkAll()"></th>
-							<th>번호</th>
-							<th>신청일</th>
-							<th>휴가유형</th>
-							<th>성명</th>
-							<th>부서</th>
-							<th>휴가 시작일</th>
-							<th>휴가 종료일</th>
-							<th>휴가 사유</th>
-							<th>승인여부</th>
-						</tr>
-						<c:forEach var="list" items="${leaveReqList }">
+				<c:choose>
+					<c:when test="${empty leaveReqList}">
+						<table class="table table-bordered">
 							<tr>
-								<td><input type="checkbox" id="ap_check" name="ap_check"
-									value="${list.req_leave_no}"></td>
-								<td>${list.req_leave_no }</td>
-								<td>${list.req_leave_date }</td>
-								<td>${list.leave_type }</td>
-								<td>${list.emp_name }</td>
-								<td>${list.deptnm }</td>
-								<td>${list.start_date }</td>
-								<td>${list.end_date }</td>
-								<td>${list.reason }</td>
-								<td><c:choose>
-										<c:when test="${list.approval == 'Y' }">
+								<td>처리 가능한 휴가신청이 없습니다.</td>
+							</tr>
+						</table>
+					</c:when>
+					<c:otherwise>
+						<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<th><input type="checkbox" name="allCheck" id="allCheck"
+										onclick="checkAll()"></th>
+									<th>번호</th>
+									<th>신청일</th>
+									<th>휴가유형</th>
+									<th>성명</th>
+									<th>부서</th>
+									<th>휴가 시작일</th>
+									<th>휴가 종료일</th>
+									<th>휴가 사유</th>
+									<th>승인여부</th>
+								</tr>
+								<c:forEach var="list" items="${leaveReqList }">
+									<tr>
+										<td><input type="checkbox" id="ap_check" name="ap_check"
+											value="${list.req_leave_no}"></td>
+										<td>${list.req_leave_no }</td>
+										<td>${list.req_leave_date }</td>
+										<td>${list.leave_type }</td>
+										<td>${list.emp_name }</td>
+										<td>${list.deptnm }</td>
+										<td>${list.start_date }</td>
+										<td>${list.end_date }</td>
+										<td>${list.reason }</td>
+										<td><c:choose>
+												<c:when test="${list.approval == 'Y' }">
 						승인
 						</c:when>
-										<c:when test="${list.approval == 'N' }">
+												<c:when test="${list.approval == 'N' }">
 						반려
 						</c:when>
-										<c:otherwise>
-											<button type="button"
-												onclick="location.href='/leaves/approval?req_leave_no=${list.req_leave_no }'">승인</button>
-											<button type="button"
-												onclick="location.href='/leaves/rejection?req_leave_no=${list.req_leave_no }'">반려</button>
-										</c:otherwise>
-									</c:choose></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+												<c:otherwise>
+													<button type="button"
+														onclick="location.href='/leaves/approval?req_leave_no=${list.req_leave_no }'">승인</button>
+													<button type="button"
+														onclick="location.href='/leaves/rejection?req_leave_no=${list.req_leave_no }'">반려</button>
+												</c:otherwise>
+											</c:choose></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:otherwise>
+				</c:choose>
 				<table>
 					<tr>
 						<td colspan="10">
@@ -133,7 +144,7 @@
 		</div>
 	</div>
 </div>
-<%@ include file="../include/footer.jsp"%> 
+<%@ include file="../include/footer.jsp"%>
 <script>
 	// 검색 
 	function search() {
