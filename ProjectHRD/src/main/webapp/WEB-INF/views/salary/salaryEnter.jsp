@@ -4,75 +4,87 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
 
-<h1>급여 입력(관리자)</h1>
-
 <link rel="stylesheet" href="<c:url value="/resources/plugins/datepicker/datepicker3.css"/>">
 <script src="<c:url value="/resources/plugins/datepicker/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/resources/plugins/datepicker/locales/bootstrap-datepicker.kr.js"/>"></script>
 
+<section class="content-header">
+	<h1>급여 입력(관리자)</h1>
+</section>
+
 <section class="content">
-	<div class="box">
-		<div class="box-header">
-			<h3 class="box-title">급여 검색 (입사년월 입력)</h3>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<fieldset>
-					<form action="/salary/salaryEnter">
-						<div class="input-group date" style="width: 400px;">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input type="text" class="form-control pull-right" id="datepicker" name="startDate">
-							<div class="input-group-btn">
-								<button type="submit" class="btn btn-primary">검색</button>
-							</div>
-						</div>
-					</form>
-				</fieldset>
-			</div>
-		</div>	
-		
-		<div class="row">
-			<div class="col-md-6">
-				<div class="box">
-					<div class="box-header">
-						<h3 class="box-title">사원 목록</h3>
-					</div>
-	
-					<div class="box-body no-padding" style="overflow-y: auto;">
-						<table class="table table-striped" style="width: 100%;">
-							<tbody>
-								<tr>
-									<th>사원번호</th>
-									<th>성명</th>
-									<th>직급</th>
-									<th>부서</th>							
-								</tr>
-								<c:forEach var="see" items="${salaryEnterEmp }">
-									<tr>
-										<td>
-											<a href="/salary/salaryEnter?startDate=${cri.startDate }&employee_id=${see.employee_id }&JOB_ID=${see.JOB_ID }">${see.employee_id }</a>
-										</td>
-										<td>${see.emp_name }</td>
-										<td>${see.JOB_ID }</td>
-										<td>${see.department }</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">급여 검색 (입사년도 입력)</h3>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<fieldset>
+							<form action="/salary/salaryEnter">
+								<div class="input-group date" style="width: 400px;">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" class="form-control pull-right" id="datepicker" name="startDate">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-primary">검색</button>
+									</div>
+								</div>
+							</form>
+						</fieldset>
 					</div>
 				</div>
 			</div>
-			
-			<c:forEach var="sem" items="${salaryEnterMore }">
-			<div class="col-md-6">
-				<div class="box">
+		</div>	
+	</div>
+		
+	<div class="row">
+		<div class="col-md-6">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">사원 목록</h3>
+				</div>
+
+				<div class="box-body no-padding table-responsive" style="height: 400px;">
+					<table class="table table-striped" style="width: 100%;">
+						<tbody>
+							<tr>
+								<th>사원번호</th>
+								<th>성명</th>
+								<th>직급</th>
+								<th>부서</th>							
+							</tr>
+							<c:forEach var="see" items="${salaryEnterEmp }">
+								<tr>
+									<td>
+										<a href="/salary/salaryEnter?startDate=${cri.startDate }&employee_id=${see.employee_id }&JOB_ID=${see.JOB_ID }">${see.employee_id }</a>
+									</td>
+									<td>${see.emp_name }</td>
+									<td>${see.JOB_ID }</td>
+									<td>${see.department }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<c:forEach var="sem" items="${salaryEnterMore }">
+		<div class="col-md-6">
+			<div class="box">
+				<form action="/salary/salaryEnter">
 					<div class="box-header">
 						<h3 class="box-title">급여입력(지급/공제내역)</h3>
+						<div class="box-tools">
+							<button type="submit" class="btn btn-primary">계산하기</button>
+						</div>
 					</div>
-				<form action="/salary/salaryEnter">
-					<div class="box-body no-padding table-responsive" style="height: 150px;">
+					
+					<div class="box-body no-padding table-responsive" style="height: 100px;">
 						<table class="table table-striped">
 							<tbody>
 								<tr>
@@ -92,20 +104,23 @@
 								</tr>
 							</tbody>
 						</table>
-						<input type="submit" value="계산하기">
 					</div>
 				</form>
-				</div>
 			</div>
-			</c:forEach>
-			
-			<c:forEach var="ses" items="${salaryEnterSalary }">
-			<div class="col-md-6">
-				<div class="box">
+		</div>
+		</c:forEach>
+		
+		<c:forEach var="ses" items="${salaryEnterSalary }">
+		<div class="col-md-6">
+			<div class="box">
+				<form role="form" method="post">
 					<div class="box-header">
 						<h3 class="box-title">급여입력(지급/공제내역)</h3>
+						<div class="box-tools">
+							<button type="submit" class="btn btn-primary" onclick="alert('급여정보가 입력되었습니다.')">저장하기</button>
+						</div>
 					</div>
-				<form role="form" method="post">
+					
 					<div class="box-body no-padding">
 						<table class="table table-striped table-responsive" style="height: 300px;">
 							<tbody>
@@ -167,13 +182,11 @@
 						</table>
 						<input type="hidden" name="employee_id" value="${cri.employee_id }">
 						<input type="hidden" name="JOB_ID" value="${cri.JOB_ID }">
-						<button type="submit" class="btn btn-primary" onclick="alert('급여정보가 입력되었습니다.')">저장하기</button>
 					</div>
 				</form>
-				</div>
 			</div>
-			</c:forEach>
 		</div>
+		</c:forEach>
 	</div>
 </section>
 
