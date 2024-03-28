@@ -20,5 +20,7 @@ public interface CommonService {
 
 	public List<JobVO> getJobInfo() throws Exception;
 
-	public int getRestEmpCnt() throws Exception;
+	public int getAllEmpCnt() throws Exception;
+
+	public int getNewEmptCnt() throws Exception;
 }
