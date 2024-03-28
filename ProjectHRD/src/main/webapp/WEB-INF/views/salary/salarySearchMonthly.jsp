@@ -12,14 +12,15 @@
 	<h1>salarySearchMonthly.jsp</h1>
 	<h2>월별 급여조회 페이지(관리자용)</h2>
 	
-	salarySearchMonthly : ${salarySearchMonthly }
+	salarySearchEmp : ${salarySearchEmp }<br>
+	salarySearchMonthly : ${salarySearchMonthly }<br>
 	
 	<hr>
 	
 	<form action="/salary/salarySearchMonthly">
 		<fieldset>
 			<legend>월별 급여 검색</legend>
-				급여년월 : <input type="text" name="keyword"> ~ <input type="text" name="keyword2">
+				급여년월 : <input type="text" name="startDate"> ~ <input type="text" name="endDate">
 				<input type="submit" value="검색">
 				예시 : 2023-09 ~ 2023-12
 		</fieldset>
@@ -37,12 +38,12 @@
 				</tr>
 				
 				<!-- 검색 값이 여기에 출력 -->
-				<c:forEach var="ssm" items="${salarySearchMonthly }">
+				<c:forEach var="ssm" items="${salarySearchEmp }">
 					<tr>
 						<!-- 순번은 임시로 지정함 -->
 						<td>1</td>
 						<td>
-							<a href="/salarySearch?keyword=<fmt:formatDate value="${ssm.pay_yearmonth }" pattern="yyyy-MM"/>
+							<a href="/salary/salarySearchMonthly?startDate=${cri.startDate }&endDate=${cri.endDate }
 							&emp_id=${ssm.employee_id }">${ssm.employee_id }</a>
 						</td>
 						<td>${ssm.emp_name }</td>
