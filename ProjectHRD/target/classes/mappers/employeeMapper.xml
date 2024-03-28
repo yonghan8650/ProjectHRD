@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.EmployeeMapper">
+	<select id="selectEmpCount" resultType="int">
+		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
+	</select>
+
+	<insert id="insertEmp">
+		INSERT INTO tbl_employee(employee_id, PASSWD, emp_name, PROFIL, birth, gender, emp_tel, emp_mail, emp_addr, JOB_ID, DEPTID, start_date)
+		VALUES(#{employee_id}, #{PASSWD}, #{emp_name}, #{PROFIL}, #{birth}, #{gender}, #{emp_tel}, #{emp_mail}, #{emp_addr}, #{JOB_ID}, #{DEPTID}, #{start_date})
+	</insert>
+
+	<select id="selectEmpList" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, job.JOB, dept.DEPTNM, emp.start_date, emp.STATUS
+		FROM tbl_employee emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+		WHERE ${searchType} LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="totalCountEmpList" resultType="int">
+		SELECT count(emp.employee_id)
+		FROM tbl_employee emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+		WHERE ${searchType} LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="selectEmp" resultType="map">
+		SELECT emp.employee_id, emp.emp_name, emp.PROFIL, emp.birth, emp.gender, emp.emp_tel, emp.emp_mail, emp.start_date, emp.quit_date, emp.emp_addr, job.JOB, dept.DEPTNM, emp.STATUS, emp.quit_date
+		FROM tbl_employee emp
+		LEFT JOIN tbl_job job ON emp.JOB_ID = job.JOB_ID
+		LEFT JOIN tbl_department dept ON emp.DEPTID = dept.DEPTID
+		WHERE emp.employee_id=#{employee_id}
+	</select>
+	
+	<insert id="insertNotiEmpAuth">
+		INSERT INTO tbl_notification (employee_id, noti_title, noti_link)
+		VALUES (#{employee_id}, #{noti_title}, #{noti_link})
+	</insert>
+
+	<update id="updateEmpTelAndEmail">
+		UPDATE tbl_employee SET emp_tel=#{emp_tel}, emp_mail=#{emp_mail}
+		WHERE employee_id=#{employee_id}
+	</update>
+	
+	<update id="updateEmp">
+		UPDATE tbl_employee SET emp_name=#{emp_name}, PROFIL=#{PROFIL}, birth=#{birth}, gender=#{gender}, emp_tel=#{emp_tel}, emp_mail=#{emp_mail}, emp_addr=#{emp_addr}, JOB_ID=#{JOB_ID}, DEPTID=#{DEPTID}, STATUS=#{STATUS}, quit_date=#{quit_date}, enabled=#{enabled}
+		WHERE employee_id=#{employee_id}
+	</update>
+</mapper>

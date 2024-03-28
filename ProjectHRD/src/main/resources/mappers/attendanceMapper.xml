@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bswill.mapper.AttendanceMapper">
+
+	<!-- 출퇴근 목록 조회 검색 + 페이징 -->
+	<select id="attendanceList" resultType="AttendanceVO">
+		<![CDATA[
+			SELECT 
+			    A.att_no,
+			    DATE_FORMAT(A.att_date, '%Y-%m-%d') AS att_date,
+			    A.employee_id,
+			    E.emp_name,
+			    J.job,
+			    D.deptnm,
+			    A.work_type,
+			    A.start_time,
+			    A.finish_time,
+			    A.break_time,
+			    SEC_TO_TIME(TIMESTAMPDIFF(SECOND, A.start_time, A.finish_time)) AS work_time
+			FROM 
+			    tbl_attendance A
+			    INNER JOIN tbl_employee E ON A.employee_id = E.employee_id
+			    INNER JOIN tbl_department D ON E.deptid = D.deptid
+			    INNER JOIN tbl_job J ON E.job_id = J.job_id
+			WHERE  
+			    A.att_no > 0
+		]]>
+		<include refid="date" />
+		<include refid="departments" />
+		<![CDATA[
+			ORDER BY att_no DESC, start_time DESC 
+		]]>
+	</select>
+
+	<!-- 검색 조건 -->
+	<!-- 일 -->
+	<sql id="date">
+		<if test="searchDate == null">
+			AND
+			att_date LIKE now()
+		</if>
+		<if test="searchDate != null">
+			AND
+			att_date LIKE #{searchDate}
+		</if>
+	</sql>
+	<!-- 부서 -->
+	<sql id="departments">
+		<if test="department != null">
+			AND
+			DEPTID LIKE concat('%',#{department}, '%')
+		</if>
+	</sql>
+
+	<!-- 삭제 -->
+	<delete id="deleteAttendance">
+		DELETE FROM tbl_attendance
+		WHERE att_no = #{att_no}
+	</delete>
+
+	<!-- 부서 목록 불러오기 -->
+	<select id="selectDep" resultType="DepartmentVO">
+		SELECT *
+		FROM   tbl_department 
+	</select>
+
+
+
+
+</mapper>

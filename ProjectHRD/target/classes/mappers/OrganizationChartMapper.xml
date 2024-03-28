@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bswill.mapper.OrganizationChartMapper">
+<resultMap type="com.bswill.domain.OrganizationChartVO" id="org">
+		<result property="employee_id" column="employee_id" />
+		<result property="emp_name" column="emp_name" />		
+		<result property="profil" column="profil" />
+		<result property="JOB_ID" column="JOB_ID" />
+		<result property="DEPTID" column="DEPTID" />
+		<result property="DEPT_NAME" column="DEPT_NAME" />
+		<result property="emp_tel" column="emp_tel" />
+		<result property="emp_mail" column="emp_mail" />
+		<result property="STATUS" column="STATUS" />
+		<result property="FAVORS" column="FAVORS" />
+	</resultMap> 
+	
+	
+	<!-- 조직도 -->
+    <select id="allEmployees" resultMap="org">
+        SELECT employee_id, emp_name, profil, JOB_ID, DEPTID, emp_tel, emp_mail, STATUS
+		FROM tbl_employee
+    </select>
+    
+    <!-- 부서 목록 조회 -->
+	<select id="getDepartmentList" resultMap="org">
+	    SELECT DISTINCT DEPTID, DEPTNM AS DEPT_NAME
+	    FROM tbl_department
+	    ORDER BY DEPT_NAME
+	</select>
+	
+	<!-- 부서별 직원 목록 가져오기 -->
+    <select id="getEmployeesByDept" resultMap="org">
+        SELECT * FROM tbl_employee WHERE DEPTID = #{DEPTID}
+    </select>
+	
+	<!-- 즐겨찾기 목록 조회 -->
+    <select id="getFavoriteEmployees" resultMap="org">
+        SELECT employee_id, emp_name, PROFIL, JOB_ID, DEPTID, emp_tel, emp_mail, STATUS
+        FROM tbl_employee
+        WHERE FAVORS = 'Y'
+    </select>
+    
+    <!-- 즐겨찾기 추가 -->
+    <update id="addToFavorites" parameterType="int">
+        UPDATE tbl_employee
+        SET FAVORS = 'Y'
+        WHERE employee_id = #{employee_id}
+    </update>
+
+	<!-- 즐겨찾기 여러 명 추가 -->
+	<update id="addToFavoritesMultiple" parameterType="java.util.List">
+		<!-- 선택된 사원들의 ID를 받아와서 각 사원에 대해 즐겨찾기를 추가합니다. -->
+		<foreach collection="list" item="employeeId" separator=";">
+			UPDATE tbl_employee SET FAVORS = 'Y' WHERE employee_id = #{employeeId}
+		</foreach>
+	</update>
+    <!-- 즐겨찾기 해제 -->
+    <update id="removeFromFavorites" parameterType="int">
+        UPDATE tbl_employee
+        SET FAVORS = 'N'
+        WHERE employee_id = #{employee_id}
+    </update>
+
+	
+ 	
+</mapper>
