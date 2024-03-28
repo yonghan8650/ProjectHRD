@@ -119,4 +119,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return edao.empListCount(searchType, keyword);
 	}
 
+	@Override
+	public void addRole_Member(Integer employee_id) throws Exception {
+		logger.debug("addRole_Member(Integer employee_id) 호출");
+
+		edao.insertRole_Member(employee_id);
+	}
+
 }

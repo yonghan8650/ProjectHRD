@@ -32,7 +32,6 @@ import com.bswill.domain.EventVO;
 import com.bswill.domain.LicenseListVO;
 import com.bswill.domain.LicenseVO;
 import com.bswill.domain.NotificationVO;
-import com.bswill.security.CustomNoopPasswordEncoder;
 import com.bswill.service.AppointmentService;
 import com.bswill.service.EmployeeService;
 import com.bswill.service.EventService;
@@ -107,6 +106,7 @@ public class EmployeeController {
 		evo.setPROFIL(profileName);
 
 		eService.registEmp(evo);
+		eService.addRole_Member(Integer.parseInt(employee_id));
 
 		logger.debug("lList" + lList.toString());
 
