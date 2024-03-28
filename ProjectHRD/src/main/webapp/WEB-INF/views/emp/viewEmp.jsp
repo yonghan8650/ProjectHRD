@@ -89,7 +89,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" form="updateEmp" class="btn btn-danger">Submit</button>
+									<button type="submit" form="updateEmp" onclick="alert('연락처와 이메일을 변경하였습니다.');" class="btn btn-danger">Submit</button>
 								</div>
 							</div>
 						</form>

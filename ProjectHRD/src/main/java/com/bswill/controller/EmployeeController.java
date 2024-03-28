@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -74,14 +73,15 @@ public class EmployeeController {
 		logger.debug("profile: " + profile);
 
 		// 입사일자에서 년도 추출
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(evo.getStart_date());
-		int year = calendar.get(Calendar.YEAR);
+		String dateString = evo.getStart_date().toString();
+		String[] parts = dateString.split("-");
+		String yearString = parts[0];
 
-		int empno = eService.countEmpNo(year);
+		int empno = eService.countEmpNo(yearString);
+		logger.debug("empno: " + empno);
 
 		// employee_id = 입사년도 + 입사부서 + (해당년도 입사순번 + 100)
-		String employee_id = "" + year + evo.getDEPTID() + empno;
+		String employee_id = "" + yearString + evo.getDEPTID() + empno;
 		logger.debug("emp:" + employee_id);
 		evo.setEmployee_id(Integer.parseInt(employee_id));
 
