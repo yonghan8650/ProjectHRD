@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
+import com.bswill.domain.DepartmentVO;
 import com.bswill.persistence.AttendanceDAO;
 
 @Service
@@ -34,6 +35,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 		logger.debug(" S : === deleteAttendance(int att_no) 실행 === ");
 
 		adao.deleteAttendance(att_no);
+	}
+
+	// 부서 불러오기
+	@Override
+	public List<DepartmentVO> departmentList() throws Exception {
+		logger.debug(" S : === departmentList() 실행 === ");
+		return adao.departmentList();
 	}
 
 }

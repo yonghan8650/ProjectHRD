@@ -5,20 +5,20 @@
 
 <div class="content">
 
-	${viewEmpVO }
-
 	<div class="row">
 		<div class="col-md-3">
 
 			<div class="box box-primary">
-				<div class="box-body box-profile">
-					<img class="profile-user-img img-responsive img-circle" src="file:///D://upload//temp//${viewEmpVO.PROFIL }" alt="User profile picture">
+				<div class="box-body box-profile" style="min-height: 490px;">
+					<img class="profile-user-img img-responsive img-circle" src="/emp/download?PROFIL=${viewEmpVO.PROFIL }" alt="User profile picture">
 					<h3 class="profile-username text-center">${viewEmpVO.emp_name }</h3>
-					<p class="text-muted text-center">${viewEmpVO.DEPTNM }&nbsp;&nbsp;${viewEmpVO.JOB }</p>
 					<ul class="list-group list-group-unbordered">
-						<li class="list-group-item"><b>Followers</b> <a class="pull-right">1,322</a></li>
-						<li class="list-group-item"><b>Following</b> <a class="pull-right">543</a></li>
-						<li class="list-group-item"><b>Friends</b> <a class="pull-right">13,287</a></li>
+						<li class="list-group-item"><b>입사일</b> <a class="pull-right">${viewEmpVO.start_date }</a></li>
+						<li class="list-group-item">
+							<b><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">부서</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">퇴직일</c:if></b>
+							<a class="pull-right"><c:if test="${viewEmpVO.STATUS eq 1 or viewEmpVO.STATUS eq 2 }">${viewEmpVO.DEPTNM }</c:if><c:if test="${viewEmpVO.STATUS eq 3 }">${viewEmpVO.quit_date }</c:if></a>
+						</li>
+						<li class="list-group-item"><b>직책</b> <a class="pull-right">${viewEmpVO.JOB }</a></li>
 					</ul>
 				</div>
 
@@ -29,55 +29,67 @@
 		<div class="col-md-9">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-					<li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-					<li><a href="#settings" data-toggle="tab">Settings</a></li>
+					<li class="active"><a href="#activity" data-toggle="tab">사원정보</a></li>
+					<li><a href="#timeline" data-toggle="tab">자격정보</a></li>
+					<li><a href="#settings" data-toggle="tab">발령정보</a></li>
 				</ul>
-				<div class="tab-content">
+				<div class="tab-content" style="min-height: 450px;">
 					<div class="active tab-pane" id="activity">
 
 						<form class="form-horizontal">
 							<div class="form-group">
-								<label for="inputName" class="col-sm-2 control-label">Name</label>
+								<label for="employee_id" class="col-sm-2 control-label">사원번호</label>
 								<div class="col-sm-10">
-									<input type="email" class="form-control" id="inputName" placeholder="Name">
+									<input type="text" class="form-control" id="employee_id" value="${viewEmpVO.employee_id }" style="max-width: 500px; background-color: #ffffff;" readonly>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+								<label for="birth" class="col-sm-2 control-label">생년월일</label>
 								<div class="col-sm-10">
-									<input type="email" class="form-control" id="inputEmail" placeholder="Email">
+									<input type="text" class="form-control" id="birth" value="${viewEmpVO.birth }" style="max-width: 500px; background-color: #ffffff;" readonly>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputName" class="col-sm-2 control-label">Name</label>
+								<label for="gender" class="col-sm-2 control-label">성별</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="inputName" placeholder="Name">
+									<input type="text" class="form-control" id="gender" value="<c:choose><c:when test="${viewEmpVO.gender eq 1}">남성</c:when><c:when test="${viewEmpVO.gender eq 2}">여성</c:when></c:choose>" style="max-width: 500px; background-color: #ffffff;" readonly>
+								</div>
+							</div>
+						</form>
+						<form class="form-horizontal" id="updateEmp" action="" method="post">
+							<div class="form-group">
+								<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+								<label for="emp_tel" class="col-sm-2 control-label">연락처</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="emp_tel" name="emp_tel" value="${viewEmpVO.emp_tel }" pattern="[0-9]{7,12}" style="max-width: 500px" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+								<label for="emp_mail" class="col-sm-2 control-label">이메일</label>
 								<div class="col-sm-10">
-									<textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+									<input type="email" class="form-control" id="emp_mail" name="emp_mail" value="${viewEmpVO.emp_mail }" style="max-width: 500px" required>
+								</div>
+							</div>
+						</form>
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="emp_addr" class="col-sm-2 control-label">주소</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="emp_addr" value="${viewEmpVO.emp_addr }" style="max-width: 500px; background-color: #ffffff;" readonly>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+								<label for="STATUS" class="col-sm-2 control-label">재직상태</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+									<input type="text" class="form-control" id="STATUS" value="<c:choose><c:when test="${viewEmpVO.STATUS eq 1}">재직</c:when><c:when test="${viewEmpVO.STATUS eq 2}">휴직</c:when><c:when test="${viewEmpVO.STATUS eq 3}">퇴직: ${viewEmpVO.quit_date }</c:when></c:choose>" style="max-width: 500px; background-color: #ffffff;" readonly>
 								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">연락처와 이메일만 변경 가능합니다.</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<div class="checkbox">
-										<label> <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-danger">Submit</button>
+									<button type="submit" form="updateEmp" class="btn btn-danger">Submit</button>
 								</div>
 							</div>
 						</form>
@@ -87,62 +99,22 @@
 					<div class="tab-pane" id="timeline">
 
 						<div class="box-body no-padding">
-							<table class="table table-striped">
+							<table class="table table-striped" style="width: 810px;">
 								<tbody>
 									<tr>
-										<th style="width: 10px">#</th>
-										<th>Task</th>
-										<th>Progress</th>
-										<th style="width: 40px">Label</th>
+										<th style="width: 10px;">#</th>
+										<th style="width: 270px;">자격증명</th>
+										<th style="width: 270px;">발급기관</th>
+										<th>취득일자</th>
 									</tr>
-									<tr>
-										<td>1.</td>
-										<td>Update software</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-red">55%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>2.</td>
-										<td>Clean database</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-yellow">70%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>3.</td>
-										<td>Cron job running</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-light-blue">30%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>4.</td>
-										<td>Fix and squish bugs</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-success" style="width: 90%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-green">90%</span>
-										</td>
-									</tr>
+									<c:forEach var="list" items="${viewEmpLicenseVO }" varStatus="stat">
+										<tr>
+											<td>${stat.count }</td>
+											<td>${list.license }</td>
+											<td>${list.li_org }</td>
+											<td>${list.li_date }</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -152,62 +124,22 @@
 					<div class="tab-pane" id="settings">
 
 						<div class="box-body no-padding">
-							<table class="table table-striped">
+							<table class="table table-striped" style="width: 810px;">
 								<tbody>
 									<tr>
 										<th style="width: 10px">#</th>
-										<th>Task</th>
-										<th>Progress</th>
-										<th style="width: 40px">Label</th>
+										<th style="width: 270px">발령구분</th>
+										<th style="width: 270px">발령내용</th>
+										<th>발령일자</th>
 									</tr>
-									<tr>
-										<td>1.</td>
-										<td>Update software</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-red">55%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>2.</td>
-										<td>Clean database</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-yellow">70%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>3.</td>
-										<td>Cron job running</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-light-blue">30%</span>
-										</td>
-									</tr>
-									<tr>
-										<td>4.</td>
-										<td>Fix and squish bugs</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-success" style="width: 90%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-green">90%</span>
-										</td>
-									</tr>
+									<c:forEach var="list" items="${viewEmpAppointmentVO }" varStatus="stat">
+										<tr>
+											<td>${stat.count }</td>
+											<td>${list.app_issue }</td>
+											<td>${list.app_content }</td>
+											<td>${list.app_date }</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>

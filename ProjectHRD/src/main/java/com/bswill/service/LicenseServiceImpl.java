@@ -1,5 +1,7 @@
 package com.bswill.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -20,7 +22,28 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public void registLicense(LicenseVO lvo) throws Exception {
 		logger.debug("registLicense(LicenseVO lvo) 호출");
-		
+
 		ldao.insertLicense(lvo);
+	}
+
+	@Override
+	public List<LicenseVO> viewEmpLicense(Integer employee_id) throws Exception {
+		logger.debug("viewEmpLicense(Integer employee_id) 호출");
+
+		return ldao.selectEmpLicense(employee_id);
+	}
+
+	@Override
+	public void addEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("addEmpLicense(LicenseVO lvo) 호출");
+
+		ldao.insertEmpLicense(lvo);
+	}
+
+	@Override
+	public void subEmpLicense(LicenseVO lvo) throws Exception {
+		logger.debug("subEmpLicense(LicenseVO lvo) 호출");
+
+		ldao.deleteEmpLicense(lvo);
 	}
 }

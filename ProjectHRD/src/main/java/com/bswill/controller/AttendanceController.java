@@ -1,5 +1,7 @@
 package com.bswill.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
+import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.SearchCriteria;
 import com.bswill.service.AttendanceService;
 
 @Controller
@@ -27,10 +31,26 @@ public class AttendanceController {
 	@Inject
 	private AttendanceService aService;
 
-	// 출퇴근 목록 조회 검색 + 페이징<!-- 페이징 수정해야함 -->
+	// 출퇴근 목록 조회 검색 + 페이징
 	@GetMapping(value = "/list")
-	public void attendanceListGET(@ModelAttribute("cri") AttendanceCri cri, Model model) throws Exception {
+	public void attendanceListGET(@RequestParam(required = false) String searchDate,
+								  @RequestParam(required = false) String department, 
+								  Model model) throws Exception {
 		logger.debug(" === attendanceListGET() 실행 === ");
+
+		// 부서 목록 가져오기
+		List<DepartmentVO> depList = aService.departmentList();
+		logger.debug(" depList.size : " + depList.size());
+		
+		SearchCriteria cri = new SearchCriteria();
+		cri.setSearchDate(searchDate);
+		cri.setApproval(department);
+
+		// 오늘 날짜 불러오기
+		LocalDate today = LocalDate.now();
+		// 날짜 형식 변환
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = today.format(formatter);
 
 		// 출퇴근 목록 가져오기
 		List<AttendanceVO> attendanceList = aService.selectAttendanceList(cri);
@@ -38,7 +58,10 @@ public class AttendanceController {
 
 		// 뷰페이지 전달
 		model.addAttribute("attendanceList", attendanceList);
-		model.addAttribute("cri", cri); // 페이징
+		model.addAttribute("depList", depList);
+		model.addAttribute("formattedDate", formattedDate);
+
+		//페이징
 	}
 
 	// 출퇴근 목록 행삭제

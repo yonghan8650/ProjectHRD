@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class BoardController {
 
 	@Inject
 	private BoardService bService;
-
+	// http://localhost:8088/common/customLogin
 	// http://localhost:8088/board/list
 //	@GetMapping(value = "/list")
 //	public void ListGET(Model model, HttpSession session) throws Exception {
@@ -43,6 +45,9 @@ public class BoardController {
 		logger.debug(" readGET() 호출 ");
 		
 		int status = (Integer)session.getAttribute("readUpdateStatus");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String username = authentication.getName();
+	    model.addAttribute("username",username);
 		
 		if(status == 1) {
 			// 서비스 -> DAO 게시판 글 조회수 1증가
@@ -55,6 +60,7 @@ public class BoardController {
 		logger.debug("board_no : " + board_no);
 		logger.debug("vo : " + vo);
 		model.addAttribute("vo", vo);
+		logger.debug("username : " +username);
 	}
 
 	// 글 작성 페이지 이동 (GET)
@@ -92,16 +98,16 @@ public class BoardController {
 
 	// 본문 수정(POST) : /board/modify
 	@PostMapping(value = "/modify")
-	public String modifyPOST(BoardVO vo) throws Exception {
+	public String modifyPOST(Model model,BoardVO vo, BoardCri cri) throws Exception {
 		logger.debug("/board/modify -> modifyPOST() 호출 ");
-
+		
 		// 전달 정보 저장(bno, title, writer, content)
 		logger.debug("vo : " + vo);
 		// 서비스 -> DAO 게시판 글 정보 수정
 		bService.modify(vo);
-		// 수정완료후에 list페이지로 이동(redirect)
-
-		return "redirect:/board/list";
+		// 수정완료후에 read페이지로 이동(redirect)
+		
+		return "redirect:/board/read?board_no="+vo.getBoard_no()+"&page="+cri.getPage()+"&pageSize="+cri.getPageSize();
 	}
 	
 	// 본문 삭제(POST) : /board/remove +(post)bno=000

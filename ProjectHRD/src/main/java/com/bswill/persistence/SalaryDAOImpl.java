@@ -25,19 +25,19 @@ public class SalaryDAOImpl implements SalaryDAO {
 	private static final String NAMESPACE = "com.bswill.mapper.SalaryMapper";
 
 	@Override
-	public List<SalaryVO> salaryListSelect() throws Exception {
-		logger.debug(" salaryListSelect() -> mapper 호출");
+	public List<Map<String, Object>> salarySearchEmpSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salarySearchEmpSelect() -> mapper 호출");
 		
-		return sqlSession.selectList(NAMESPACE + ".selectSalaryList");
+		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchEmp", cri);
 	}
-
+	
 	@Override
-	public List<Map<String, Object>> salarySearchSelect(SalaryCriteria cri) throws Exception {
-		logger.debug(" salarySearchSelect() -> mapper 호출");
+	public List<Map<String, Object>> salarySearchMoreSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salarySearchMoreSelect() -> mapper 호출");
 		
-		return sqlSession.selectList(NAMESPACE + ".selectSalaryEmpSearch", cri);
+		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchMore", cri);
 	}
-
+	
 	@Override
 	public List<Map<String, Object>> salarySearchMonthlySelect(SalaryCriteria cri) throws Exception {
 		logger.debug(" salarySearchMonthlySelect() -> mapper 호출");
@@ -64,9 +64,33 @@ public class SalaryDAOImpl implements SalaryDAO {
 		logger.debug(" salaryInfoMoreSelect() -> mapper 호출");
 		
 		sqlSession.update(NAMESPACE + ".updateSalaryInfo", svo);
+	}
+
+	@Override
+	public List<Map<String, Object>> salaryEnterEmpSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryEnterEmpSelect() -> mapper 호출");
 		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryEnterEmp", cri);
+	}
+
+	@Override
+	public List<Map<String, Object>> salaryEnterMoreSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryEnterMoreSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryEnterMore", cri);
 	}
 	
+	@Override
+	public List<Map<String, Object>> salaryEnterSelect(SalaryCriteria cri) throws Exception {
+		logger.debug(" salaryEnterSelect() -> mapper 호출");
+		
+		return sqlSession.selectList(NAMESPACE + ".selectSalaryEnter", cri);
+	}
 	
-	
+	@Override
+	public void salaryEnterInsert(SalarylistVO slvo) throws Exception {
+		logger.debug(" salaryEnterInsert() -> mapper 호출");
+		
+		sqlSession.insert(NAMESPACE + ".insertSalaryEnter", slvo);
+	}
 }

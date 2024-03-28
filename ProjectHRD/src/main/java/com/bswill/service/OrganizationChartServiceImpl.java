@@ -55,8 +55,4 @@ public class OrganizationChartServiceImpl implements OrganizationChartService {
 		logger.debug(" getEmployeesByDept() 호출");
         return odao.getEmployeesByDept(deptId);
     }
-	
-	
-	
-	
 }
