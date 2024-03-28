@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,6 +43,9 @@ import com.bswill.service.LicenseService;
 public class EmployeeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+
+	@Inject
+	private PasswordEncoder pwEncoder;
 
 	@Inject
 	private EmployeeService eService;
@@ -94,8 +98,7 @@ public class EmployeeController {
 		logger.debug("PASSWD:" + PASSWD);
 
 		// 비밀번호 암호화(단방향)
-		CustomNoopPasswordEncoder encoder = new CustomNoopPasswordEncoder();
-		String password = encoder.encode(PASSWD);
+		String password = pwEncoder.encode(PASSWD);
 		logger.debug("password:" + password);
 		evo.setPASSWD(password);
 
