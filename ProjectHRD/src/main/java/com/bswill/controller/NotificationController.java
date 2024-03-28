@@ -50,6 +50,7 @@ public class NotificationController {
 			// 알림 목록 받기 -> DAO
 			List<NotificationVO> notiListSelect = nService.notiList(employee_id);
 			logger.debug(" list.size : " + notiListSelect.size());
+			
 			// 알림 목록 값을 페이지에 전달(Model)
 			model.addAttribute("notiListSelect", notiListSelect);
 			logger.debug(" list.size : " + notiListSelect.size());
@@ -154,6 +155,7 @@ public class NotificationController {
 		return "redirect:" + link; // 링크로 리다이렉트
 	}
 
+	// 알림 출력 여부
 	 @RequestMapping(value = "/updatePrintStatus", method = RequestMethod.POST)
 	    public String updatePrintStatus(@RequestParam int employee_id, @RequestParam String noti_title,
 	                                    @RequestParam Timestamp noti_time, @RequestParam String noti_print,
