@@ -13,10 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bswill.domain.SalaryCriteria;
+import com.bswill.domain.SalaryCri;
 import com.bswill.domain.SalarylistVO;
 import com.bswill.domain.SalaryVO;
 import com.bswill.service.SalaryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping(value = "/salary/*")
@@ -30,7 +31,7 @@ public class SalaryController {
 	// http://localhost:8088/salary/salarySearch
 	// 급여조회 GET : /salary/salarySearch
 	@RequestMapping(value = "/salarySearch", method = RequestMethod.GET)
-	public void salarySeachGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
+	public void salarySeachGET(SalaryCri cri, Model model, HttpSession session) throws Exception {
 		logger.debug("/salarySearch -> salarySearchGET() 호출");
 		logger.debug("/salarySearch.jsp 뷰 연결");
 		
@@ -42,6 +43,7 @@ public class SalaryController {
 		{
 			salarySearchEmp = sService.getSalarySearchEmp(cri);
 			logger.debug(" emplist.size : "+salarySearchEmp.size());
+			
 			
 			// 연결된 뷰페이지로 전달(Model)
 			model.addAttribute("salarySearchEmp", salarySearchEmp);
@@ -55,6 +57,16 @@ public class SalaryController {
 			salarySearchMore = sService.getSalarySearchMore(cri);
 			logger.debug(" morelist.size : "+salarySearchMore.size());
 			
+	        ObjectMapper mapper = new ObjectMapper();
+	        //List<String> salaryList = // 여기에서 데이터를 가져옴
+	        try {
+	            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
+	            model.addAttribute("salaryList", jsonSalaryList);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            // 오류 처리
+	        }
+	        
 			// 연결된 뷰페이지로 전달(Model)
 			model.addAttribute("salarySearchMore", salarySearchMore);
 			
@@ -67,51 +79,16 @@ public class SalaryController {
 	// http://localhost:8088/salary/salarySearchMonthly
 	// 월별 급여 조회 GET : /salary/salarySearchMonthly
 	@RequestMapping(value = "/salarySearchMonthly", method = RequestMethod.GET)
-	public void salarySearchMonthlyGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
+	public void salarySearchMonthlyGET(SalaryCri cri, Model model, HttpSession session) throws Exception {
 		logger.debug("/salarySearchMonthly -> salarySearchMonthlyGET() 호출");
 		logger.debug("/salarySearchMonthly.jsp 뷰 연결");
-		
-		/*
-		// 사용자가 입력한 시작일과 종료일을 받아옴
-	    String startDate = cri.getKeyword();
-	    String endDate = cri.getKeyword2();
-	    
-	    // 날짜 형식 지정
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-	    Date startDate = sdf.parse(startDateStr);
-	    Date endDate = sdf.parse(endDateStr);
-
-	    Calendar startCalendar = Calendar.getInstance();
-	    startCalendar.setTime(startDate);
-
-	    Calendar endCalendar = Calendar.getInstance();
-	    endCalendar.setTime(endDate);
-
-	    List<Map<String, Object>> searchedSalaryList = new ArrayList<Map<String,Object>>();
-	    List<Map<String, Object>> salarySearchMonthly;
-	    
-	    while (!startCalendar.after(endCalendar)) {
-	    	 // "yyyy-MM" 형식으로 변환
-	        String yearMonth = sdf.format(startCalendar.getTime()).substring(0, 7);
-	        
-	        // 서비스 -> DAO 월별 급여 조회 가져오기
-	        salarySearchMonthly = sService.getSalarySearchMonthly(yearMonth);
-	        searchedSalaryList.addAll(salarySearchMonthly);
-	        startCalendar.add(Calendar.MONTH, 1);
-	    }
-	    
-	    // 조회된 월별 급여 정보를 모델에 추가
-	    model.addAttribute("salarySearchMonthly", salarySearchMonthly);
-	    model.addAttribute("cri", cri);
-	    */
-	    // View 페이지 반환
-	    //return "/salarySearchMonthly";
+        
 	}
 	
 	// http://localhost:8088/salary/salaryInfo
 	// 급상여기본정보관리 GET : /salary/salaryInfo
 	@RequestMapping(value = "/salaryInfo", method = RequestMethod.GET)
-	public void salaryInfoGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
+	public void salaryInfoGET(SalaryCri cri, Model model, HttpSession session) throws Exception {
 		logger.debug("/salaryInfo -> salaryInfoGET() 호출");
 		logger.debug("/salaryInfo.jsp 뷰 연결");
 		
@@ -147,7 +124,7 @@ public class SalaryController {
 	
 	// 급상여기본정보관리 POST : /salary/salaryInfo
 	@RequestMapping(value = "/salaryInfo", method = RequestMethod.POST)
-	public String salaryInfoPOST(SalaryCriteria cri, SalaryVO svo) throws Exception {
+	public String salaryInfoPOST(SalaryCri cri, SalaryVO svo) throws Exception {
 		logger.debug("/salaryInfo -> salaryInfoPOST() 호출");
 		
 		// 한글처리 인코딩
@@ -159,13 +136,13 @@ public class SalaryController {
 
 		// 수정 완료 후 salaryInfo 페이지로 이동 (redirect)
 		//return "/salaryInfo";
-		return "redirect:/salary/salaryInfo?keyword="+cri.getStartDate()+"&employee_id="+svo.getEmployee_id();
+		return "redirect:/salary/salaryInfo?startDate="+cri.getStartDate()+"&employee_id="+svo.getEmployee_id();
 	}
 	
 	// http://localhost:8088/salary/salaryEnter
 	// 급여 입력 GET : /salary/salaryEnter
 	@RequestMapping(value = "/salaryEnter", method = RequestMethod.GET)
-	public void salaryEnterGET(SalaryCriteria cri, Model model, HttpSession session) throws Exception {
+	public void salaryEnterGET(SalaryCri cri, Model model, HttpSession session) throws Exception {
 		logger.debug("/salaryEnter -> salaryEnterGET() 호출");
 		logger.debug("/salaryEnter.jsp 뷰 연결");
 		
@@ -217,11 +194,11 @@ public class SalaryController {
 	
 	// 급여 입력 POST : /salary/salaryEnter
 	@RequestMapping(value = "/salaryEnter", method = RequestMethod.POST)
-	public String salaryEnterPOST(SalaryCriteria cri, SalarylistVO slvo) throws Exception {
+	public String salaryEnterPOST(SalaryCri cri, SalarylistVO slvo) throws Exception {
 		logger.debug("/salaryEnter -> salaryEnterPOST() 호출");
 		
 		// 한글처리 인코딩
-		// 전달정보 저장(bank, account, account_holder)
+		// 전달정보 저장
 		logger.debug(" SalarylistVO : "+slvo);
 		
 		// 서비스 -> DAO 급여입력 급여정보 생성 동작
@@ -229,6 +206,6 @@ public class SalaryController {
 	
 		// 수정 완료 후  salaryEnter 페이지로 이동 (redirect)
 		//return "/salaryEnter";
-		return "redirect:/salary/salaryEnter?keyword="+cri.getStartDate()+"&employee_id="+slvo.getEmployee_id();
+		return "redirect:/salary/salaryEnter?startDate="+cri.getStartDate()+"&employee_id="+slvo.getEmployee_id()+"&JOB_ID="+slvo.getJOB_ID();
 	}
 }
