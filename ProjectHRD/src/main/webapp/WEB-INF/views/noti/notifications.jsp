@@ -54,55 +54,50 @@ button:hover {
 		<th>알림 ID</th>
 		<th>내용</th>
 		<th>읽음 여부</th>
+		<th>받은 시간</th>
 		<th>확인</th>
 		<th>출력 여부</th>
 	</tr>
-	<form action="${pageContext.request.contextPath}/noti/readAllNoti"
-		method="post">
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}">
+	<form action="${pageContext.request.contextPath}/noti/readAllNoti" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<button type="submit">모두 확인</button>
 	</form>
-	<form action="<%=request.getContextPath()%>/noti/deleteAllNoti"
-		method="post">
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}">
+	<form action="<%=request.getContextPath()%>/noti/deleteAllNoti" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<button type="submit">모두삭제</button>
 	</form>
 	<!-- 알림 목록 출력 -->
-	<c:forEach var="notification" items="${notiListSelect}">
-		<tr>
-			<td>${notification.employee_id}</td>
-			<td><a href="${notification.noti_link}">${notification.noti_title}</a></td>
-			<td>${notification.noti_check == 0 ? '읽지 않음' : '읽음'}</td>
-			<td>
-				<!-- 알림 확인을 위한 폼 -->
-				<form action="${pageContext.request.contextPath}/noti/readNoti"
-					method="post">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}"> <input type="hidden"
-						name="employee_id" value="${notification.employee_id}"> <input
-						type="hidden" name="noti_title" value="${notification.noti_title}">
-					<input type="hidden" name="noti_time"
-						value="${notification.noti_time}">
-					<button type="submit">확인</button>
-				</form>
-			</td>
-			<td>
-				<!-- 출력 여부 변경을 위한 폼 -->
-				<form id="updatePrintStatusForm" action="${pageContext.request.contextPath}/noti/updatePrintStatus" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-    <input type="hidden" id="employeeId" name="employee_id">
-    <input type="hidden" id="notiTitle" name="noti_title">
-    <input type="hidden" id="notiTime" name="noti_time">
-    <select id="notiPrint" name="noti_print" onchange="updatePrintStatus()">
-        <option value="Y">출력함</option>
-        <option value="N">출력하지 않음</option>
-    </select>
-</form>
-			</td>
-		</tr>
-	</c:forEach>
+<c:forEach var="notification" items="${notiListSelect}">
+    <tr>
+        <td>${notification.employee_id}</td>
+        <td><a href="${notification.noti_link}">${notification.noti_title}</a></td>
+        <td>${notification.noti_check == 0 ? '읽지 않음' : '읽음'}</td>
+        <td>${notification.noti_time}</td> <!-- 이 부분에 알림 시간을 추가 -->
+        <td>
+            <!-- 알림 확인을 위한 폼 -->
+            <form action="${pageContext.request.contextPath}/noti/readNoti" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <input type="hidden" name="employee_id" value="${notification.employee_id}">
+                <input type="hidden" name="noti_title" value="${notification.noti_title}">
+                <input type="hidden" name="noti_time" value="${notification.noti_time}">
+                <button type="submit">확인</button>
+            </form>
+        </td>
+        <td>
+            <!-- 출력 여부 변경을 위한 폼 -->
+            <form action="${pageContext.request.contextPath}/noti/updatePrintStatus" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <input type="hidden" name="employee_id" value="${notification.employee_id}">
+                <input type="hidden" name="noti_title" value="${notification.noti_title}">
+                <input type="hidden" name="noti_time" value="${notification.noti_time}">
+                <select name="noti_print" onchange="updatePrintStatus(this.value)">
+                    <option value="Y" ${notification.noti_print == 'Y' ? 'selected' : ''}>출력함</option>
+                    <option value="N" ${notification.noti_print == 'N' ? 'selected' : ''}>출력하지 않음</option>
+                </select>
+            </form>
+        </td>
+    </tr>
+</c:forEach>
 
 </table>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -146,5 +141,6 @@ function updatePrintStatus() {
         }
     });
 }
+
 </script>
 <%@ include file="../include/footer.jsp"%>
