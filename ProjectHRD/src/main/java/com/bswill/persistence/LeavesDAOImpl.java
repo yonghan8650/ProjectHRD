@@ -46,4 +46,48 @@ public class LeavesDAOImpl implements LeavesDAO {
 
 	}
 
+	// 연차 목록 조회
+	@Override
+	public List<LeaveVO> annualLeaveList(SearchCriteria cri) throws Exception {
+		logger.debug(" D : === annualLeaveList(SearchCriteria cri) 호출 === ");
+		return sqlSession.selectList(NAMESPACE + ".annualLeaveList", cri);
+	}
+
+	// 연차삭제
+	@Override
+	public void deleteAnnualLeave(int leave_no) throws Exception {
+		logger.debug(" D : === deleteAnnualLeave(int leave_no) 호출 === ");
+		sqlSession.delete(NAMESPACE + ".deleteAnnualLeave", leave_no);
+	}
+
+	// 연차 생성 가능 사원 목록
+	@Override
+	public List<LeaveVO> canCreateAnnualLeaveList() throws Exception {
+		logger.debug(" D : === canCreateAnnualLeaveList() 호출 === ");
+		return sqlSession.selectList(NAMESPACE + ".canCreateLeaveList");
+	}
+	
+	// 연차 생성 가능 사원 정보 가져오기
+	@Override
+	public LeaveVO canCreateAnnualLeave(int employee_id) throws Exception {
+		logger.debug(" D : === canCreateAnnualLeave(int employee_id) 호출 === ");
+		return sqlSession.selectOne(NAMESPACE + ".canCreateLeaveOne",employee_id);
+	}
+
+	// 해당년도 휴가 갯수 세어오기
+	@Override
+	public LeaveVO selectLeaveCount() throws Exception {
+		logger.debug(" D : === selectLeaveCount() 호출 === ");
+		return sqlSession.selectOne(NAMESPACE + ".selectLeaveCount");
+	}
+
+	// 연차 생성
+	@Override
+	public void createAnnualLeave(LeaveVO vo) throws Exception {
+		logger.debug(" D : === createAnnualLeave() 호출 === ");
+		sqlSession.selectOne(NAMESPACE + ".createAnnualLeave", vo);
+	}
+
+	
+
 }
