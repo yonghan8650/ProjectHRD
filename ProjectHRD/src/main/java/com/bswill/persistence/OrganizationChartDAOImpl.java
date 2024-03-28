@@ -29,9 +29,9 @@ public class OrganizationChartDAOImpl implements OrganizationChartDAO {
 	}
 
 	@Override
-	public List<OrganizationChartVO> departmentEmployees(int DEPTID) throws Exception {
-		logger.debug(" departmentEmployees() 호출 ");
-		return sqlSession.selectList(NAMESPACE+".departmentEmployees",DEPTID);
+	public List<OrganizationChartVO> getDepartmentList() throws Exception {
+		logger.debug(" getDepartmentList() 호출 ");
+	    return sqlSession.selectList(NAMESPACE + ".getDepartmentList");
 	}
 
 	@Override
@@ -52,7 +52,11 @@ public class OrganizationChartDAOImpl implements OrganizationChartDAO {
 		sqlSession.update(NAMESPACE + ".removeFromFavorites", employee_id);
 	}
 
-
+	@Override
+	public List<OrganizationChartVO> getEmployeesByDept(int deptId) throws Exception {
+		logger.debug(" getEmployeesByDept() 호출");
+		return sqlSession.selectList(NAMESPACE+".getEmployeesByDept", deptId);
+	}
 	
 	
 	

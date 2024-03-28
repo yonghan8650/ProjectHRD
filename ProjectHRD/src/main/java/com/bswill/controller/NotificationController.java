@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.config.annotation.authentication.configurers.ldap.LdapAuthenticationProviderConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,7 @@ public class NotificationController {
 			logger.debug(" list.size : " + notiListSelect.size());
 			// 알림 목록 값을 페이지에 전달(Model)
 			model.addAttribute("notiListSelect", notiListSelect);
-
+			logger.debug(" list.size : " + notiListSelect.size());
 			// 각 알림의 읽음 여부를 확인하여 모델에 추가합니다.
 			List<String> readStatusList = new ArrayList<>();
 			for (NotificationVO notification : notiListSelect) {
@@ -59,20 +60,21 @@ public class NotificationController {
 			}
 			model.addAttribute("readStatusList", readStatusList);
 
-			// 세션에서 알림 개수 가져오기 -> 초기 값은 0으로 설정
-			Integer notificationCount = (Integer) session.getAttribute("notificationCount");
-			if (notificationCount == null) {
-				notificationCount = 0;
-			}
+//			// 세션에서 알림 개수 가져오기 -> 초기 값은 0으로 설정
+//			Integer notificationCount = (Integer) session.getAttribute("notificationCount");
+//			if (notificationCount == null) {
+//				notificationCount = 0;
+//			}
 
-			// 모델에 알림 개수를 설정하여 뷰페이지로 전달
-			model.addAttribute("notificationCount", notificationCount);
+//			// 모델에 알림 개수를 설정하여 뷰페이지로 전달
+//			model.addAttribute("notificationCount", notificationCount);
 
 			// 알림 개수 가져오기
 			int notificationCounts = nService.getNotificationCount(employee_id);
 
 			// 모델에 알림 개수 추가
-			model.addAttribute("notificationCount", notificationCounts);
+			model.addAttribute("notificationCount", notiListSelect.size());
+			logger.debug("notificationCounts"+ notificationCounts);
 		} else {
 			// 인증되지 않은 사용자는 로그인 페이지로 리다이렉트 또는 다른 처리를 수행할 수 있음
 			// 여기서는 로깅만 수행
