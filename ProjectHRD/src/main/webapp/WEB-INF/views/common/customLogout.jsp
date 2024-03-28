@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/img/favicon.ico" type="image/x-icon">
 <title>customLogout.jsp</title>
 </head>
 <body>

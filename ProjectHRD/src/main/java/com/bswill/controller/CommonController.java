@@ -73,7 +73,7 @@ public class CommonController {
 		// 전체 사원 수
 		model.addAttribute("allEmpCnt", cService.getAllEmpCnt());
 		// 올해 입사자 수
-		model.addAttribute("newEmpCnt",cService.getNewEmptCnt());		
+		model.addAttribute("newEmpCnt",cService.getNewEmpCnt());		
 		// 부서 정보
 		model.addAttribute("deptInfo", cService.getdeptInfo());
 		// 직책 정보

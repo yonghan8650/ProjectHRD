@@ -65,9 +65,9 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public int getNewEmptCnt() throws Exception {
+	public int getNewEmpCnt() throws Exception {
 		logger.debug(" getNewEmptCnt() 실행 ");
-		return cdao.newEmpCountSeclect();
+		return cdao.newEmpCountSelect();
 	}
 	
 	
