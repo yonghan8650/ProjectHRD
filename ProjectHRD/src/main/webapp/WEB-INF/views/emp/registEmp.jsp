@@ -34,7 +34,7 @@
 				<div class="form-group">
 					<label for="birth" class="col-sm-2 control-label">생년월일</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="birth" name="birth" pattern="\d{4}-\d{2}-\d{2}" style="max-width: 500px;" required placeholder="yyyy-MM-dd 형식으로 입력해주세요.">
+						<input type="date" id="birth" name="birth" max="9999-12-31" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -145,7 +145,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-danger" style="margin-bottom: 50px;">등록하기</button>
+					<button type="submit" class="btn btn-danger" onclick="alert('신규 사원을 등록하였습니다.');" style="margin-bottom: 50px;">등록하기</button>
 				</div>
 			</div>
 		</form>

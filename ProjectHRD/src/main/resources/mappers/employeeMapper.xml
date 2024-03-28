@@ -5,7 +5,7 @@
 
 <mapper namespace="com.bswill.mapper.EmployeeMapper">
 	<select id="selectEmpCount" resultType="int">
-		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
+		SELECT COUNT(employee_id) + 101 empno FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
 	</select>
 
 	<insert id="insertEmp">

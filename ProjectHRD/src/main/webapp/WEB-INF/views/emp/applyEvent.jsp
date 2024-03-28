@@ -37,7 +37,7 @@
 					</div>
 				</div>
 
-				<button type="submit" class="btn btn-primary">신청하기</button>
+				<button type="submit" onclick="alert('경조비 신청을 완료하였습니다.');" class="btn btn-primary">신청하기</button>
 
 			</form>
 		</div>

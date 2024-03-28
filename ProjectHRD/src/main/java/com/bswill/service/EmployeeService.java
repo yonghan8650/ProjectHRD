@@ -8,7 +8,7 @@ import com.bswill.domain.NotificationVO;
 
 public interface EmployeeService {
 
-	public int countEmpNo(Integer year) throws Exception;
+	public int countEmpNo(String yearString) throws Exception;
 
 	public void registEmp(EmployeeVO evo) throws Exception;
 
