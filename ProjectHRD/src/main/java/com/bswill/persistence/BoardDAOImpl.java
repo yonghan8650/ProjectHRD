@@ -1,6 +1,8 @@
 package com.bswill.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -73,4 +75,29 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.update(NAMESPACE + ".updateReadcnt", board_no);
 	}
 
+	@Override
+	public List<Integer> allEmpIdSelect() throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE+".selectEmpIdList");
+	}
+
+	@Override
+	public void NotiInsert(int employee_id, int board_no) throws Exception {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("employee_id", employee_id);
+		paramMap.put("board_no", board_no);
+		
+		sqlSession.insert(NAMESPACE+".insertNoti", paramMap);				
+	}
+
+	@Override
+	public int maxBnoSelect() throws Exception {
+		
+		return sqlSession.selectOne(NAMESPACE+".selectMaxBno");
+	}
+	
+	
+	
 }
