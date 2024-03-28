@@ -28,5 +28,12 @@ public interface BoardService {
 
 	// 글 조회수 1증가 동작
 	public void updateReadcnt(int board_no) throws Exception;
+	
+	// 모든 사원의 사원번호 가져오기
+	public List<Integer> getAllEmpId() throws Exception;
+
+	public void addNoti(int employee_id, int board_no) throws Exception;
+
+	public int getMaxBno() throws Exception;
 
 }

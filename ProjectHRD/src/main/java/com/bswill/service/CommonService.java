@@ -22,5 +22,5 @@ public interface CommonService {
 
 	public int getAllEmpCnt() throws Exception;
 
-	public int getNewEmptCnt() throws Exception;
+	public int getNewEmpCnt() throws Exception;
 }

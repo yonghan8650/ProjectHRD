@@ -23,5 +23,5 @@ public interface CommonDAO {
 
 	public int allEmpCountSelect() throws Exception;
 
-	public int newEmpCountSeclect() throws Exception;
+	public int newEmpCountSelect() throws Exception;
 }

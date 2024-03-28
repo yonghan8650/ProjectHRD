@@ -18,20 +18,24 @@
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
 	<security:http>
-
+		<security:intercept-url pattern="/board/register" access="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/board/modify" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/emp/registEmp" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/emp/listEmp" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/emp/listEvent" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
-		<security:intercept-url pattern="/salary/salarySearch" access="isAuthenticated()" />
+    <security:intercept-url pattern="/salary/salarySearch" access="isAuthenticated()" />
 		<security:intercept-url pattern="/salary/salaryInfo" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/salary/salaryEnter" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
-		
-		<security:intercept-url pattern="/common/main" access="permitAll" />
-		
-		<security:intercept-url pattern="/*" access="permitAll" />
+		<security:intercept-url pattern="/attendance/*" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/leaves/*" access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/board/*" access="isAuthenticated()" />
-		<security:intercept-url pattern="/emp/*" access="isAuthenticated()" />
-		<security:intercept-url pattern="/salary/*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/emp/*" access="isAuthenticated()" />		
+		<security:intercept-url pattern="/org/*" access="isAuthenticated()" />
+    <security:intercept-url pattern="/salary/*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/common/main" access="isAuthenticated()" />
+    
+		
+		
 		
 		<!-- 로그인 -->
 		<security:form-login login-page="/common/customLogin"
@@ -63,6 +67,5 @@
 
 		</security:authentication-provider>
 	</security:authentication-manager>
-
 
 </beans>

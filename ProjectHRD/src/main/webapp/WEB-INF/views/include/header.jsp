@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/img/favicon.ico" type="image/x-icon">
 <title>BSWILL HRD</title>
 <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <!-- Bootstrap 3.3.4 -->
@@ -157,14 +158,14 @@
 								<li><a href="../salary/salaryInfo"><i class="fa fa-circle-o"></i> 급상여기본정보 </a></li>
 								<li><a href="../salary/salaryEnter"><i class="fa fa-circle-o"></i> 급여입력 </a></li>
 							</sec:authorize>
-						</ul></li>
+						</ul>
+          </li>
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-people-roof"></i> &nbsp <span>조직도</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="../org/orgList"><i class="fa fa-circle-o"></i> 전체 조직도 </a></li>
-							<li><a href="../org/orgDept"><i class="fa fa-circle-o"></i> 전체 부서 </a></li>
-							<li><a href="../org/getEmployeesByDept"><i class="fa fa-circle-o"></i> 부서 별 조직도 </a></li>
+							<li><a href="../org/orgList"><i class="fa fa-circle-o"></i> 조직도 </a></li>
 							<li><a href="../org/orgFavor"><i class="fa fa-circle-o"></i> 즐겨찾기 </a></li>
+							<li><a href="../org/orgDept"><i class="fa fa-circle-o"></i> 전체	부서 </a></li>
 						</ul></li>
 					<li class="treeview"><a href="/board/list"> <i class="fa-regular fa-clipboard"></i> &nbsp &nbsp <span> 공지사항</span>
 					</a></li>

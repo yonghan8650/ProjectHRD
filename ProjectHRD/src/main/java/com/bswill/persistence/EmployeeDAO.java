@@ -10,7 +10,7 @@ public interface EmployeeDAO {
 
 	public void insertEmp(EmployeeVO evo) throws Exception;
 
-	public int selectEmpCount(Integer year) throws Exception;
+	public int selectEmpCount(String year) throws Exception;
 
 	public List<Map<String, Object>> selectEmpList(String searchType, String keyword) throws Exception;
 

@@ -25,10 +25,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public int selectEmpCount(Integer year) throws Exception {
+	public int selectEmpCount(String year) throws Exception {
 		logger.debug("selectEmpNo() 호출");
 
-		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount");
+		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount", year);
 	}
 
 	@Override

@@ -79,6 +79,15 @@ public class BoardController {
 		bService.regist(vo);
 		logger.debug(" 글쓰기 완료 ");
 		logger.debug(" 리스트페이지로 이동 ");
+		
+		List<Integer> empIdList = bService.getAllEmpId();
+		
+		// MAX board_no 가져오기
+		int board_no =bService.getMaxBno();
+		
+		for(int empId : empIdList) {
+			bService.addNoti(empId, board_no);
+		}
 
 		return "redirect:/board/list";
 	}

@@ -67,8 +67,8 @@ public class CommonDAOImpl implements CommonDAO{
 	}
 
 	@Override
-	public int newEmpCountSeclect() throws Exception {
-		logger.debug(" newEmpCountSeclect() 호출 ");
+	public int newEmpCountSelect() throws Exception {
+		logger.debug(" newEmpCountSelect() 호출 ");
 		return sqlSession.selectOne(NAMESPACE+".selectNewEmpCnt");
 	}
 	
