@@ -25,10 +25,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public int selectEmpCount(Integer year) throws Exception {
+	public int selectEmpCount(String year) throws Exception {
 		logger.debug("selectEmpNo() 호출");
 
-		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount");
+		return sqlSession.selectOne(NAMESPACE + ".selectEmpCount", year);
 	}
 
 	@Override
@@ -96,6 +96,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		paramMap.put("keyword", keyword);
 
 		return sqlSession.selectOne(NAMESPACE + ".totalCountEmpList", paramMap);
+	}
+
+	@Override
+	public void insertRole_Member(Integer employee_id) throws Exception {
+		logger.debug("insertRole_Member(Integer employee_id) 호출");
+
+		sqlSession.insert(NAMESPACE + ".insertRole_Member", employee_id);
 	}
 
 }

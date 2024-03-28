@@ -1,6 +1,8 @@
 package com.bswill.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,50 +16,77 @@ import com.bswill.domain.OrganizationChartVO;
 @Repository
 public class OrganizationChartDAOImpl implements OrganizationChartDAO {
 
-	// mapper 접근 가능한 객체 sql실행객체 주입
 	@Inject
 	private SqlSession sqlSession;
 
 	private static final Logger logger = LoggerFactory.getLogger(OrganizationChartDAOImpl.class);
-
 	private static final String NAMESPACE = "com.bswill.mapper.OrganizationChartMapper";
 
 	@Override
+	public OrganizationChartVO getUserById(Integer employeeId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getUserById", employeeId);
+	}
+
+	@Override
 	public List<OrganizationChartVO> allEmployees() throws Exception {
-		logger.debug(" allEmployees() 호출 ");
-		return sqlSession.selectList(NAMESPACE+".allEmployees");
+		logger.debug("allEmployees() 호출");
+
+		return sqlSession.selectList(NAMESPACE + ".allEmployees");
+	}
+
+	@Override
+	public void updateFavors(Integer employee_id, String FAVORS) throws Exception {
+		logger.debug("updateFavors(int employee_id, String FAVORS) 호출");
+
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("employee_id", employee_id);
+		paramMap.put("FAVORS", FAVORS);
+
+		sqlSession.update(NAMESPACE + ".updateFavors", paramMap);
+	}
+
+	@Override
+	public List<OrganizationChartVO> selectEmpFavorsList(Integer employee_id) throws Exception {
+		logger.debug("selectEmpFavorsList(int employee_id) 호출");
+
+		return sqlSession.selectList(NAMESPACE + ".selectEmpFavorsList", employee_id);
+	}
+
+	@Override
+	public String selectEmpFavors(Integer employee_id) throws Exception {
+		logger.debug("selectEmpFavors(Integer employee_id) 호출");
+
+		return sqlSession.selectOne(NAMESPACE + ".selectEmpFavors", employee_id);
 	}
 
 	@Override
 	public List<OrganizationChartVO> getDepartmentList() throws Exception {
 		logger.debug(" getDepartmentList() 호출 ");
-	    return sqlSession.selectList(NAMESPACE + ".getDepartmentList");
+		return sqlSession.selectList(NAMESPACE + ".getDepartmentList");
 	}
 
 	@Override
-	public List<OrganizationChartVO> favoriteEmployees() throws Exception {
-		logger.debug(" favoriteEmployees() 호출 ");
-		return sqlSession.selectList(NAMESPACE+".getFavoriteEmployees");
+	public void addToFavorites(Integer employeeId, String favors) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("employeeId", employeeId);
+		params.put("favors", favors);
+		sqlSession.update(NAMESPACE + ".updateFavor", params);
 	}
 
 	@Override
-    public void addToFavorites(int employee_id) throws Exception {
-        logger.debug(" addToFavorites() 호출");
-        sqlSession.insert(NAMESPACE + ".addToFavorites", employee_id);
-    }
-
-	@Override
-	public void removeFromFavorites(int employee_id) throws Exception {
+	public void removeFromFavorites(Integer employee_id, String userId) throws Exception {
 		logger.debug(" removeFromFavorites() 호출");
-		sqlSession.update(NAMESPACE + ".removeFromFavorites", employee_id);
+		Map<String, Object> params = new HashMap<>();
+		params.put("employee_id", employee_id);
+		params.put("userId", userId);
+		sqlSession.update(NAMESPACE + ".removeFavor", params);
 	}
 
 	@Override
-	public List<OrganizationChartVO> getEmployeesByDept(int deptId) throws Exception {
+	public List<OrganizationChartVO> getEmployeesByDept(Integer deptId) throws Exception {
 		logger.debug(" getEmployeesByDept() 호출");
-		return sqlSession.selectList(NAMESPACE+".getEmployeesByDept", deptId);
+		return sqlSession.selectList(NAMESPACE + ".getEmployeesByDept", deptId);
 	}
-	
-	
-	
+
 }

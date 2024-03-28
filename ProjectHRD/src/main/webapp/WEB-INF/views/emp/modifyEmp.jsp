@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="../include/header.jsp"%>
-${viewEmpVO }
+
 <div class="content">
 
 	<div class="row">
@@ -63,7 +63,7 @@ ${viewEmpVO }
 							<div class="form-group">
 								<label for="birth" class="col-sm-2 control-label">생년월일</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="birth" name="birth" value="${viewEmpVO.birth }" pattern="\d{4}-\d{2}-\d{2}" style="max-width: 500px;" required placeholder="yyyy-MM-dd 형식으로 입력해주세요.">
+									<input type="date" id="birth" name="birth" value=${viewEmpVO.birth } max="9999-12-31" required>
 								</div>
 							</div>
 							<div class="form-group">
@@ -148,7 +148,7 @@ ${viewEmpVO }
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-danger">수정하기</button>
+									<button type="submit" onclick="alert('사원정보를 변경하였습니다.');"  class="btn btn-danger">수정하기</button>
 								</div>
 							</div>
 						</form>
@@ -178,7 +178,7 @@ ${viewEmpVO }
 													<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 													<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
 													<input type="hidden" name="license" value="${list.license }">
-													<input type="submit" value="삭제하기">
+													<input type="submit" onclick="alert('자격정보를 삭제하였습니다.');" value="삭제하기">
 												</form>
 											</td>
 										</tr>
@@ -198,7 +198,7 @@ ${viewEmpVO }
 											<td>
 												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 												<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
-												<input type="submit" value="추가하기">
+												<input type="submit" onclick="alert('자격정보를 추가하였습니다.');" value="추가하기">
 											</td>
 										</form>
 									</tr>
@@ -232,7 +232,7 @@ ${viewEmpVO }
 													<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
 													<input type="hidden" name="app_issue" value="${list.app_issue }">
 													<input type="hidden" name="app_date" value="${list.app_date }">
-													<input type="submit" value="삭제하기">
+													<input type="submit" onclick="alert('발령정보를 삭제하였습니다.');" value="삭제하기">
 												</form>
 											</td>
 										</tr>
@@ -255,7 +255,7 @@ ${viewEmpVO }
 											<td>
 												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 												<input type="hidden" name="employee_id" value="${viewEmpVO.employee_id }">
-												<input type="submit" value="추가하기">
+												<input type="submit" onclick="alert('발령정보를 추가하였습니다.');" value="추가하기">
 											</td>
 										</form>
 									</tr>

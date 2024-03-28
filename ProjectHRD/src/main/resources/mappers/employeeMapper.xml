@@ -5,7 +5,7 @@
 
 <mapper namespace="com.bswill.mapper.EmployeeMapper">
 	<select id="selectEmpCount" resultType="int">
-		SELECT COUNT(employee_id) + 101 empid FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
+		SELECT COUNT(employee_id) + 101 empno FROM tbl_employee WHERE start_date LIKE (SELECT CONCAT(#{year}, '%'))
 	</select>
 
 	<insert id="insertEmp">
@@ -51,4 +51,9 @@
 		UPDATE tbl_employee SET emp_name=#{emp_name}, PROFIL=#{PROFIL}, birth=#{birth}, gender=#{gender}, emp_tel=#{emp_tel}, emp_mail=#{emp_mail}, emp_addr=#{emp_addr}, JOB_ID=#{JOB_ID}, DEPTID=#{DEPTID}, STATUS=#{STATUS}, quit_date=#{quit_date}, enabled=#{enabled}
 		WHERE employee_id=#{employee_id}
 	</update>
+	
+	<insert id="insertRole_Member">
+		INSERT INTO tbl_auth
+		VALUES(#{employee_id}, 'ROLE_MEMBER')
+	</insert>
 </mapper>

@@ -44,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
-	public int countEmpNo(Integer year) throws Exception {
+	public int countEmpNo(String year) throws Exception {
 		logger.debug("countEmpNo() 호출");
 
 		return edao.selectEmpCount(year);
@@ -117,6 +117,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		logger.debug("getEmpListCount() 호출");
 
 		return edao.empListCount(searchType, keyword);
+	}
+
+	@Override
+	public void addRole_Member(Integer employee_id) throws Exception {
+		logger.debug("addRole_Member(Integer employee_id) 호출");
+
+		edao.insertRole_Member(employee_id);
 	}
 
 }

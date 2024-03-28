@@ -78,6 +78,27 @@ public class BoardServiceImpl implements BoardService{
 		
 		bdao.boardReadcntUpdate(board_no);
 	}
+
+
+	@Override
+	public List<Integer> getAllEmpId() throws Exception {
+		logger.debug(" S : getAllEmpId() 실행 ");
+		return bdao.allEmpIdSelect();
+	}
+
+
+	@Override
+	public void addNoti(int employee_id, int board_no) throws Exception {
+		logger.debug(" S : addNoti() 실행 ");
+		bdao.NotiInsert(employee_id, board_no);
+	}
+
+
+	@Override
+	public int getMaxBno() throws Exception {
+		
+		return bdao.maxBnoSelect();
+	}
 	
 	
 	

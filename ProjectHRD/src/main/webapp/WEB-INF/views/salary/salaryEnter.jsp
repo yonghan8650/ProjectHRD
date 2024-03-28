@@ -9,7 +9,7 @@
 <script src="<c:url value="/resources/plugins/datepicker/locales/bootstrap-datepicker.kr.js"/>"></script>
 
 <section class="content-header">
-	<h1>급여 입력(관리자)</h1>
+	<h1>급여 입력</h1>
 </section>
 
 <section class="content">
@@ -63,8 +63,8 @@
 										<a href="/salary/salaryEnter?startDate=${cri.startDate }&employee_id=${see.employee_id }&JOB_ID=${see.JOB_ID }">${see.employee_id }</a>
 									</td>
 									<td>${see.emp_name }</td>
-									<td>${see.JOB_ID }</td>
-									<td>${see.department }</td>
+									<td>${see.JOB }</td>
+									<td>${see.DEPTNM }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -73,7 +73,8 @@
 			</div>
 		</div>
 		
-		<c:forEach var="sem" items="${salaryEnterMore }">
+
+		
 		<div class="col-md-6">
 			<div class="box">
 				<form action="/salary/salaryEnter">
@@ -99,7 +100,7 @@
 										<input type="hidden" name="startDate" value="${cri.startDate }">
 										<input type="hidden" name="employee_id" value="${cri.employee_id }">
 										<input type="hidden" name="JOB_ID" value="${cri.JOB_ID }">
-										<input type="text" name="salary" value="${sem.salary }">
+										<input type="text" name="salary">
 									</td>
 								</tr>
 							</tbody>
@@ -108,7 +109,7 @@
 				</form>
 			</div>
 		</div>
-		</c:forEach>
+		
 		
 		<c:forEach var="ses" items="${salaryEnterSalary }">
 		<div class="col-md-6">
@@ -180,8 +181,10 @@
 								</tr>
 							</tfoot>
 						</table>
+						
 						<input type="hidden" name="employee_id" value="${cri.employee_id }">
 						<input type="hidden" name="JOB_ID" value="${cri.JOB_ID }">
+						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					</div>
 				</form>
 			</div>

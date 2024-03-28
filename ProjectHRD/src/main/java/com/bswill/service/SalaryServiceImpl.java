@@ -31,6 +31,13 @@ public class SalaryServiceImpl implements SalaryService{
 	}
 	
 	@Override
+	public List<Map<String, Object>> getSalarySearchMe(SalaryCri cri, Integer emp_id) throws Exception {
+		logger.debug(" getSalarySearchEmp() 실행! ");
+		
+		return sdao.salarySearchMeSelect(cri, emp_id);
+	}
+	
+	@Override
 	public List<Map<String, Object>> getSalarySearchMore(SalaryCri cri) throws Exception {
 		logger.debug(" getSalarySearchMore() 실행! ");
 		
@@ -56,6 +63,13 @@ public class SalaryServiceImpl implements SalaryService{
 		logger.debug(" getSalaryInfoMore() 실행! ");
 		
 		return sdao.salaryInfoMoreSelect(cri);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getSalaryInfoNew(SalaryCri cri) throws Exception {
+		logger.debug(" getSalaryInfoMore() 실행! ");
+		
+		return sdao.salaryInfoNewSelect(cri);
 	}
 
 	@Override

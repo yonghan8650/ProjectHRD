@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +32,6 @@ import com.bswill.domain.EventVO;
 import com.bswill.domain.LicenseListVO;
 import com.bswill.domain.LicenseVO;
 import com.bswill.domain.NotificationVO;
-import com.bswill.security.CustomNoopPasswordEncoder;
 import com.bswill.service.AppointmentService;
 import com.bswill.service.EmployeeService;
 import com.bswill.service.EventService;
@@ -43,6 +42,9 @@ import com.bswill.service.LicenseService;
 public class EmployeeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+
+	@Inject
+	private PasswordEncoder pwEncoder;
 
 	@Inject
 	private EmployeeService eService;
@@ -74,14 +76,15 @@ public class EmployeeController {
 		logger.debug("profile: " + profile);
 
 		// 입사일자에서 년도 추출
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(evo.getStart_date());
-		int year = calendar.get(Calendar.YEAR);
+		String dateString = evo.getStart_date().toString();
+		String[] parts = dateString.split("-");
+		String yearString = parts[0];
 
-		int empno = eService.countEmpNo(year);
+		int empno = eService.countEmpNo(yearString);
+		logger.debug("empno: " + empno);
 
 		// employee_id = 입사년도 + 입사부서 + (해당년도 입사순번 + 100)
-		String employee_id = "" + year + evo.getDEPTID() + empno;
+		String employee_id = "" + yearString + evo.getDEPTID() + empno;
 		logger.debug("emp:" + employee_id);
 		evo.setEmployee_id(Integer.parseInt(employee_id));
 
@@ -94,8 +97,7 @@ public class EmployeeController {
 		logger.debug("PASSWD:" + PASSWD);
 
 		// 비밀번호 암호화(단방향)
-		CustomNoopPasswordEncoder encoder = new CustomNoopPasswordEncoder();
-		String password = encoder.encode(PASSWD);
+		String password = pwEncoder.encode(PASSWD);
 		logger.debug("password:" + password);
 		evo.setPASSWD(password);
 
@@ -104,6 +106,7 @@ public class EmployeeController {
 		evo.setPROFIL(profileName);
 
 		eService.registEmp(evo);
+		eService.addRole_Member(Integer.parseInt(employee_id));
 
 		logger.debug("lList" + lList.toString());
 
