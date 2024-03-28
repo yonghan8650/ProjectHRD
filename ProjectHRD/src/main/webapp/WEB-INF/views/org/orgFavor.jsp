@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../include/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../include/header.jsp"%>
 
 <style>
     /* 테이블 스타일링 */
@@ -70,26 +70,28 @@
                 <th>연락처</th>
                 <th>이메일</th>
                 <th>재직 상태</th>
-                <th>즐겨찾기 해제</th> 
+                <th>즐겨찾기 해제</th>
             </tr>
         </thead>
         <tbody>
+            <!-- 즐겨찾기 목록 표시 -->
             <c:forEach var="organizationChart" items="${getFavoriteEmployees}">
                 <tr>
                     <td>${organizationChart.emp_name}</td>
                     <td><img src="${organizationChart.profil}" alt="프로필 사진"></td>
-                    <td>${organizationChart.DEPTID}</td>
+                    <td>${organizationChart.DEPT_NAME}</td>
                     <td>${organizationChart.JOB_ID}</td>
                     <td>${organizationChart.emp_tel}</td>
                     <td>${organizationChart.emp_mail}</td>
                     <td>${organizationChart.STATUS}</td>
+                    <!-- 즐겨찾기 해제 버튼 -->
                     <td>
-                        <form method="post" action="/org/removeFromFavorites">
+                        <form method="post" action="/org/removeFavor">
                             <input type="hidden" name="employee_id" value="${organizationChart.employee_id}">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                            <button onclick="removeFromFavorites('${organizationChart.employee_id}')">즐겨찾기 해제</button>
+                            <button type="submit">즐겨찾기 해제</button>
                         </form>
-                    </td> 
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -98,4 +100,4 @@
 
 <button type="button" onclick="location.href='/org/orgList';">조직도 목록</button>
 
-<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/footer.jsp"%>

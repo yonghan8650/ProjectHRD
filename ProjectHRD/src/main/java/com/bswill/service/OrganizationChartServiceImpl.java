@@ -13,50 +13,51 @@ import com.bswill.persistence.OrganizationChartDAO;
 
 @Service
 public class OrganizationChartServiceImpl implements OrganizationChartService {
-	
-	@Inject
-	private OrganizationChartDAO odao;
-	
-	private static final Logger logger = LoggerFactory.getLogger(OrganizationChartServiceImpl.class);
+    
+    @Inject
+    private OrganizationChartDAO odao;
+    
+    private static final Logger logger = LoggerFactory.getLogger(OrganizationChartServiceImpl.class);
 
-	@Override
-	public List<OrganizationChartVO> orgList() throws Exception {
-		logger.debug(" orgList() 호출 ");
-		return odao.allEmployees();
-	}
+    @Override
+    public OrganizationChartVO getUserById(int employeeId) throws Exception {
+    	logger.debug(" getUserById() 호출 ");
+        return odao.getUserById(employeeId);
+    }
+    
+    @Override
+    public List<OrganizationChartVO> orgList() throws Exception {
+        logger.debug(" orgList() 호출 ");
+        return odao.allEmployees();
+    }
 
-	@Override
-	public List<OrganizationChartVO> getDepartmentList() throws Exception {
-		logger.debug(" getDepartmentList() 호출 ");
-	    return odao.getDepartmentList();
-	}
+    @Override
+    public List<OrganizationChartVO> getDepartmentList() throws Exception {
+        logger.debug(" getDepartmentList() 호출 ");
+        return odao.getDepartmentList();
+    }
 
-	@Override
-	public List<OrganizationChartVO> orgFavor() throws Exception {
-		logger.debug(" orgFavor() 호출 ");
-		return odao.favoriteEmployees();
-	}
+    @Override
+    public List<OrganizationChartVO> orgFavor(int employeeId) throws Exception {
+        logger.debug(" orgFavor() 호출 ");
+        return odao.favoriteEmployees(employeeId);
+    }
 
-	@Override
-	public void addToFavorites(int employee_id) throws Exception {
-		logger.debug(" addToFavorites() 호출");
-        odao.addToFavorites(employee_id);
-	}
+    @Override
+    public void addToFavorites(int employeeId, String favors) throws Exception {
+        logger.debug(" addToFavorites() 호출");
+        odao.addToFavorites(employeeId, favors);
+    }
 
-	@Override
-	public void removeFromFavorites(int employee_id) throws Exception {
-		logger.debug(" removeFromFavorites() 호출");
-        odao.removeFromFavorites(employee_id);
-		
-	}
+    @Override
+    public void removeFromFavorites(int employee_id,String userId) throws Exception {
+        logger.debug(" removeFromFavorites() 호출");
+        odao.removeFromFavorites(employee_id, userId);
+    }
 
-	@Override
+    @Override
     public List<OrganizationChartVO> getEmployeesByDept(int deptId) throws Exception {
-		logger.debug(" getEmployeesByDept() 호출");
+        logger.debug(" getEmployeesByDept() 호출");
         return odao.getEmployeesByDept(deptId);
     }
-	
-	
-	
-	
 }
