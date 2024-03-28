@@ -152,12 +152,11 @@
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-won-sign"></i> &nbsp <span>급여 관리</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
-							<li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> 메뉴2 </a></li>
-							<li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> 메뉴3 </a></li>
-							<li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> 메뉴4 </a></li>
-							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
-							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
+							<li><a href="../salary/salarySearch"><i class="fa fa-circle-o"></i> 급여조회 </a></li>
+							<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+								<li><a href="../salary/salaryInfo"><i class="fa fa-circle-o"></i> 급상여기본정보 </a></li>
+								<li><a href="../salary/salaryEnter"><i class="fa fa-circle-o"></i> 급여입력 </a></li>
+							</sec:authorize>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa-solid fa-people-roof"></i> &nbsp <span>조직도</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>
