@@ -58,9 +58,9 @@ public class LeavesServiceImpl implements LeavesService {
 
 	// 연차 생성 가능 사원 목록
 	@Override
-	public List<LeaveVO> canCreateAnnualLeaveList() throws Exception {
+	public List<LeaveVO> canCreateAnnualLeaveList(SearchCriteria cri) throws Exception {
 		logger.debug(" === S :  canCreateAnnualLeaveList() 실행 === ");
-		return ldao.canCreateAnnualLeaveList();
+		return ldao.canCreateAnnualLeaveList(cri);
 	}
 
 	// 연차 생성 가능 사원 정보 가져오기

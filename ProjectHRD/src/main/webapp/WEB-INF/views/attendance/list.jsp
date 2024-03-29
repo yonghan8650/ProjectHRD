@@ -19,7 +19,7 @@
 					<tr>
 						<td>
 							<div class="input-group date">
-								<input type="date" class="form-control pull-right" id="searchDate" name="searchDate" value="${formattedDate}">
+								<input type="date" class="form-control pull-right" id="searchDate" name="searchDate">
 							</div>
 						</td>
 						<td><select id="department" name="department" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">

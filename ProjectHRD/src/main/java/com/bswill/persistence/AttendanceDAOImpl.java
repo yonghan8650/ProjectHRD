@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
 import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.EmployeeVO;
 
 @Repository
 public class AttendanceDAOImpl implements AttendanceDAO {
@@ -27,7 +28,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 	@Override
 	public List<AttendanceVO> attendanceList(AttendanceCri cri) throws Exception {
 		logger.debug(" === attendanceList(AttendanceCri cri) 실행 === ");
-		return sqlSession.selectList(NAMESPACE + ".attendanceList");
+		return sqlSession.selectList(NAMESPACE + ".attendanceList",cri);
 	}
 
 	// 행삭제
@@ -43,5 +44,4 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		logger.debug(" D : === departmentList() 실행 === ");
 		return sqlSession.selectList(NAMESPACE + ".selectDep");
 	}
-
 }
