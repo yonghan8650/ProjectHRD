@@ -15,8 +15,6 @@ public interface SalaryDAO {
 	
 	public List<Map<String, Object>> salarySearchMoreSelect(SalaryCri cri) throws Exception;
 	
-	public List<Map<String, Object>> salarySearchMonthlySelect(String yearMonth) throws Exception;
-	
 	public List<Map<String, Object>> salaryInfoEmpSelect(SalaryCri cri) throws Exception;
 	
 	public List<Map<String, Object>> salaryInfoMoreSelect(SalaryCri cri) throws Exception;

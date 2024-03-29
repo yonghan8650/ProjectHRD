@@ -45,13 +45,6 @@ public class SalaryServiceImpl implements SalaryService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getSalarySearchMonthly(String yearMonth) throws Exception {
-		logger.debug(" getSalarySearchMonthly() 실행! ");
-		
-		return sdao.salarySearchMonthlySelect(yearMonth);
-	}
-
-	@Override
 	public List<Map<String, Object>> getSalaryInfoEmp(SalaryCri cri) throws Exception {
 		logger.debug(" getsalaryInfoEmp() 실행! ");
 		
