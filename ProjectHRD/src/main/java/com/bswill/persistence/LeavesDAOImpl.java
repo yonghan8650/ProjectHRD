@@ -62,9 +62,9 @@ public class LeavesDAOImpl implements LeavesDAO {
 
 	// 연차 생성 가능 사원 목록
 	@Override
-	public List<LeaveVO> canCreateAnnualLeaveList() throws Exception {
+	public List<LeaveVO> canCreateAnnualLeaveList(SearchCriteria cri) throws Exception {
 		logger.debug(" D : === canCreateAnnualLeaveList() 호출 === ");
-		return sqlSession.selectList(NAMESPACE + ".canCreateLeaveList");
+		return sqlSession.selectList(NAMESPACE + ".canCreateLeaveList",cri);
 	}
 	
 	// 연차 생성 가능 사원 정보 가져오기

@@ -23,7 +23,7 @@
 									<option value="${list.DEPTID }">${list.DEPTNM }</option>
 								</c:forEach>
 						</select></td>
-						<td><input type="number" id="keyword" name="keyword" class="form-control" maxlength="10" oninput="numberMaxLength(this);"></td>
+						<td><input type="number" id="keyword" name="keyword" class="form-control" maxlength="10" oninput="numberMaxLength(this);" placeholder="사원번호"></td>
 						<td>
 							<button onclick="search()" class="btn btn-block btn-default">조회</button>
 						</td>
@@ -85,7 +85,7 @@
 		var keyword = document.getElementById("keyword").value;
 		var department = document.getElementById("department").value;
 
-		var url = "/leaves/anuualLeaveAdd?";
+		var url = "/leaves/annualLeaveAdd?";
 		var params = [];
 
 		if (department.trim() !== "" && department.trim() !== "부서") {

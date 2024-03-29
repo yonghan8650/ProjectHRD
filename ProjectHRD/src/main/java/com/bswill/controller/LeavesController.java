@@ -59,6 +59,12 @@ public class LeavesController {
 		cri.setDepartment(department);
 		cri.setApproval(approval);
 		cri.setLeaveType(leaveType);
+		
+		logger.debug("===startDate===:"+startDate);
+		logger.debug("===endDate===:"+endDate);
+		logger.debug("===department===:"+department);
+		logger.debug("===approval===:"+approval);
+		logger.debug("===leaveType===:"+leaveType);
 
 		// 휴가 신청 목록 가져오기
 		List<ReqLeavesVO> leaveReqList = lService.leaveReqList(cri);
@@ -159,6 +165,10 @@ public class LeavesController {
 		cri.setBaseYear(baseYear);
 		cri.setDepartment(department);
 		cri.setKeyword(keyword);
+		
+		logger.debug("===baseYear===:"+baseYear);
+		logger.debug("===department===:"+department);
+		logger.debug("===keyword===:"+keyword);
 
 		// 목록 가져오기
 		List<LeaveVO> annualLeaveList = lService.annualLeaveList(cri);
@@ -193,11 +203,18 @@ public class LeavesController {
 	public void canAnnualLeaveAddGET(@RequestParam(required = false) String department,
 			@RequestParam(required = false) String keyword, Model model) throws Exception {
 
+		// 검색
+		SearchCriteria cri = new SearchCriteria();
+		cri.setDepartment(department);
+		cri.setKeyword(keyword);
+		logger.debug(" ===department=== : " + department);
+		logger.debug(" ===keyword=== : " + keyword);
+		
 		// 부서 목록 가져오기
 		List<DepartmentVO> depList = aService.departmentList();
 
 		// 연차 생성 가능한 사원 목록
-		List<LeaveVO> annualList = lService.canCreateAnnualLeaveList();
+		List<LeaveVO> annualList = lService.canCreateAnnualLeaveList(cri);
 
 		model.addAttribute("depList", depList);
 		model.addAttribute("annualList", annualList);

@@ -1,5 +1,6 @@
 package com.bswill.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
 import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.EmployeeVO;
 import com.bswill.domain.SearchCriteria;
 import com.bswill.service.AttendanceService;
 
@@ -44,7 +46,9 @@ public class AttendanceController {
 
 		SearchCriteria cri = new SearchCriteria();
 		cri.setSearchDate(searchDate);
-		cri.setApproval(department);
+		logger.debug(" searchDatee : " + searchDate);
+		cri.setDepartment(department);
+		logger.debug(" department : " + department);
 
 		// 오늘 날짜 불러오기
 		LocalDate today = LocalDate.now();
@@ -101,5 +105,4 @@ public class AttendanceController {
 		}
 		return "redirect:/attendance/list";
 	}
-
 }
