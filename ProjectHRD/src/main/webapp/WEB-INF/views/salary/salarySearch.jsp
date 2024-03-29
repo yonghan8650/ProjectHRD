@@ -11,7 +11,10 @@
 	$(document).ready(function() {
 		$("#mailSend").click(function() {
             $("#mailSend").prop("disabled", true);
-			
+            
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content");
+    		
 			var salaryList = ${salaryList};
 			
 			$.ajax({
@@ -20,6 +23,9 @@
 				dataType : "TEXT",
 				contentType : "application/json; charset=utf-8",
 				data : JSON.stringify(salaryList),
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
 				success : function(response) {
 					alert("메일이 성공적으로 전송되었습니다.");
 	                $("#mailSend").prop("disabled", false);
@@ -93,7 +99,7 @@
 									<td><a href="/salary/salarySearch?startDate=<fmt:formatDate value="${sse.pay_yearmonth }" pattern="yyyy-MM"/>
 									&employee_id=${sse.employee_id }">${sse.employee_id }</a></td>
 									<td>${sse.emp_name }</td>
-									<td>${sse.JOB_ID }</td>
+									<td>${sse.JOB }</td>
 									<td>${sse.salary }</td>
 									<td>${sse.premium }</td>
 									<td>${sse.sum }</td>
@@ -164,6 +170,7 @@
 								</c:forEach>
 							</tfoot>
 						</table>
+						
 					</div>
 				</div>
 			</div>

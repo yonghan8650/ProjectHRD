@@ -44,9 +44,7 @@ public class SalaryController {
 	    // 현재 접속한 사용자의 employee_id와 권한 확인
 	    int employee_id = Integer.parseInt(authentication.getName());
 	    
-	    List<String> userAuthorities = authentication.getAuthorities().stream()
-	                                                            .map(GrantedAuthority::getAuthority)
-	                                                            .collect(Collectors.toList());
+	    List<String> userAuthorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 	    
 	    // 급여 조회 처리
 	    if (userAuthorities.contains("ROLE_MEMBER")) {
@@ -70,13 +68,11 @@ public class SalaryController {
 				logger.debug(" morelist.size : "+salarySearchMore.size());
 				
 		        ObjectMapper mapper = new ObjectMapper();
-		        //List<String> salaryList = // 여기에서 데이터를 가져옴
 		        try {
 		            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
 		            model.addAttribute("salaryList", jsonSalaryList);
 		        } catch (Exception e) {
 		            e.printStackTrace();
-		            // 오류 처리
 		        }
 		        
 				// 연결된 뷰페이지로 전달(Model)
@@ -106,13 +102,11 @@ public class SalaryController {
 				logger.debug(" morelist.size : "+salarySearchMore.size());
 				
 		        ObjectMapper mapper = new ObjectMapper();
-		        //List<String> salaryList = // 여기에서 데이터를 가져옴
 		        try {
 		            String jsonSalaryList = mapper.writeValueAsString(salarySearchMore);
 		            model.addAttribute("salaryList", jsonSalaryList);
 		        } catch (Exception e) {
 		            e.printStackTrace();
-		            // 오류 처리
 		        }
 		        
 				// 연결된 뷰페이지로 전달(Model)
@@ -125,7 +119,6 @@ public class SalaryController {
 		//return "/salarySearch";
 	}
 	
-	// http://localhost:8088/salary/salarySearchMonthly
 	// 월별 급여 조회 GET : /salary/salarySearchMonthly
 	@RequestMapping(value = "/salarySearchMonthly", method = RequestMethod.GET)
 	public void salarySearchMonthlyGET(SalaryCri cri, Model model, HttpSession session) throws Exception {
@@ -190,12 +183,10 @@ public class SalaryController {
 		// 전달정보 저장(bank, account, account_holder)
 		logger.debug(" SalaryVO : "+svo);
 		
-		
 		// 서비스 -> DAO 급상여 상세정보 수정 동작
 		sService.updateSalaryInfoMore(svo);
 
 		// 수정 완료 후 salaryInfo 페이지로 이동 (redirect)
-		//return "/salaryInfo";
 		return "redirect:/salary/salaryInfo?startDate="+cri.getStartDate()+"&employee_id="+svo.getEmployee_id();
 	}
 	
@@ -247,9 +238,6 @@ public class SalaryController {
 			model.addAttribute("cri", cri);
 		}
 		
-		// 연결된 뷰페이지로 전달(Model)
-		//model.addAttribute("salaryEnter", salaryEnter);
-		
 		//return "/salaryEnter";
 	}
 	
@@ -266,7 +254,6 @@ public class SalaryController {
 		sService.insertSalaryEnter(slvo);
 	
 		// 수정 완료 후  salaryEnter 페이지로 이동 (redirect)
-		//return "/salaryEnter";
 		return "redirect:/salary/salaryEnter?startDate="+cri.getStartDate()+"&employee_id="+slvo.getEmployee_id()+"&JOB_ID="+slvo.getJOB_ID();
 	}
 }
