@@ -31,9 +31,9 @@
 		round((salary * job.ratio_premium)) as premium, 
 		round(((salary + salary * job.ratio_bonus) - (salary * job.ratio_premium))) as sum
 		from tbl_employee emp
-		inner join tbl_salary sal on emp.employee_id = sal.employee_id 
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
 		inner join tbl_job job on emp.JOB_id = job.JOB_id 
-		where emp.employee_id = #{employee_id};
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{startDate} and emp.employee_id = #{employee_id};
     </select>
     <!-- 급여조회 -->
     
