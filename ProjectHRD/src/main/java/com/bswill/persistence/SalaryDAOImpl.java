@@ -46,13 +46,6 @@ public class SalaryDAOImpl implements SalaryDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchMore", cri);
 	}
-	
-	@Override
-	public List<Map<String, Object>> salarySearchMonthlySelect(String yearMonth) throws Exception {
-		logger.debug(" salarySearchMonthlySelect() -> mapper 호출");
-		
-		return sqlSession.selectList(NAMESPACE + ".selectSalarySearchMonthly", yearMonth);
-	}
 
 	@Override
 	public List<Map<String, Object>> salaryInfoEmpSelect(SalaryCri cri) throws Exception {

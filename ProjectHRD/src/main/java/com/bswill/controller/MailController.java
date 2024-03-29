@@ -35,7 +35,6 @@ public class MailController {
 	public void sendMail(@RequestBody List<Map<String, Object>> salaryList) throws Exception{
 		logger.info(" sendMail() 호출 ");
 	
-		
 		Map<String, Object> sortMap = salaryList.get(0);
 		logger.debug(sortMap.toString());
 		
@@ -52,7 +51,7 @@ public class MailController {
 		salaryListMap.put("공제총액", sortMap.get("premium"));
 		
 		empMap.put("name", (String)sortMap.get("emp_name"));
-		empMap.put("email", (String)sortMap.get("emp_email"));
+		empMap.put("email", (String)sortMap.get("emp_mail"));
 		
 		logger.debug(salaryListMap.toString());
 		logger.debug(empMap.toString());
@@ -61,10 +60,9 @@ public class MailController {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("<html><head></head><body>");
-		sb.append(" <h1> 안녕하세요 bswill 입니다. </h1> ");
-		sb.append("<h2> ").append(empMap.get("name")).append("님 의").append(" 급여명세서 테스트 입니다. </h2> ");
+		sb.append("<h1> ").append(empMap.get("name")).append("님 의").append(" 급여명세서 입니다. </h1> ");
         
-    	sb.append("<h3>급여 명세서</h3>");
+    	sb.append("<h2>급여 명세서</h2>");
         // 각각의 key-value 쌍에 대해 반복
         for (Map.Entry<String, Object> entry : salaryListMap.entrySet()) {
             String key = entry.getKey();
@@ -74,7 +72,7 @@ public class MailController {
         
 		sb.append("</body></html>");
 		
-		mailService.sendMail(empMap.get("email"), "bswill 급여명세서 테스트5", sb.toString());
+		mailService.sendMail(empMap.get("email"), "안녕하세요 bswill 입니다.", sb.toString());
 		
 	}
 

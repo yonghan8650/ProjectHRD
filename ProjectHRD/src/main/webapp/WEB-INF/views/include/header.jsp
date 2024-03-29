@@ -27,6 +27,8 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <!-- jQuery 2.1.4 -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -169,18 +171,6 @@
 						</ul></li>
 					<li class="treeview"><a href="/board/list"> <i class="fa-regular fa-clipboard"></i> &nbsp &nbsp <span> 공지사항</span>
 					</a></li>
-					<li class="treeview"><a href="#"> <i class="fa fa-laptop"></i> <span>UI Elements</span> <i class="fa fa-angle-left pull-right"></i>
-					</a>
-						<ul class="treeview-menu">
-							<sec:authorize access="hasRole('ROLE_ADMIN')">
-								<li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> 메뉴1 </a></li>
-							</sec:authorize>
-							<li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> 메뉴2 </a></li>
-							<li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> 메뉴3 </a></li>
-							<li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> 메뉴4 </a></li>
-							<li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> 메뉴5 </a></li>
-							<li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> 메뉴6 </a></li>
-						</ul></li>
 			</section>
 			<!-- /.sidebar -->
 		</aside>

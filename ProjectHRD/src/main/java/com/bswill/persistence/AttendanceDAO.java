@@ -5,6 +5,7 @@ import java.util.List;
 import com.bswill.domain.AttendanceCri;
 import com.bswill.domain.AttendanceVO;
 import com.bswill.domain.DepartmentVO;
+import com.bswill.domain.EmployeeVO;
 
 public interface AttendanceDAO {
 
@@ -16,6 +17,5 @@ public interface AttendanceDAO {
 
 	/////////////////////////
 	// 부서 불러오기
-	public List<DepartmentVO> departmentList() throws Exception;
-
+	public List<DepartmentVO> departmentList() throws Exception;	
 }

@@ -8,8 +8,6 @@
 <script src="<c:url value="/resources/plugins/datepicker/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/resources/plugins/datepicker/locales/bootstrap-datepicker.kr.js"/>"></script>
 
-${cri.employee_id}
-
 <section class="content-header">
 	<h1>급상여기본정보관리</h1>
 </section>

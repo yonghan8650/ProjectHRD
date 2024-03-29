@@ -24,7 +24,7 @@ public interface LeavesDAO {
 	public void deleteAnnualLeave(int leave_no) throws Exception;
 
 	// 연차 생성 가능 사원 목록
-	public List<LeaveVO> canCreateAnnualLeaveList() throws Exception;
+	public List<LeaveVO> canCreateAnnualLeaveList(SearchCriteria cri) throws Exception;
 	
 	// 연차 생성 가능 사원 정보 가져오기
 	public LeaveVO canCreateAnnualLeave(int employee_id) throws Exception;

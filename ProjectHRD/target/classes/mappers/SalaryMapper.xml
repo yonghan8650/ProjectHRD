@@ -6,72 +6,89 @@
 <mapper namespace="com.bswill.mapper.SalaryMapper">
 
 	<!-- 급여조회 -->
-	
-    <!-- 급여년월에 따른 급여조회 (전체) -->
-	<select id="selectSalaryAllSearch" resultType="map">
-		select pay_yearmonth, emp.employee_id, emp_name, emp.JOB_ID, salary, premium, sum
+    <!-- 급여년월에 따른 급여조회 (사원목록 - 관리자) -->
+    <select id="selectSalarySearchEmp" resultType="map">
+		select pay_yearmonth, emp.employee_id, emp_name, JOB, salary, premium, sum
 		from tbl_employee emp
 		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
+		inner join tbl_job job on emp.JOB_ID = job.JOB_ID
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{startDate};
     </select>
     
-    <!-- 급여년월에 따른 급여조회 (급여목록) -->
-    <select id="selectSalarySearchEmp" resultType="map">
+    <!-- 급여년월에 따른 급여조회 (사원목록 - 일반사용자) -->
+    <select id="selectSalarySearchMe" resultType="map">
 		select pay_yearmonth, emp.employee_id, emp_name, emp.JOB_ID, salary, premium, sum
 		from tbl_employee emp
 		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
-		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{startDate};
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{startDate} and emp.employee_id = #{employee_id};
     </select>
     
     <!-- 급여년월에 따른 급여조회 (급여명세서) -->
     <select id="selectSalarySearchMore" resultType="map">
-		select emp.emp_name, emp_email, salary, round((salary * job.ratio_bonus)) as bonus, 
+		select emp.emp_name, emp_mail, salary, round((salary * job.ratio_bonus)) as bonus, 
 		round((salary * 0.045)) as premium_1, round((salary * 0.035)) as premium_2, 
 		round((salary * 0.120)) as premium_3, round((salary * 0.010)) as premium_4,
 		round((salary * job.ratio_premium)) as premium, 
 		round(((salary + salary * job.ratio_bonus) - (salary * job.ratio_premium))) as sum
 		from tbl_employee emp
-		inner join tbl_salary sal on emp.employee_id = sal.employee_id 
+		inner join tbl_salarylist slist on emp.employee_id = slist.employee_id
 		inner join tbl_job job on emp.JOB_id = job.JOB_id 
-		where emp.employee_id = #{employee_id};
+		where DATE_FORMAT(slist.pay_yearmonth, '%Y-%m') = #{startDate} and emp.employee_id = #{employee_id};
     </select>
-    
-    <!-- 급여년월에 따른 월별 급여조회 -->
-    
     <!-- 급여조회 -->
     
     <!-- 급상여기본정보입력 -->
-    
     <!-- 급상여기본정보입력 기본정보 조회  -->
     <!-- <select id="selectSalaryInfoEmp" resultType="com.bswill.domain.EmployeeVO"> -->
     <select id="selectSalaryInfoEmp" resultType="map">
-	    select employee_id, emp_name, JOB_ID, department
-		from tbl_employee
+	    select employee_id, emp_name, JOB, dep.DEPTNM
+		from tbl_employee emp
+        inner join tbl_department dep on emp.DEPTID = dep.DEPTID
+        inner join tbl_job job on emp.JOB_ID = job.JOB_ID
 		where DATE_FORMAT(start_date, '%Y') = #{startDate};
     </select>
     
     <!-- 급상여기본정보입력 상세정보 조회 -->
     <!-- <select id="selectSalaryInfoMore" resultType="com.bswill.domain.EmployeeVO"> -->
     <select id="selectSalaryInfoMore" resultType="map">
-		select emp.employee_id, emp_name, JOB_ID, department, sal.bank, sal.account, sal.account_holder
+		select emp.employee_id, emp_name, JOB, DEPTNM, bank, account, account_holder
 		from tbl_employee emp
 		inner join tbl_salary sal on emp.employee_id = sal.employee_id 
+		inner join tbl_department dep on emp.DEPTID = dep.DEPTID
+        inner join tbl_job job on emp.JOB_ID = job.JOB_ID
 		where emp.employee_id = #{employee_id};
     </select>
     
-    <!-- 급상여기본정보입력 상세정보 입력(수정) -->
+    <!-- 급상여기본정보입력 상세정보 조회 -->
+    <!-- <select id="selectSalaryInfoMore" resultType="com.bswill.domain.EmployeeVO"> -->
+    <select id="selectSalaryInfoNew" resultType="map">
+		select emp.employee_id, emp_name, JOB, DEPTNM
+		from tbl_employee emp
+		inner join tbl_department dep on emp.DEPTID = dep.DEPTID
+        inner join tbl_job job on emp.JOB_ID = job.JOB_ID
+		where emp.employee_id = #{employee_id};
+    </select>
+    
+    <!-- 급상여기본정보입력 상세정보 입력 -->
+    <update id="insertSalaryInfo">
+    	insert into tbl_salary (employee_id, salary, bank, account, account_holder)
+    	value (#{employee_id}, #{salary}, #{bank}, #{account}, #{account_holder});
+    </update>
+    
+    <!-- 급상여기본정보입력 상세정보 수정 -->
     <update id="updateSalaryInfo">
     	update tbl_salary set bank = #{bank}, account = #{account}, account_holder = #{account_holder}
     	where employee_id = #{employee_id};
     </update>
-    
     <!-- 급상여기본정보입력 -->
     
     <!-- 급여 입력 -->
-    
     <!-- 급여입력 기본정보 조회 -->
     <select id="selectSalaryEnterEmp" resultType="map">
-	    select employee_id, emp_name, JOB_ID, department
-		from tbl_employee
+	    select employee_id, emp_name, JOB, emp.JOB_ID, dep.DEPTNM
+		from tbl_employee emp
+        inner join tbl_department dep on emp.DEPTID = dep.DEPTID
+        inner join tbl_job job on emp.JOB_ID = job.JOB_ID
 		where DATE_FORMAT(start_date, '%Y') = #{startDate};
     </select>
     
@@ -81,16 +98,15 @@
 		from tbl_salary
 		where employee_id = #{employee_id};
     </select>
-    
+    	
     <!-- 급여입력 급여정보 계산 -->
     <select id="selectSalaryEnter" resultType="map">
-		select salary, round((salary * job.ratio_bonus)) as bonus, 
-		round((salary * 0.045)) as premium_1, round((salary * 0.035)) as premium_2, 
-		round((salary * 0.120)) as premium_3, round((salary * 0.010)) as premium_4,
-		round((salary * job.ratio_premium)) as premium, 
-		round(((salary + salary * job.ratio_bonus) - (salary * job.ratio_premium))) as sum
-		from tbl_employee emp
-		inner join tbl_salary sal on emp.employee_id = sal.employee_id 
+		select #{salary} as salary, CAST(ROUND(#{salary} * job.ratio_bonus) AS UNSIGNED) as bonus,
+		CAST(ROUND((#{salary} * 0.045)) AS UNSIGNED) as premium_1, CAST(ROUND((#{salary} * 0.035)) AS UNSIGNED) as premium_2, 
+		CAST(ROUND((#{salary} * 0.120)) AS UNSIGNED) as premium_3, CAST(ROUND((#{salary} * 0.010)) AS UNSIGNED) as premium_4,
+		CAST(ROUND((#{salary} * job.ratio_premium)) AS UNSIGNED) as premium, 
+		CAST(ROUND(((#{salary} + #{salary} * job.ratio_bonus) - (#{salary} * job.ratio_premium))) AS UNSIGNED) as sum
+		from tbl_employee emp 
 		inner join tbl_job job on emp.JOB_id = job.JOB_id 
 		where emp.employee_id = #{employee_id};
     </select>
@@ -100,7 +116,6 @@
     	insert into tbl_salarylist (pay_yearmonth, employee_id, JOB_ID, salary, bonus, premium, sum)
     	value (now(), #{employee_id}, #{JOB_ID}, #{salary}, #{bonus}, #{premium}, #{sum}) 
     </insert>	
-    
     <!-- 급여 입력 -->
     
 </mapper>
