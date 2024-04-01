@@ -25,12 +25,12 @@ public interface LeavesService {
 
 	// 연차 생성 가능 사원 목록
 	public List<LeaveVO> canCreateAnnualLeaveList(SearchCriteria cri) throws Exception;
-	
+
 	// 연차 생성 가능 사원 정보 가져오기
 	public LeaveVO canCreateAnnualLeave(int employee_id) throws Exception;
 
-	// 해당년도 휴가 갯수 세어오기
-	public LeaveVO selectLeaveCount() throws Exception;
+	// 해당년도 휴가번호 최댓값 불러오기
+	public int selectMaxLeaveNo() throws Exception;
 
 	// 연차 생성
 	public void createAnnualLeave(LeaveVO vo) throws Exception;

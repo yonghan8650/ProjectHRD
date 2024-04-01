@@ -70,11 +70,11 @@ public class LeavesServiceImpl implements LeavesService {
 		return ldao.canCreateAnnualLeave(employee_id);
 	}
 
-	// 해당년도 휴가 갯수 세어오기
+	// 해당년도 휴가번호 최댓값 불러오기
 	@Override
-	public LeaveVO selectLeaveCount() throws Exception {
-		logger.debug(" === S :  selectLeaveCount() 실행 === ");
-		return ldao.selectLeaveCount();
+	public int selectMaxLeaveNo() throws Exception {
+		logger.debug(" === S :  selectMaxLeaveNo() 실행 === ");
+		return ldao.selectMaxLeaveNo();
 	}
 
 	// 연차 생성
