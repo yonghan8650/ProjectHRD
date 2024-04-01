@@ -95,6 +95,9 @@
 		<if test="keyword != null">
 			AND l.employee_id like #{keyword}
 		</if>
+		<![CDATA[
+			ORDER BY l.employee_id ASC, a.leave_days DESC 
+		]]>
 	</select>
 
 	<!-- 연차 삭제 -->
@@ -172,10 +175,17 @@
 	</select>
 
 	<!-- 해당년도 휴가 갯수 세어오기 -->
-	<select id="selectLeaveCount" resultType="LeaveVO">
+	<!-- <select id="selectLeaveCount" resultType="LeaveVO">
 		SELECT Count(*) AS leave_count
 		FROM   tbl_leave
 		WHERE  leave_no LIKE Concat(Year(CURRENT_DATE()), '%') 
+	</select> -->
+	
+	<!-- 해당년도 휴가번호 최댓값 불러오기 -->
+	<select id="selectMaxLeaveNo" resultType="int">
+		SELECT Ifnull(Max(leave_no), 0) AS leave_no
+		FROM   tbl_leave
+		WHERE  leave_no LIKE Concat(Year(CURRENT_DATE()), '%')
 	</select>
 
 	<!-- 연차 생성 -->
