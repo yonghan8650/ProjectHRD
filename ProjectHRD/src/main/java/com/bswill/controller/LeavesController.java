@@ -59,12 +59,12 @@ public class LeavesController {
 		cri.setDepartment(department);
 		cri.setApproval(approval);
 		cri.setLeaveType(leaveType);
-		
-		logger.debug("===startDate===:"+startDate);
-		logger.debug("===endDate===:"+endDate);
-		logger.debug("===department===:"+department);
-		logger.debug("===approval===:"+approval);
-		logger.debug("===leaveType===:"+leaveType);
+
+		logger.debug("===startDate===:" + startDate);
+		logger.debug("===endDate===:" + endDate);
+		logger.debug("===department===:" + department);
+		logger.debug("===approval===:" + approval);
+		logger.debug("===leaveType===:" + leaveType);
 
 		// 휴가 신청 목록 가져오기
 		List<ReqLeavesVO> leaveReqList = lService.leaveReqList(cri);
@@ -165,10 +165,10 @@ public class LeavesController {
 		cri.setBaseYear(baseYear);
 		cri.setDepartment(department);
 		cri.setKeyword(keyword);
-		
-		logger.debug("===baseYear===:"+baseYear);
-		logger.debug("===department===:"+department);
-		logger.debug("===keyword===:"+keyword);
+
+		logger.debug("===baseYear===:" + baseYear);
+		logger.debug("===department===:" + department);
+		logger.debug("===keyword===:" + keyword);
 
 		// 목록 가져오기
 		List<LeaveVO> annualLeaveList = lService.annualLeaveList(cri);
@@ -209,7 +209,7 @@ public class LeavesController {
 		cri.setKeyword(keyword);
 		logger.debug(" ===department=== : " + department);
 		logger.debug(" ===keyword=== : " + keyword);
-		
+
 		// 부서 목록 가져오기
 		List<DepartmentVO> depList = aService.departmentList();
 
@@ -233,33 +233,40 @@ public class LeavesController {
 		String today = now.format(formatter);
 		// 년도만 자르기
 		String nowYear = today.substring(0, 4);
-		logger.debug("nowYear : " + nowYear);
 
 		// 숫자 출력 서식 정하기
 		DecimalFormat dc = new DecimalFormat("000");
+
 		int[] checkList = new int[strCheckList.length];
 		int num = 0;
-		int num2 = 0;
-		int one = 1;
 		for (int i = 0; i < strCheckList.length; i++) {
 			checkList[i] = Integer.parseInt(strCheckList[i]);
 			logger.debug(" checkList " + checkList[i]);
 
-			// 휴가 개수 가져오기
-			LeaveVO voCount = lService.selectLeaveCount();
 			// 연차 생성 가능한 사원 정보 불러오기
 			LeaveVO vo = lService.canCreateAnnualLeave(checkList[i]);
-			// 값 새로 넣기
-			num = voCount.getLeave_count();
-			num2 = num + one;
-			logger.debug("=== num ===1 : " + num2);
-			logger.debug("=== num + num2 === : " + num2);
-			String formatNum = dc.format(num2);
-			vo.setLeave_no(Integer.parseInt(nowYear + formatNum));
-			logger.debug("=== nowYear+formatNum === : " + (nowYear + formatNum));
+
+			// 휴가 번호 최댓값 가져오기
+			int maxLeaveNo = lService.selectMaxLeaveNo();
+
+			if (maxLeaveNo == 0) {
+				// 휴가번호 0일 때
+				logger.debug(" === nowYear+maxLeaveNo === : " + (nowYear + "001"));
+				vo.setLeave_no(Integer.parseInt(nowYear + "001"));
+			}
+
+			if (maxLeaveNo != 0) {
+				// 휴가번호 0 아닐 때 휴가번호 + 1
+				num = maxLeaveNo + 1;
+				logger.debug("=== maxLeaveNo === : " + maxLeaveNo);
+				logger.debug("=== num === : " + num);
+				vo.setLeave_no(num);
+			}
+
 			vo.setEmployee_id(checkList[i]);
 			vo.setLeave_days(vo.getLeave_days());
 			logger.debug("=== vo === : " + vo.toString());
+
 			lService.createAnnualLeave(vo);
 		}
 

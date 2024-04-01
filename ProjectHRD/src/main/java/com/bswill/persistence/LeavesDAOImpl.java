@@ -74,19 +74,21 @@ public class LeavesDAOImpl implements LeavesDAO {
 		return sqlSession.selectOne(NAMESPACE + ".canCreateLeaveOne",employee_id);
 	}
 
-	// 해당년도 휴가 갯수 세어오기
+	// 해당년도 휴가번호 최댓값 불러오기
 	@Override
-	public LeaveVO selectLeaveCount() throws Exception {
-		logger.debug(" D : === selectLeaveCount() 호출 === ");
-		return sqlSession.selectOne(NAMESPACE + ".selectLeaveCount");
+	public int selectMaxLeaveNo() throws Exception {
+		logger.debug(" D : === selectMaxLeaveNo() 호출 === ");
+		return sqlSession.selectOne(NAMESPACE+".selectMaxLeaveNo");
 	}
-
+	
 	// 연차 생성
 	@Override
 	public void createAnnualLeave(LeaveVO vo) throws Exception {
 		logger.debug(" D : === createAnnualLeave() 호출 === ");
 		sqlSession.selectOne(NAMESPACE + ".createAnnualLeave", vo);
 	}
+
+	
 
 	
 

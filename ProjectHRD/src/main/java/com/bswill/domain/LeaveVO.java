@@ -23,9 +23,5 @@ public class LeaveVO {
 	// 휴가 사용기간
 	private String beginDate;			// 휴가 사용기간 시작일
 	private String finishDate;			// 휴가 사용기간 종료일
-
-	private int leave_count; 			// 휴가 갯수
-
-
 }
 
